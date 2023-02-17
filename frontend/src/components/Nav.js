@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 const NavContainer = styled.nav`
-  flex-direction: column;
   width: 154px;
   height: 100vh;
   border-right: 1px solid #d7d9dc;
+  margin: 0;
+  top: 70px;
+  position: fixed;
 `;
 
 const NavButton = styled.button`
