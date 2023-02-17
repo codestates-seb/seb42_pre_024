@@ -7,11 +7,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderContainer = styled.header`
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-top: 20px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  background-color: #ffff;
+  z-index: 999;
 `;
 
 const Logo = styled.a`
