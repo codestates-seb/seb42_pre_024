@@ -1,12 +1,9 @@
 import styled from "styled-components";
 
-const Wrap = styled.div`
-  position: relative;
-`;
 const NavContainer = styled.nav`
   position: absolute;
   width: 154px;
-  height: 100vh;
+  height: 100%;
   border-right: 1px solid #d7d9dc;
   margin: 0;
 `;
@@ -22,11 +19,9 @@ const NavButton = styled.button`
 
 function Nav() {
   return (
-    <Wrap>
-      <NavContainer>
-        <NavButton>Questions</NavButton>
-      </NavContainer>
-    </Wrap>
+    <NavContainer>
+      <NavButton>Questions</NavButton>
+    </NavContainer>
   );
 }
 
