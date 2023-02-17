@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 const NavContainer = styled.nav`
-  position: absolute;
   width: 154px;
-  height: 100%;
+  height: 100vh;
   border-right: 1px solid #d7d9dc;
   margin: 0;
+  top: 70px;
+  position: fixed;
 `;
 
 const NavButton = styled.button`
