@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
+const Wrap = styled.div`
+  position: relative;
+`;
 const NavContainer = styled.nav`
-  flex-direction: column;
+  position: absolute;
   width: 154px;
   height: 100vh;
   border-right: 1px solid #d7d9dc;
+  margin: 0;
 `;
 
 const NavButton = styled.button`
@@ -18,9 +22,11 @@ const NavButton = styled.button`
 
 function Nav() {
   return (
-    <NavContainer>
-      <NavButton>Questions</NavButton>
-    </NavContainer>
+    <Wrap>
+      <NavContainer>
+        <NavButton>Questions</NavButton>
+      </NavContainer>
+    </Wrap>
   );
 }
 
