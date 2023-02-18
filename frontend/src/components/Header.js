@@ -9,6 +9,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   display: flex;
   align-items: center;

@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Nav from "./components/Nav";
 import WriteQuestion from "./components/WriteQuestion";
 import QuestionsList from "./components/QuestionsList";
+import Login from "./components/Login";
 import React, { Component } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -20,11 +21,11 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Header />
-        <Nav />
-
+        {/* <Nav /> */}
         <Routes>
           {/* <Route path="/" element={<QuestionsList />} /> */}
           <Route path="/question" element={<WriteQuestion />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </>
