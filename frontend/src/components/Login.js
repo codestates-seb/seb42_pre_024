@@ -12,6 +12,7 @@ const SignupWrap = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
+  font-size: 14px;
   > a {
     margin-left: 10px;
     text-decoration-line: none;
