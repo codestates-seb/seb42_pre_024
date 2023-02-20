@@ -6,18 +6,21 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
-  left: 50px;
-  width: 100%;
+  left: 80px;
+  width: 80%;
   height: 200px;
   border-bottom: solid;
   border-color: rgba(0, 0, 0, 0.3);
+  margin-left: 100px;
 `;
 
 const Title = styled.div`
+  display: flex;
   height: auto;
-  margin: 100px;
+  margin-top: 100px;
   flex-wrap: wrap;
   font-size: 30px;
+  flex-wrap: wrap-reverse;
 `;
 
 const AskBtn = styled.button`
@@ -37,15 +40,15 @@ const AskBtn = styled.button`
 
 const QuestionContainer = styled.div`
   position: relative;
-  left: 50px;
+  left: 70px;
   /* background-color: violet; */
-  width: 100%;
+  width: 80%;
   max-height: 500px auto;
   /* top: 0px;
   left: 30px; */
   /* border-bottom: solid; */
   margin-bottom: 30px;
-  margin-left: 15px;
+  margin-left: 100px;
   /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2); */
   > p {
     padding: 50px;
@@ -59,7 +62,7 @@ const ModifyWrap = styled.div`
   height: auto;
   align-items: center;
   padding-bottom: 40px;
-  margin-left: 40px;
+  margin-left: 60px;
   position: relative;
 `;
 

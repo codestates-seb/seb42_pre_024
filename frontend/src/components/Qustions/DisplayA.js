@@ -3,15 +3,15 @@ import styled from "styled-components";
 import profile from "../../image/profile.png";
 
 const AnsTitle = styled.h2`
-  width: 100%;
-  margin-left: 200px;
+  width: 80%;
+  margin-left: 300px;
 `;
 const AnsContainer = styled.div`
-  /* position: relative; */
+  position: relative;
   /* border: solid; */
-  /* left: 30px; */
+  left: 140px;
   /* border-color: rgba(0, 0, 0, 0.3); */
-  width: 100%;
+  width: 80%;
   align-items: center;
   margin-left: 100px;
 `;
@@ -19,7 +19,7 @@ const Answer = styled.div`
   /* left: 230px; */
   border: solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  width: 100%;
+  width: 80%;
   max-height: 300px auto;
   margin-bottom: 30px;
   /* margin-left: 230px; */

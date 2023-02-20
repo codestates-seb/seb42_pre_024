@@ -9,11 +9,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* left: 30px;*/
-  /* position: relative; */
-  width: 100%;
+  left: 170px;
+  position: relative;
+  width: 80%;
   height: 300px;
-  margin-left: 100px;
+  /* margin-left: 100px; */
   border: solid;
   border-color: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
