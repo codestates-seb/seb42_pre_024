@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 const Wrap = styled.div`
   position: fixed;
@@ -77,14 +78,36 @@ const LoginButton = styled.button`
 `;
 
 function Login() {
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    if (!id) {
+      return alert("ID를 입력하세요.");
+    } else if (!password) {
+      return alert("Password를 입력하세요.");
+    }
+  };
+
   return (
     <Wrap>
       <LoginContainer>
-        <LoginForm>
+        <LoginForm onSubmit={loginHandler}>
           <LoginLabel>Email</LoginLabel>
-          <LoginInput></LoginInput>
+          <LoginInput
+            type="email"
+            required
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
           <LoginLabel>Password</LoginLabel>
-          <LoginInput></LoginInput>
+          <LoginInput
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <LoginButton>Log in</LoginButton>
         </LoginForm>
       </LoginContainer>

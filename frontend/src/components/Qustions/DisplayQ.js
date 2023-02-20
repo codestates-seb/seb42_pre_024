@@ -42,6 +42,7 @@ const QuestionContainer = styled.div`
   max-height: 500px auto;
   margin-bottom: 30px;
   margin-left: 10px;
+
   > p {
     padding: 50px;
     font-size: 17px;

@@ -117,7 +117,7 @@ function Header() {
             {" "}
             {/* <LoginButton>Log in</LoginButton> */}
             <MypageButton>
-              <img src={profile}></img>
+              <img alt="profile_image" src={profile}></img>
             </MypageButton>
           </li>
           <li>
