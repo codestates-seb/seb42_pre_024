@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+//3
 const Title = styled.h2`
   width: 100%;
   margin-left: 10px;
@@ -18,7 +18,6 @@ const Container = styled.form`
   border-radius: 5px;
   margin-left: 10px;
   padding-bottom: 20px;
-  /*overflow: hidden; */
 `;
 
 const Ans = styled.textarea`
@@ -26,9 +25,7 @@ const Ans = styled.textarea`
   max-width: 70%;
   width: 800px;
   height: 300px;
-  /* left: 250px; */
   margin-bottom: 10px;
-  /* margin-left: 250px; */
   margin-top: 50px;
 `;
 

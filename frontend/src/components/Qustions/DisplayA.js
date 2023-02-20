@@ -1,23 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import profile from "../../image/profile.png";
-
+//3
 const AnsTitle = styled.h2`
   width: 100%;
-  margin-left: 10px;
+  margin-left: 100px;
 `;
 const AnsContainer = styled.div`
   position: relative;
-  /* border-top: solid; */
-  /* left: 140px; */
-  /* border-color: rgba(0, 0, 0, 0.3); */
   width: 100%;
   align-items: center;
   justify-content: center;
-  /* margin-left: 100px; */
 `;
 const Answer = styled.div`
-  /* left: 230px; */
   border: solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   width: 100%;
@@ -57,8 +52,6 @@ const Delete = styled.button`
   color: red;
 `;
 const Profile = styled.div`
-  /* position: relative;
-  left: 450px; */
   position: absolute;
   right: 0;
   margin-left: 500px;

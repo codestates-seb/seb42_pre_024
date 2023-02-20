@@ -5,12 +5,6 @@ import DisplayQ from "./Qustions/DisplayQ";
 import DisplayA from "./Qustions/DisplayA";
 import WriteAns from "./Qustions/WriteAns";
 
-// const Wrap = styled.div`
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-// `;
-
 const Container = styled.div`
   position: relative;
   left: 280px;
@@ -19,17 +13,9 @@ const Container = styled.div`
   width: 68%;
   margin-top: 70px;
   margin: 0;
-  /* margin-left: 250px; */
-  /* align-items: center; */
   padding: 30px;
-  /* justify-content: center; */
 `;
 
-// const Content = styled.p`
-//   padding: 50px;
-//   font-size: 17px;
-//   line-height: 2rem;
-// `;
 function Question(props) {
   //props {match} ,
   //get요청시 match.params.id , setQustion
