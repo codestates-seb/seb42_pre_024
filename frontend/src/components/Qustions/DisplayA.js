@@ -4,7 +4,7 @@ import profile from "../../image/profile.png";
 
 const AnsTitle = styled.h2`
   width: 100%;
-  margin-left: 10px;
+  margin-left: 100px;
 `;
 const AnsContainer = styled.div`
   position: relative;
