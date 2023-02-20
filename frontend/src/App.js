@@ -6,6 +6,7 @@ import QuestionsList from "./components/QuestionsList";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import MyPage from "./components/MyPage";
+import Question from "./components/Question";
 import React, { Component } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,8 +26,9 @@ function App() {
         <Header />
         <Nav />
         <Routes>
-          {/* <Route path="/" element={<QuestionsList />} /> */}
+          <Route path="/" element={<QuestionsList />} />
           <Route path="/question" element={<WriteQuestion />} />
+          <Route path="/questionlist" element={<Question />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/members" element={<MyPage />} />
