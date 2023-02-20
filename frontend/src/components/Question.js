@@ -13,13 +13,15 @@ import WriteAns from "./Qustions/WriteAns";
 
 const Container = styled.div`
   position: relative;
-  left: 200px;
+  left: 280px;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 70%;
   top: 70px;
+  margin: 0;
   /* margin-left: 250px; */
-  align-items: center;
+  /* align-items: center; */
+  padding: 30px;
   /* justify-content: center; */
 `;
 
