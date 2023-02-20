@@ -6,15 +6,15 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
-  left: 80px;
-  width: 80%;
+  /* left: 80px; */
+  /* width: 80%; */
   height: 200px;
   border-bottom: solid;
   border-color: rgba(0, 0, 0, 0.3);
-  margin-left: 100px;
+  margin-left: 10px;
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   display: flex;
   height: auto;
   margin-top: 100px;
@@ -40,9 +40,9 @@ const AskBtn = styled.button`
 
 const QuestionContainer = styled.div`
   position: relative;
-  left: 70px;
+  /* left: 70px; */
   /* background-color: violet; */
-  width: 80%;
+  /* width: 80%; */
   max-height: 500px auto;
   /* top: 0px;
   left: 30px; */
