@@ -2,20 +2,23 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Wrap = styled.form`
+  position: relative;
+  left: 280px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: center; */
-  height: 100vh;
-  /* overflow: hidden; */
-  width: 80%;
-  position: relative;
-  left: 160px;
+  width: 68%;
+  margin-top: 70px;
+  margin: 0;
+  padding: 30px;
 `;
 const TopTitle = styled.h1`
-  position: relative;
-  left: 260px;
-  top: 100px;
+  display: flex;
+  height: 70px;
+  margin-top: 70px;
+  flex-wrap: wrap;
+  font-size: 30px;
+  flex-wrap: wrap-reverse;
+  border-bottom: 1px solid #d6d9dc;
 `;
 
 const TitleContainer = styled.div`
@@ -23,19 +26,18 @@ const TitleContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 900px;
-  height: 300px;
-  margin-top: 120px;
+  width: 100%;
+  height: 150px;
   border: solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   position: relative;
-  left: 250px;
   color: #ffff;
   b {
     position: absolute;
-    bottom: 80px;
+    top: 30px;
     margin-right: 750px;
+    margin-bottom: 80px;
     font-size: 22px;
     color: black;
   }
@@ -62,13 +64,12 @@ const BodyContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 900px;
-  height: 1000px;
+  width: 100%;
+  height: 400px;
   border: solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
   position: relative;
-  left: 250px;
   margin-top: 70px;
   b {
     position: absolute;
