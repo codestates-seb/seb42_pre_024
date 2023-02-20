@@ -74,7 +74,7 @@ const BodyContainer = styled.div`
   b {
     position: absolute;
     top: 30px;
-    left: 55px;
+    /* left: 55px; */
     margin-right: 400px;
     font-size: 22px;
     color: black;
@@ -82,7 +82,7 @@ const BodyContainer = styled.div`
 `;
 const Body = styled.textarea`
   position: absolute;
-  left: 50px;
+  /* left: 50px; */
   width: 800px;
   height: 250px;
   border: solid 1px rgba(0, 0, 0, 0.5);
@@ -94,7 +94,7 @@ const Submitbtn = styled.button`
   position: absolute;
   width: 100px;
   height: 40px;
-  left: 50px;
+  /* left: 50px; */
   bottom: 25px;
   border: solid;
   background-color: #4393f7;
