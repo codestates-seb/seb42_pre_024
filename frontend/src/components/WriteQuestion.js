@@ -7,7 +7,10 @@ const Wrap = styled.form`
   /* align-items: center; */
   /* justify-content: center; */
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
+  width: 80%;
+  position: relative;
+  left: 160px;
 `;
 const TopTitle = styled.h1`
   position: relative;
@@ -83,6 +86,7 @@ const Body = styled.textarea`
   height: 250px;
   border: solid 1px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
+  font-size: 20px;
 `;
 
 const Submitbtn = styled.button`
@@ -113,8 +117,9 @@ function WriteQuestion() {
   return (
     <>
       {/* {redirect={/}} */}
-      <TopTitle>Ask a public question</TopTitle>
+
       <Wrap onSubmit={(e) => sendQuestion(e)}>
+        <TopTitle>Ask a public question</TopTitle>
         <TitleContainer>
           <b>Title</b>
           <p>
