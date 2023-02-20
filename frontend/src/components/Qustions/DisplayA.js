@@ -3,26 +3,28 @@ import styled from "styled-components";
 import profile from "../../image/profile.png";
 
 const AnsTitle = styled.h2`
-  width: 80%;
-  margin-left: 300px;
+  width: 100%;
+  margin-left: 10px;
 `;
 const AnsContainer = styled.div`
   position: relative;
-  /* border: solid; */
-  left: 140px;
+  /* border-top: solid; */
+  /* left: 140px; */
   /* border-color: rgba(0, 0, 0, 0.3); */
-  width: 80%;
+  width: 100%;
   align-items: center;
-  margin-left: 100px;
+  justify-content: center;
+  /* margin-left: 100px; */
 `;
 const Answer = styled.div`
   /* left: 230px; */
   border: solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  width: 80%;
+  width: 100%;
   max-height: 300px auto;
+  margin-top: 20px;
   margin-bottom: 30px;
-  /* margin-left: 230px; */
+  margin-left: 10px;
   p {
     padding: 50px;
     font-size: 17px;
@@ -74,7 +76,7 @@ const Profile = styled.div`
     height: 50px;
   }
   b {
-    margin-left: 30px;
+    margin-left: 5px;
     color: #2e75c6;
   }
 `;

@@ -3,21 +3,21 @@ import styled from "styled-components";
 
 const Title = styled.h2`
   width: 100%;
-  margin-left: 200px;
+  margin-left: 10px;
 `;
-const Container = styled.div`
+const Container = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  left: 170px;
   position: relative;
-  width: 80%;
+  width: 100%;
   height: 300px;
   /* margin-left: 100px; */
   border: solid;
   border-color: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-
+  margin-left: 10px;
+  padding-bottom: 20px;
   /*overflow: hidden; */
 `;
 
@@ -36,7 +36,6 @@ const SubBtn = styled.button`
   width: 100px;
   height: 40px;
   margin-top: 30px;
-  /* margin-left: 600px; */
   border: solid;
   background-color: #4393f7;
   border-color: #8ebefa;

@@ -6,28 +6,24 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
-  left: 80px;
-  width: 80%;
-  height: 200px;
-  border-bottom: solid;
-  border-color: rgba(0, 0, 0, 0.3);
-  margin-left: 100px;
+  /* left: 80px; */
+  /* width: 80%; */
+  min-height: 70px auto;
+  border-bottom: 1px solid #d6d9dc;
+  margin-top: 70px;
+  margin-left: 10px;
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   display: flex;
   height: auto;
-  margin-top: 100px;
   flex-wrap: wrap;
   font-size: 30px;
   flex-wrap: wrap-reverse;
 `;
 
 const AskBtn = styled.button`
-  /* position: absolute;
-  right: 100px;
-  bottom: 10px; */
-  margin-top: 140px;
+  justify-content: right;
   width: 100px;
   height: 40px;
   border: solid;
@@ -40,16 +36,13 @@ const AskBtn = styled.button`
 
 const QuestionContainer = styled.div`
   position: relative;
-  left: 70px;
+  /* left: 70px; */
   /* background-color: violet; */
-  width: 80%;
+  width: 100%;
   max-height: 500px auto;
-  /* top: 0px;
-  left: 30px; */
-  /* border-bottom: solid; */
   margin-bottom: 30px;
-  margin-left: 100px;
-  /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2); */
+  margin-left: 10px;
+
   > p {
     padding: 50px;
     font-size: 17px;
@@ -67,8 +60,6 @@ const ModifyWrap = styled.div`
 `;
 
 const Edit = styled.button`
-  /* position: relative;
-  left: 50px; */
   border: none;
   height: 40px;
   border: none;
@@ -86,10 +77,9 @@ const Delete = styled.button`
   color: red;
 `;
 const Profile = styled.div`
-  /* position: relative;
-  left: 300px; */
   position: absolute;
   right: 0;
+  margin-left: 500px;
   width: 187px;
   height: 60px;
   padding: 5px 6px 7px 7px;
@@ -104,7 +94,7 @@ const Profile = styled.div`
     height: 50px;
   }
   b {
-    margin-left: 30px;
+    margin-left: 5px;
     color: #2e75c6;
   }
 `;
@@ -137,7 +127,7 @@ function DisplayQ(props) {
           <Delete>Delete</Delete>
           <Profile>
             <img alt="logo" src={profile}></img>
-            <b>name</b>
+            <b>1234567890123456</b>
           </Profile>
         </ModifyWrap>
       </QuestionContainer>
