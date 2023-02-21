@@ -147,7 +147,7 @@ function Login() {
             {...register("password", {
               required: "비밀번호는 필수 입력입니다.",
               pattern: {
-                value: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
+                value: /(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{8,}/,
                 message:
                   "비밀번호는 8자 이상이면서 숫자 하나와 알파벳 하나가 포함되어야 합니다.",
               },

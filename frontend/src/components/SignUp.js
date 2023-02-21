@@ -136,7 +136,7 @@ function SignUp() {
 
   const signUpHandler = (e) => {
     const usernameRegExp = /^[a-zA-Z가-힣0-9]{4,16}$/;
-    const passwordRegExp = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
+    const passwordRegExp = /(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{8,}/;
     const emailRegExp =
       /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
     const isValidUsername = usernameRegExp.test(username);
