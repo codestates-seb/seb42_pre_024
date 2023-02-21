@@ -7,15 +7,13 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import MyPage from "./components/MyPage";
 import Question from "./components/Question";
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
-  
 `;
 
 function App() {
