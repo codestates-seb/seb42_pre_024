@@ -11,7 +11,7 @@ public class MemberResponseDto {
     private Long id;
     private String name;
     private String aboutMe;
+    private String profileImage;
 
-    //private String profileImage;
     //private List<QuestionDto.Response> questions;
 }

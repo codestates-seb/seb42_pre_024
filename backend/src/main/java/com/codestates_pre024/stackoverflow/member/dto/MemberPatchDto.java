@@ -20,8 +20,6 @@ public class MemberPatchDto {
     @NotBlank
     private String aboutMe;
 
-    //private String profileImage;
-
     @Builder
     public MemberPatchDto(Long id, @Nullable String name, @Nullable String aboutMe) {
         this.id = id;
