@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/userSlice";
 
 const Wrap = styled.div`
   position: fixed;
@@ -77,38 +81,84 @@ const LoginButton = styled.button`
   }
 `;
 
-function Login() {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-  const [msg, setMsg] = useState("");
+const ErrorMsg = styled.p`
+  color: red;
+  font-size: small;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 10px;
+`;
 
-  const loginHandler = (e) => {
-    e.preventDefault();
-    if (!id) {
-      return alert("ID를 입력하세요.");
-    } else if (!password) {
-      return alert("Password를 입력하세요.");
-    }
+function Login() {
+  const [isAuthorized, setIsAuthorized] = useState(true);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isDirty, errors },
+  } = useForm();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    //작성한 데이터를 서버에 보냄 -> 서버에서 확인을 하고 mypage 데이터 받아옴
+    // const res = await login(data);
+    // if (res?.status !== 200) {
+    //   alert("로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.");
+    //   return setIsAuthorized(false);
+    // } else {
+    //   const { userId } = res.data;
+    //   localStorage.setItem("userId", JSON.stringify(userId));
+    //   const token = res.headers?.authorization.split(" ")[1];
+    //   dispatch(setUser({ token, userId }));
+    //   cookie.set("token", token);
+    //   navigate("/");
+    // }
+    console.log(data);
   };
 
   return (
     <Wrap>
       <LoginContainer>
-        <LoginForm onSubmit={loginHandler}>
-          <LoginLabel>Email</LoginLabel>
+        <LoginForm onSubmit={handleSubmit(onSubmit)}>
+          <LoginLabel htmlFor="email">Email</LoginLabel>
           <LoginInput
             type="email"
-            required
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            aria-invalid={
+              !isDirty ? undefined : errors.email ? "true" : "false"
+            }
+            {...register("email", {
+              required: "이메일은 필수 입력입니다.",
+              pattern: {
+                value:
+                  /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+                message: "이메일 형식에 맞지 않습니다.",
+              },
+            })}
           />
-          <LoginLabel>Password</LoginLabel>
+          {errors.email && (
+            <ErrorMsg role="alert">{errors.email.message}</ErrorMsg>
+          )}
+          <LoginLabel htmlFor="password">Password</LoginLabel>
           <LoginInput
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            aria-invalid={
+              !isDirty ? undefined : errors.password ? "true" : "false"
+            }
+            {...register("password", {
+              required: "비밀번호는 필수 입력입니다.",
+              pattern: {
+                value: /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/,
+                message:
+                  "비밀번호는 8자 이상이면서 숫자 하나와 알파벳 하나가 포함되어야 합니다.",
+              },
+            })}
           />
-          <LoginButton>Log in</LoginButton>
+          {errors.password && (
+            <ErrorMsg role="alert">{errors.password.message}</ErrorMsg>
+          )}
+          <LoginButton type="submit" disabled={isSubmitting}>
+            Log in
+          </LoginButton>
         </LoginForm>
       </LoginContainer>
       <SignupWrap>
