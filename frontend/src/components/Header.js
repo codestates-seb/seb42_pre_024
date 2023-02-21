@@ -102,7 +102,9 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo>
-        <img alt="logo" src={logo}></img>
+        <a href="http://localhost:3000/">
+          <img alt="logo" src={logo} />
+        </a>
       </Logo>
       <form>
         <SearchContainer>
