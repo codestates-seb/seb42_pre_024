@@ -1,9 +1,11 @@
 package com.codestates_pre024.stackoverflow.global.utils;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 
+@NoArgsConstructor
 @Getter
 public class ApiResponse<T> {
     private String code;
