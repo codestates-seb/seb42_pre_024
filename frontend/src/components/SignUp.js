@@ -157,22 +157,24 @@ function SignUp() {
         "비밀번호는 영어와 숫자를 최소 1개씩 포함해 8자 이상으로 만들어야 합니다."
       );
     }
-
     if (isValidUsername && isValidPassword && isValidEmail) {
       const newUser = {
         name: username,
         email,
         password,
       };
-      axios.post("http://localhost:4000/members", newUser).then(
-        ((response) => {
-          console.log("회원가입 완료");
-        }).catch((error) => {
-          console.log(error);
-        })
-      );
+      async function post(url, body, options) {
+        try {
+          const response = await axios.post(url, body, options);
+          return response.data;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      post("http://localhost:4000/members", newUser);
     }
   };
+
   return (
     <Wrap>
       <Container>
