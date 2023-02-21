@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { saveQuestion } from "../store/questionSlice";
+import axios from "axios";
 //44
 const Wrap = styled.form`
   width: 72%;
@@ -95,13 +98,35 @@ const Submitbtn = styled.button`
 function WriteQuestion() {
   //title,body,redirec
   const [btn, setBtn] = useState(false);
+  const [queTitle, setQueTitle] = useState("");
+  const [queContent, setQueContent] = useState("");
+  const dispatch = useDispatch();
+
+  // const readData = async () => {
+  //   await axios.get("http://localhost:4000/data");
+  // };
+
+  // useEffect(() => {
+  //   (async () => {
+  //     await readData();
+  //   })();
+  // }, []);
 
   const ClickBtn = () => {
     setBtn(true);
   };
 
-  const sendQuestion = () => {
+  const sendQuestion = async (e) => {
     //setRedirect
+    e.preventDefault();
+    await axios.post(
+      "http://localhost:4000/question",
+      {
+        title: queTitle,
+        contents: queContent,
+      },
+      { withCredentials: true }
+    );
   };
   return (
     <>
@@ -119,7 +144,11 @@ function WriteQuestion() {
             Be specific and imagine you’re asking a question to another person.
           </p>
           <div className="title">
-            <TitleInput placeholder="  Title..." />
+            <TitleInput
+              placeholder="  Title..."
+              value={queTitle}
+              onChange={(e) => setQueTitle(e.target.value)}
+            />
           </div>
         </TitleContainer>
 
@@ -128,6 +157,8 @@ function WriteQuestion() {
           {/* <p>Introduce the problem and expand on what you put in the title.</p> */}
           <Body
             placeholder="  Introduce the problem and expand on what you put in the title "
+            value={queContent}
+            onChange={(e) => setQueContent(e.target.value)}
             onClick={ClickBtn}
           />
           {btn === false ? "" : <Submitbtn type={"submit"}>Submit</Submitbtn>}

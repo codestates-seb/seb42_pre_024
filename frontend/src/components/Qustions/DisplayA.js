@@ -26,6 +26,14 @@ const Answer = styled.div`
     line-height: 2rem;
   }
 `;
+
+const Date = styled.div`
+  display: flex;
+  margin-top: ;
+  margin-bottom: 30px;
+  margin-right: 32px;
+  flex-direction: row-reverse;
+`;
 const ModifyWrap = styled.div`
   display: flex;
   position: relative;
@@ -101,7 +109,31 @@ function DisplayA(props) {
             적용합니다. 절차 : box modal -> nomal flow -> positioning position:
             relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
             후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
+            적용합니다. 절차 : box modal -> nomal flow -> positioning position:
+            relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
+            후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
+            relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
+            후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
+            자기 자신을 기준으로 top, right, bottom, left의 값에 따라 오프셋을
+            적용합니다. 절차 : box modal -> nomal flow -> positioning position:
+            relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
+            후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
+            적용합니다. 절차 : box modal -> nomal flow -> positioning position:
+            relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
+            후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
+            relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
+            후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
+            자기 자신을 기준으로 top, right, bottom, left의 값에 따라 오프셋을
+            적용합니다. 절차 : box modal -> nomal flow -> positioning position:
+            relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산
+            후 position: relative 요소를 일반적인 문서 흐름에 따라 배치하고,
           </p>
+          <Date>
+            <div className="createAt">
+              <div>Asked: 2023-02-21T15:42:18</div>
+              <div>Modified: 2023-02-21T15:42:18 </div>
+            </div>
+          </Date>
           <ModifyWrap>
             <Edit>Edit</Edit>
             <Delete>Delete</Delete>

@@ -12,6 +12,16 @@ const TitleContainer = styled.div`
   border-bottom: 1px solid #d6d9dc;
   margin-top: 70px;
   margin-left: 10px;
+  .titleCreate {
+    flex-direction: column;
+  }
+  .createAt {
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.5);
+    > :nth-child(1) {
+      margin-right: 15px;
+    }
+  }
 `;
 
 const Title = styled.h1`
@@ -20,6 +30,7 @@ const Title = styled.h1`
   flex-wrap: wrap;
   font-size: 30px;
   flex-wrap: wrap-reverse;
+  /* margin-bottom: 80px; */
 `;
 
 const AskBtn = styled.button`
@@ -103,7 +114,13 @@ function DisplayQ(props) {
     <>
       {/* {qustion && (본문 컴포넌트)} */}
       <TitleContainer>
-        <Title>javascript split method comma but without double quotes</Title>
+        <div className="titleCreate">
+          <Title>javascript split method comma but without double quotes</Title>
+          <div className="createAt">
+            <sapn>Asked: 2023-02-21T15:42:18</sapn>
+            <span>Modified: 2023-02-21T15:42:18 </span>
+          </div>
+        </div>
         <AskBtn>Ask Quetion</AskBtn>
       </TitleContainer>
       <QuestionContainer>

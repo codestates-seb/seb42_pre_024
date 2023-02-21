@@ -1,8 +1,11 @@
 package com.codestates_pre024.stackoverflow.member.service;
 
+import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
+import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,11 +18,18 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public Member createMember(Member member){
         //이메일 존재 확인
+        verifyExistEmail(member.getEmail());
 
         //패스워드 암호화
+        String originalPassword = member.getPassword();
+        String encryptedPassword = passwordEncoder.encode(originalPassword);
+
+        member.setPassword(encryptedPassword);
 
         //암호화 이후 저장
         Member created = memberRepository.save(member);
@@ -42,7 +52,6 @@ public class MemberService {
 
         Optional.ofNullable(updateMember.getName()).ifPresent(name -> member.setName(name));
         Optional.ofNullable(updateMember.getAboutMe()).ifPresent(aboutMe -> member.setAboutMe(aboutMe));
-        //Optional.ofNullable(updateMember.getProfileImage()).ifPresent(profileImage -> member.setProfileImage(profileImage));
 
         return member;
     }
@@ -53,6 +62,14 @@ public class MemberService {
         memberRepository.delete(member);
     }
     private Member checkMemberExistById(Long id) {
-        return memberRepository.findById(id).orElseThrow( () -> new RuntimeException("커스텀 익셉션으로 변경예정"));
+        return memberRepository.findById(id)
+                .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    private void verifyExistEmail(String email) {
+        Member findEmailMember = null;
+        findEmailMember = memberRepository.findByEmail(email);
+        if (findEmailMember != null)
+            throw new BusinessLogicException(ExceptionCode.EMAIL_AREADY_EXIST);
     }
 }
