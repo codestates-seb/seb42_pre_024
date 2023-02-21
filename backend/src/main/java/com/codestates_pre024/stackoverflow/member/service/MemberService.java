@@ -54,6 +54,7 @@ public class MemberService {
         memberRepository.delete(member);
     }
     private Member checkMemberExistById(Long id) {
-        return memberRepository.findById(id).orElseThrow( () -> new RuntimeException("커스텀 익셉션으로 변경예정"));
+        return memberRepository.findById(id)
+                .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 }
