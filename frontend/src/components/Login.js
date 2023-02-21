@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/userSlice";
+import { loginUser } from "../store/userSlice";
 
 const Wrap = styled.div`
   position: fixed;
@@ -109,7 +109,7 @@ function Login() {
     //   const { userId } = res.data;
     //   localStorage.setItem("userId", JSON.stringify(userId));
     //   const token = res.headers?.authorization.split(" ")[1];
-    //   dispatch(setUser({ token, userId }));
+    //   dispatch(loginUser({ token, userId }));
     //   cookie.set("token", token);
     //   navigate("/");
     // }
