@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useState } from "react";
+import axios from "axios";
 
 const Wrap = styled.div`
   position: fixed;
@@ -128,6 +130,49 @@ const SignUpButton = styled.button`
 `;
 
 function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
+  const signUpHandler = (e) => {
+    const usernameRegExp = /^[a-zA-Z가-힣0-9]{4,16}$/;
+    const passwordRegExp = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
+    const emailRegExp =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+    const isValidUsername = usernameRegExp.test(username);
+    const isValidPassword = passwordRegExp.test(password);
+    const isValidEmail = emailRegExp.test(email);
+
+    if (!isValidUsername) {
+      e.preventDefault();
+      alert("이름은 특수문자 없이 4 ~ 16자 사이로 만들어야 합니다.");
+    }
+    if (!isValidEmail) {
+      e.preventDefault();
+      alert("이메일 형식이 잘못되었습니다.");
+    }
+    if (!isValidPassword) {
+      e.preventDefault();
+      alert(
+        "비밀번호는 영어와 숫자를 최소 1개씩 포함해 8자 이상으로 만들어야 합니다."
+      );
+    }
+
+    if (isValidUsername && isValidPassword && isValidEmail) {
+      const newUser = {
+        name: username,
+        email,
+        password,
+      };
+      axios.post("http://localhost:4000/members", newUser).then(
+        ((response) => {
+          console.log("회원가입 완료");
+        }).catch((error) => {
+          console.log(error);
+        })
+      );
+    }
+  };
   return (
     <Wrap>
       <Container>
@@ -154,18 +199,27 @@ function SignUp() {
         </Info>
         <div>
           <SignUpContainer>
-            <SignUpForm>
+            <SignUpForm onSubmit={signUpHandler}>
               <SignUpLabel>Display Name</SignUpLabel>
-              <SignUpInput></SignUpInput>
+              <SignUpInput
+                type="text"
+                onChange={(e) => setUsername(e.target.value)}
+              ></SignUpInput>
               <SignUpLabel>Email</SignUpLabel>
-              <SignUpInput></SignUpInput>
+              <SignUpInput
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              ></SignUpInput>
               <SignUpLabel>Password</SignUpLabel>
-              <SignUpInput></SignUpInput>
+              <SignUpInput
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              ></SignUpInput>
               <p>
                 Passwords must contain at least eight characters, including at
                 least 1 letter and 1 number.
               </p>
-              <SignUpButton>Sign up</SignUpButton>
+              <SignUpButton type="submit">Sign up</SignUpButton>
               <p>
                 By clicking “Sign up”, you agree to our terms of service,
                 privacy policy and cookie policy
