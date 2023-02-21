@@ -1,4 +1,81 @@
 package com.codestates_pre024.stackoverflow.question.service;
 
+import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
+import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
+import com.codestates_pre024.stackoverflow.member.service.MemberService;
+import com.codestates_pre024.stackoverflow.question.entity.Question;
+import com.codestates_pre024.stackoverflow.question.repository.QuestionRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Transactional
+@Slf4j
+@Service
 public class QuestionService {
+    private final QuestionRepository questionRepository;
+    private final MemberService memberService;
+
+    public QuestionService(QuestionRepository questionRepository, MemberService memberService) {
+        this.questionRepository = questionRepository;
+        this.memberService = memberService;
+    }
+
+    public Question createQuestion(Question question) {
+        verifyMember(question);
+
+//        question.setCreatedAt(LocalDateTime.now());
+
+        return questionRepository.save(question);
+    }
+
+    public Question updateQuestion(Question question) {
+        Question findQuestion = findVerifiedQuestion(question.getQuestionId());
+
+        Optional.ofNullable(question.getTitle())
+                .ifPresent(title -> findQuestion.setTitle(title));
+        Optional.ofNullable(question.getContents())
+                .ifPresent(contents -> findQuestion.setContents(contents));
+
+        findQuestion.setModifiedAt(LocalDateTime.now());
+
+        return questionRepository.save(findQuestion);
+    }
+
+    public Question findQuestion(long questionId) {
+        return findVerifiedQuestion(questionId);
+    }
+
+    public Page<Question> findQuestions(int page, int size) {
+        return questionRepository.findAll(PageRequest.of(page, size,
+                Sort.by("questionId").descending()));
+    }
+
+    public void deleteQuestion(long questionId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+
+        questionRepository.delete(findQuestion);
+    }
+
+//     질문에 해당하는 멤버가 존재하는지 확인
+    private void verifyMember(Question question) {
+        memberService.getMember(question.getMember().getId());
+    }
+
+//     유효한 question인지 검증
+    private Question findVerifiedQuestion(long questionId) {
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+
+        Question findQuestion =
+                optionalQuestion.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+
+        return findQuestion;
+    }
 }
