@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import profile from "../image/profile.png";
+import axios from "axios";
 
+import { useState, useEffect } from "react";
 const Wrap = styled.main`
   width: 72%;
   height: 100%;
@@ -25,10 +27,15 @@ const Wrap = styled.main`
   }
 `;
 
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #d6d9dc;
+`;
+
 const QuestionContainer = styled.div`
   display: flex;
-  border-bottom: 1px solid #d6d9dc;
-  > div:nth-child(1) {
+  div:nth-child(1) {
     margin: auto 20px;
     text-align: center;
     color: #6a737c;
@@ -38,7 +45,7 @@ const QuestionContainer = styled.div`
   }
   .contentContainer {
     width: 800px;
-    > h3 {
+    h3 {
       flex-wrap: nowrap;
     }
   }
@@ -46,7 +53,7 @@ const QuestionContainer = styled.div`
     display: flex;
     justify-content: right;
     margin-bottom: 20px;
-    > img {
+    img {
       width: 30px;
       height: 30px;
       margin-right: 5px;
@@ -101,6 +108,23 @@ const MovePageButton = styled.button`
 `;
 
 function QuestionsList() {
+  const getdate = "2023-02-21T15:42:18";
+
+  const [list, setList] = useState([]);
+  // const [date, setDate] = useState(null);
+
+  const readData = async () => {
+    const { data } = await axios.get("http://localhost:4000/data");
+    setList(data);
+  };
+
+  useEffect(() => {
+    (async () => {
+      await readData();
+    })();
+  }, []);
+  console.log(list);
+
   return (
     <Wrap>
       <div className="buttonContainer">
@@ -108,21 +132,27 @@ function QuestionsList() {
         <WriteButton>Ask Question</WriteButton>
       </div>
       <div className="questionsContainer">
-        <QuestionContainer>
-          <div>
-            <div>View</div>
-            <div id="viewCounts">1</div>
-          </div>
-          <div className="contentContainer">
-            <h3>
-              가나다라마바사아자차카타파하아야어요오요우유우이ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-            </h3>
-            <div className="writerContainer">
-              <img alt="profile_image" src={profile}></img>
-              <div>aaaaaaaaaaaaaaaa</div>
-            </div>
-          </div>
-        </QuestionContainer>
+        <ListContainer>
+          {list &&
+            list.map((el) => (
+              <QuestionContainer>
+                <div>
+                  <div>View</div>
+                  <div id="viewCounts">1</div>
+                </div>
+                <div className="contentContainer">
+                  <h3>{el.title}</h3>
+                  <div className="writerContainer">
+                    <img alt=" profile_image" src={profile}></img>
+                    <div>{el.id}</div>
+                    <div className="date">
+                      {new Date(el.createdAt).toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              </QuestionContainer>
+            ))}
+        </ListContainer>
       </div>
       <PageContainer>
         <MovePageButton>prev</MovePageButton>
