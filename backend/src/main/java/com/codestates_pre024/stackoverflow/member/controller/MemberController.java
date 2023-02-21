@@ -58,14 +58,14 @@ public class MemberController {
 
     @PatchMapping("{member-id}")
     private ResponseEntity updateMember(@PathVariable("member-id") @Min(1) Long id,
-                              @Valid @RequestBody MemberPatchDto memberPatchDto){
+                                        @Valid @RequestBody MemberPatchDto memberPatchDto){
         memberPatchDto.setId(id);
         Member updateMember = memberService.updateMemberMyPage(memberMapper.MemberPatchDtoToMember(memberPatchDto));
 
         URI uri = UriMaker.getUri(MEMBER_DEFAULT_URL,updateMember.getId());
         ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED", uri);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
     }
 
     @DeleteMapping("{member-id}")

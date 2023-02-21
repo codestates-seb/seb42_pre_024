@@ -1,5 +1,7 @@
 package com.codestates_pre024.stackoverflow.member.service;
 
+import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
+import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,6 @@ public class MemberService {
 
         Optional.ofNullable(updateMember.getName()).ifPresent(name -> member.setName(name));
         Optional.ofNullable(updateMember.getAboutMe()).ifPresent(aboutMe -> member.setAboutMe(aboutMe));
-        //Optional.ofNullable(updateMember.getProfileImage()).ifPresent(profileImage -> member.setProfileImage(profileImage));
 
         return member;
     }
@@ -53,6 +54,7 @@ public class MemberService {
         memberRepository.delete(member);
     }
     private Member checkMemberExistById(Long id) {
-        return memberRepository.findById(id).orElseThrow( () -> new RuntimeException("커스텀 익셉션으로 변경예정"));
+        return memberRepository.findById(id)
+                .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 }

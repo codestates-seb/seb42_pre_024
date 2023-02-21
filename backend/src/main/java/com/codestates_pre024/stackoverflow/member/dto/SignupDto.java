@@ -15,11 +15,11 @@ public class SignupDto {
     @NotBlank
     private String name;
 
-    @Pattern(regexp = "^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$", message =  "이메일 형식이 잘못되었습니다.")
+    @Pattern(regexp = "^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$$", message =  "이메일 형식이 잘못되었습니다.")
     @NotBlank
     private String email;
 
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-zA-Z])[a-zA-Z\\d]{8,}+$", message = "비밀번호는 영어와 숫자룰 최소 1개씩 포함해 8자 이상으로 만들어야 합니다.")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-zA-Z])[a-zA-Z\\d]{8,}$", message = "비밀번호는 영어와 숫자룰 최소 1개씩 포함해 8자 이상으로 만들어야 합니다.")
     @NotBlank
     private String password;
 
