@@ -6,7 +6,11 @@ public enum ExceptionCode {
 
     //404 - NOT FOUND
     QUESTION_NOT_FOUND(404, "Question Not Found"),
-    MEMBER_NOT_FOUND(404, "Member Not Found");
+    MEMBER_NOT_FOUND(404, "Member Not Found"),
+
+    //409 - CONFLICT
+
+    EMAIL_AREADY_EXIST(409, "Email Aready Exist");
 
     @Getter
     private int status;
