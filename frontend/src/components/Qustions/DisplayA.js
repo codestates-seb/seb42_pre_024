@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import profile from "../../image/profile.png";
-//3
+
 const AnsTitle = styled.h2`
   width: 100%;
-  margin-left: 100px;
+  margin-left: 10px;
 `;
 const AnsContainer = styled.div`
   position: relative;
@@ -29,11 +28,18 @@ const Answer = styled.div`
 
 const Date = styled.div`
   display: flex;
-  margin-top: ;
   margin-bottom: 30px;
-  margin-right: 32px;
+  margin-right: 50px;
   flex-direction: row-reverse;
+  .createAt {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: small;
+  }
 `;
+
 const ModifyWrap = styled.div`
   display: flex;
   position: relative;
@@ -84,23 +90,29 @@ const Profile = styled.div`
 function DisplayA({ list }) {
   return (
     <>
-      {list &&
-        list.map(
-          (el) =>
-            el.answers &&
-            el.answers.map((el) =>
-              !el ? (
-                ""
-              ) : (
-                <>
-                  <AnsTitle>Answer</AnsTitle>
-                  <AnsContainer>
+      <AnsTitle>Answer</AnsTitle>
+      <AnsContainer>
+        {list &&
+          list.map(
+            (el) =>
+              el.answers &&
+              el.answers.map((el) =>
+                !el ? (
+                  ""
+                ) : (
+                  <>
                     <Answer>
                       <p>{el.contents}</p>
                       <Date>
                         <div className="createAt">
-                          <div>Asked: {el.createdAt}</div>
-                          <div>Modified: {el.modifiedAt} </div>
+                          <div>
+                            Asked:{" "}
+                            {new window.Date(el.createdAt).toLocaleString()}
+                          </div>
+                          <div>
+                            Modified:{" "}
+                            {new window.Date(el.modifiedAt).toLocaleString()}
+                          </div>
                         </div>
                       </Date>
                       <ModifyWrap>
@@ -112,11 +124,11 @@ function DisplayA({ list }) {
                         </Profile>
                       </ModifyWrap>
                     </Answer>
-                  </AnsContainer>
-                </>
+                  </>
+                )
               )
-            )
-        )}
+          )}
+      </AnsContainer>
     </>
   );
 }
