@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import WriteAns from "./WriteAns";
 
+const Wrap = styled.div``;
 const AnsTitle = styled.h2`
   width: 100%;
   margin-left: 10px;
@@ -87,7 +90,29 @@ const Profile = styled.div`
     color: #2e75c6;
   }
 `;
-function DisplayA({ list }) {
+function DisplayA({ list, readData, qId }) {
+  const [editYes, setEditYes] = useState(-1);
+  const [edit, setEdit] = useState("");
+
+  // useEffect(()=>{
+  //   setEditYes(false)
+  // ,[handleEdit])
+
+  const handleEdit = async ({ id, contents }) => {
+    setEditYes(id);
+
+    // await axios.patch(`http://localhost:4000/data/${id}`, {
+    //   contents: contents,
+    // });
+    setEdit(contents);
+  };
+  // const handleDelete = async ({ id }) => {
+  //   //메인페이지(id) => questionlist로 delete
+  //   console.log(id);
+  //   await axios.delete(`http://localhost:4000/data/${qId}/answers/${id}`);
+  //   readData();
+  //};
+
   return (
     <>
       <AnsTitle>Answer</AnsTitle>
@@ -100,31 +125,35 @@ function DisplayA({ list }) {
                 !el ? (
                   ""
                 ) : (
-                  <>
-                    <Answer>
-                      <p>{el.contents}</p>
-                      <Date>
-                        <div className="createAt">
-                          <div>
-                            Asked:{" "}
-                            {new window.Date(el.createdAt).toLocaleString()}
+                  <Wrap key={el.id}>
+                    {editYes === el.id ? (
+                      <WriteAns edit={edit} />
+                    ) : (
+                      <Answer>
+                        <p>{el.contents}</p>
+                        <Date>
+                          <div className="createAt">
+                            <div>
+                              Asked:{" "}
+                              {new window.Date(el.createdAt).toLocaleString()}
+                            </div>
+                            <div>
+                              Modified:{" "}
+                              {new window.Date(el.modifiedAt).toLocaleString()}
+                            </div>
                           </div>
-                          <div>
-                            Modified:{" "}
-                            {new window.Date(el.modifiedAt).toLocaleString()}
-                          </div>
-                        </div>
-                      </Date>
-                      <ModifyWrap>
-                        <Edit>Edit</Edit>
-                        <Delete>Delete</Delete>
-                        <Profile>
-                          <img alt="logo" src={el.member.profileImage}></img>
-                          <b>{el.member.name}</b>
-                        </Profile>
-                      </ModifyWrap>
-                    </Answer>
-                  </>
+                        </Date>
+                        <ModifyWrap>
+                          <Edit onClick={() => handleEdit(el)}>Edit</Edit>
+                          <Delete>Delete </Delete>
+                          <Profile>
+                            <img alt="logo" src={el.member.profileImage}></img>
+                            <b>{el.member.name}</b>
+                          </Profile>
+                        </ModifyWrap>
+                      </Answer>
+                    )}
+                  </Wrap>
                 )
               )
           )}
