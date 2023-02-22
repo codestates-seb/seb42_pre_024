@@ -28,6 +28,18 @@ const Ans = styled.textarea`
   border: none;
 `;
 
+const Btndiv = styled.div``;
+const CancelBtn = styled.button`
+  width: 130px;
+  height: 40px;
+  margin: 30px 0 0 10px;
+  border: solid;
+  background-color: red;
+  border-radius: 5px;
+  color: #ffff;
+  cursor: pointer;
+`;
+
 const SubBtn = styled.button`
   width: 130px;
   height: 40px;
@@ -49,6 +61,10 @@ function WriteAns({ edit }) {
     } else setInput(edit);
   }, [edit]);
 
+  const handleCancel = () => {
+    window.location.replace("./questionlist");
+  };
+
   return (
     <>
       <Title>Your Answer</Title>
@@ -59,7 +75,16 @@ function WriteAns({ edit }) {
           <Ans value={input} onChange={(e) => setInput(e.target.value)} />
         )}
       </Container>
-      <SubBtn>Post Your Answer</SubBtn>
+      <Btndiv>
+        {edit ? (
+          <>
+            <SubBtn>Post Your Answer</SubBtn>
+            <CancelBtn onClick={handleCancel}>Cancel</CancelBtn>
+          </>
+        ) : (
+          <SubBtn>Post Your Answer</SubBtn>
+        )}
+      </Btndiv>
     </>
   );
 }

@@ -100,6 +100,9 @@ function WriteQuestion() {
   const [btn, setBtn] = useState(false);
   const [queTitle, setQueTitle] = useState("");
   const [queContent, setQueContent] = useState("");
+  let editQuestion = useSelector((state) => {
+    return state.question;
+  });
   const dispatch = useDispatch();
 
   // const readData = async () => {
@@ -171,7 +174,7 @@ function WriteQuestion() {
             onChange={(e) => setQueContent(e.target.value)}
             onClick={ClickBtn}
           />
-          {btn === false ? "" : <Submitbtn type={"submit"}>Submit</Submitbtn>}
+          {btn === false ? "" : <Submitbtn type="submit">Submit</Submitbtn>}
         </BodyContainer>
       </Wrap>
     </>
