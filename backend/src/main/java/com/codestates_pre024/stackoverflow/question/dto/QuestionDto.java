@@ -44,7 +44,7 @@ public class QuestionDto {
         private Long questionId;
         private String title;
         private String contents;
-        private LocalDateTime createAt;
+        private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Member member;
         private List<AnswerResponseDto> answers;
@@ -58,7 +58,7 @@ public class QuestionDto {
         private Long questionId;
         private String title;
         private String contents;
-        private LocalDateTime createAt;
+        private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Member member;
     }

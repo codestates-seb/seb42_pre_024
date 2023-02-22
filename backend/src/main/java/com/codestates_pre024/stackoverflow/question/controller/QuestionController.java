@@ -7,7 +7,6 @@ import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
 import com.codestates_pre024.stackoverflow.question.dto.QuestionDto;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
