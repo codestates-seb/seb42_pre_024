@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
-import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import { signUp } from "../api/userAPI";
 
 const Wrap = styled.div`
   position: fixed;
@@ -71,7 +73,7 @@ const SignUpContainer = styled.div`
   display: flex;
   text-align: center;
   justify-content: center;
-  height: 500px;
+  height: auto;
   width: 300px;
   padding: 10px;
   background-color: #ffffff;
@@ -84,16 +86,14 @@ const SignUpForm = styled.form`
   flex-direction: column;
   text-align: center;
   justify-content: center;
-  height: 470px;
+  height: auto;
   width: 278px;
   margin-top: 20px;
-  > p {
+  .singUpInstruction {
     text-align: left;
     font-size: 14px;
     color: #6a737c;
-  }
-  > input:nth-child(3n) {
-    margin-bottom: 0px;
+    margin-top: 0px;
   }
 `;
 
@@ -117,7 +117,7 @@ const SignUpInput = styled.input`
 
 const SignUpButton = styled.button`
   height: 40px;
-  margin: 50px 0 10px 0;
+  margin: 10px 0 10px 0;
   background-color: #4393f7;
   color: #ffff;
   border: solid;
@@ -129,50 +129,25 @@ const SignUpButton = styled.button`
   }
 `;
 
+const ErrorMsg = styled.p`
+  color: red;
+  font-size: small;
+  width: 100%;
+  margin-top: 0px;
+`;
+
 function SignUp() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isDirty, errors },
+  } = useForm();
 
-  const signUpHandler = (e) => {
-    const usernameRegExp = /^[a-zA-Z가-힣0-9]{4,16}$/;
-    const passwordRegExp = /(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{8,}/;
-    const emailRegExp =
-      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-    const isValidUsername = usernameRegExp.test(username);
-    const isValidPassword = passwordRegExp.test(password);
-    const isValidEmail = emailRegExp.test(email);
+  const navigate = useNavigate();
 
-    if (!isValidUsername) {
-      e.preventDefault();
-      alert("이름은 특수문자 없이 4 ~ 16자 사이로 만들어야 합니다.");
-    }
-    if (!isValidEmail) {
-      e.preventDefault();
-      alert("이메일 형식이 잘못되었습니다.");
-    }
-    if (!isValidPassword) {
-      e.preventDefault();
-      alert(
-        "비밀번호는 영어와 숫자를 최소 1개씩 포함해 8자 이상으로 만들어야 합니다."
-      );
-    }
-    if (isValidUsername && isValidPassword && isValidEmail) {
-      const newUser = {
-        name: username,
-        email,
-        password,
-      };
-      async function post(url, body, options) {
-        try {
-          const response = await axios.post(url, body, options);
-          return response.data;
-        } catch (err) {
-          console.log(err);
-        }
-      }
-      post("http://localhost:4000/members", newUser);
-    }
+  const onSubmit = async (data) => {
+    signUp(data);
+    navigate("/");
   };
 
   return (
@@ -201,28 +176,69 @@ function SignUp() {
         </Info>
         <div>
           <SignUpContainer>
-            <SignUpForm onSubmit={signUpHandler}>
-              <SignUpLabel>Display Name</SignUpLabel>
+            <SignUpForm onSubmit={handleSubmit(onSubmit)}>
+              <SignUpLabel htmlFor="Display Name">Display Name</SignUpLabel>
               <SignUpInput
                 type="text"
-                onChange={(e) => setUsername(e.target.value)}
-              ></SignUpInput>
-              <SignUpLabel>Email</SignUpLabel>
+                aria-invalid={
+                  !isDirty ? undefined : errors.name ? "true" : "false"
+                }
+                {...register("name", {
+                  required: "유저명은 필수 입력입니다.",
+                  pattern: {
+                    value: /^[a-zA-Z가-힣0-9]{4,16}$/,
+                    message:
+                      "이름은 특수문자 없이 4~16자 사이로 만들어야 합니다.",
+                  },
+                })}
+              />
+              {errors.name && (
+                <ErrorMsg role="alert">{errors.name.message}</ErrorMsg>
+              )}
+              <SignUpLabel htmlFor="Email">Email</SignUpLabel>
               <SignUpInput
                 type="email"
-                onChange={(e) => setEmail(e.target.value)}
-              ></SignUpInput>
-              <SignUpLabel>Password</SignUpLabel>
+                aria-invalid={
+                  !isDirty ? undefined : errors.email ? "true" : "false"
+                }
+                {...register("email", {
+                  required: "이메일은 필수 입력입니다.",
+                  pattern: {
+                    value:
+                      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+                    message: "이메일 형식에 맞지 않습니다.",
+                  },
+                })}
+              />
+              {errors.email && (
+                <ErrorMsg role="alert">{errors.email.message}</ErrorMsg>
+              )}
+              <SignUpLabel htmlFor="Password">Password</SignUpLabel>
               <SignUpInput
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              ></SignUpInput>
-              <p>
+                aria-invalid={
+                  !isDirty ? undefined : errors.password ? "true" : "false"
+                }
+                {...register("password", {
+                  required: "비밀번호는 필수 입력입니다.",
+                  pattern: {
+                    value: /(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{8,}/,
+                    message:
+                      "비밀번호는 8자 이상이면서 숫자 하나와 알파벳 하나가 포함되어야 합니다.",
+                  },
+                })}
+              />
+              {errors.password && (
+                <ErrorMsg role="alert">{errors.password.message}</ErrorMsg>
+              )}
+              <p className="singUpInstruction">
                 Passwords must contain at least eight characters, including at
                 least 1 letter and 1 number.
               </p>
-              <SignUpButton type="submit">Sign up</SignUpButton>
-              <p>
+              <SignUpButton type="submit" disabled={isSubmitting}>
+                Sign up
+              </SignUpButton>
+              <p className="singUpInstruction">
                 By clicking “Sign up”, you agree to our terms of service,
                 privacy policy and cookie policy
               </p>
@@ -230,7 +246,7 @@ function SignUp() {
           </SignUpContainer>
           <LoginWrap>
             <span>Already have an account?</span>
-            <a href="http://localhost:3000/login">Login</a>
+            <Link to="http://localhost:3000/login">Login</Link>
           </LoginWrap>
         </div>
       </Container>
