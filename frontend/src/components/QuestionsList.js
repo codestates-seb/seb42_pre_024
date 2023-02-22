@@ -108,22 +108,18 @@ const MovePageButton = styled.button`
 `;
 
 function QuestionsList() {
-  const getdate = "2023-02-21T15:42:18";
-
-  const [list, setList] = useState([]);
-  // const [date, setDate] = useState(null);
+  const [list, setList] = useState("");
 
   const readData = async () => {
     const { data } = await axios.get("http://localhost:4000/data");
     setList(data);
   };
-
+  console.log(list);
   useEffect(() => {
     (async () => {
       await readData();
     })();
   }, []);
-  console.log(list);
 
   return (
     <Wrap>
