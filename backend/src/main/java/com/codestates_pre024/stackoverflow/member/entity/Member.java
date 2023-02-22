@@ -23,6 +23,7 @@ import java.util.Random;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MEMBER_ID")
     private Long id;
 
     @Column(length = 320, nullable = false)
@@ -48,10 +49,8 @@ public class Member {
     @Column(length = 1000)
     private String profileImage;
 
-    /*
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "member")
     private List<Question> questions;
-*/
 
     private void setAboutMeDefault() {
         this.aboutMe = "안녕하세요";

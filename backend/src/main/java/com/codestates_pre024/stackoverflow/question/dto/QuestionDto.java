@@ -28,7 +28,7 @@ public class QuestionDto {
     @Setter
     @NoArgsConstructor
     public static class Patch {
-        private Long questionId;
+        private Long id;
         @Nullable
         @Size(min = 2, message = "제목은 2자 이상이어야 합니다.")
         private String title;
@@ -41,7 +41,7 @@ public class QuestionDto {
     @Setter
     @AllArgsConstructor
     public static class Response {
-        private Long questionId;
+        private Long id;
         private String title;
         private String contents;
         private LocalDateTime createdAt;
@@ -55,7 +55,7 @@ public class QuestionDto {
     @Setter
     @AllArgsConstructor
     public static class listResponse {
-        private Long questionId;
+        private Long id;
         private String title;
         private String contents;
         private LocalDateTime createdAt;
@@ -68,7 +68,7 @@ public class QuestionDto {
     @Setter
     @AllArgsConstructor
     public static class myPageResponse {
-        private Long questionId;
+        private Long id;
         private String title;
 //        answerNum? 자신이 작성한 answer List size 함수?
         private LocalDateTime createdAt;

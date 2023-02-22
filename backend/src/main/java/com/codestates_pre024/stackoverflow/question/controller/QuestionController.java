@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/questions")
 @Validated
 public class QuestionController {
-    public final static String QUESTION_DEFAULT_URL = "/questions";
+    private final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
     private final QuestionMapper mapper;
 
@@ -34,7 +34,7 @@ public class QuestionController {
     // 질문 등록
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post postDto) {
-        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(postDto), postDto.getMemberId());
+        questionService.createQuestion(mapper.questionPostDtoToQuestion(postDto), postDto.getMemberId());
 
 //        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, question.getQuestionId());
 
@@ -47,11 +47,11 @@ public class QuestionController {
     @PatchMapping("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Min(1) Long questionId,
                                         @Valid @RequestBody QuestionDto.Patch patchDto) {
-        patchDto.setQuestionId(questionId);
+        patchDto.setId(questionId);
 
         Question updateQuestion = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
 
-        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, updateQuestion.getQuestionId());
+        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, updateQuestion.getId());
 
         ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED", uri);
 

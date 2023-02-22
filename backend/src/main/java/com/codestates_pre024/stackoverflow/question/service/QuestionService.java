@@ -29,14 +29,14 @@ public class QuestionService {
     public Question createQuestion(Question question, Long memberId) {
         Member member = verifyMember(memberId);
 
-//        question.setMember(member);
+        question.setMember(member);
         question.setCreatedAt(LocalDateTime.now());
 
         return questionRepository.save(question);
     }
 
     public Question updateQuestion(Question question) {
-        Question findQuestion = findVerifiedQuestion(question.getQuestionId());
+        Question findQuestion = findVerifiedQuestion(question.getId());
 
         Optional.ofNullable(question.getTitle())
                 .ifPresent(title -> findQuestion.setTitle(title));
