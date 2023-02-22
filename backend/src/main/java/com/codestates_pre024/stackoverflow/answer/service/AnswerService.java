@@ -8,6 +8,7 @@ import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
+import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,38 +20,42 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final MemberService memberService;
+    private final QuestionService questionService;
 
     //answer 둥록
-    public Answer createAnswer(Answer answer, Long memberId) {
-//        Member member = new Member();
-//        answer.setMember(memberService.getMember(member.getId()));
-
-//        Question question = new Question();
-//        answer.setQuestion(questionService.findQuestion(question.getQuestionId()));
+    public Answer createAnswer(Answer answer, Long memberId, Long questionId) {
 
         answer.addMember(memberService.getMember(memberId));
+        answer.addQuestion(questionService.findQuestion(questionId));
 
         //로그인 된 회원인지 확인
         return answerRepository.save(answer);
     }
 
     //answer 수정
-    public Answer updateAnswer(Answer answer, Long memberId) {
+    public Answer updateAnswer(Answer answer, Long memberId, Long id) {
         //로그인된 회원이 작성자와 같은 회원이지 확인 (if문) 다르면 exception code 날림
         memberService.checkMemberExistById(memberId);
-        Member findMember = memberService.checkMemberExistById(memberId);
+//        answer.findAnswerIdForPatch(id);
 
-        Answer findAnswer = findVerifiedAnswer(answer.getId());
+        Answer findAnswer = findVerifiedAnswer(id);
 
         Optional.ofNullable(answer.getContents())
                 .ifPresent(findAnswer::setContents);
+        Optional.ofNullable(answer.getModifiedAt())
+                .ifPresent(findAnswer::setModifiedAt);
 
-        return findAnswer;
+        return answerRepository.save(findAnswer);
     }
 
-    //answer 가져오기
-    public List<Answer> findAnswers(Question question) {
-        return answerRepository.findByQuestion(question);
+    public Answer getAnswer(Long id) {
+        Answer getAnswer = findVerifiedAnswer(id);
+        return getAnswer;
+    }
+
+    //해당 질문에 있는 answer 다 가져오기
+    public List<Answer> findAnswers(Long questionId) {
+        return answerRepository.findByQuestionId(questionId);
     }
 
     //answer 삭제
@@ -67,13 +72,4 @@ public class AnswerService {
 
         return optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
     }
-
-    //특정 member 있는지 확인
-//    private Answer findVerifiedMember(Long id) {
-//        Optional<Member> optionalMember = memberRepository.findById(id);
-//
-//        return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-////        return optionalMember.orElseThrow(() -> new RuntimeException());
-//    }
-
 }

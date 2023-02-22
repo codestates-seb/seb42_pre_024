@@ -5,9 +5,7 @@ import com.codestates_pre024.stackoverflow.answer.dto.AnswerPatchDto;
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerResponseDto;
 import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
-import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
-import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import org.mapstruct.Mapper;
 
 import java.time.LocalDateTime;
@@ -15,18 +13,22 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-    default Answer answerDtoToAnswer(AnswerDto answerDto/*, MemberService memberService/*, QuestionService questionService*/) {
+    default Answer answerDtoToAnswer(AnswerDto answerDto) {
         if (answerDto == null ) {
             return null;
         } else {
             Member member = new Member();
             member.setId(answerDto.getMemberId());
 
+            Question question = new Question();
+            question.setId(answerDto.getQuestionId());
+
             Answer answer = new Answer();
-            answer.setId(answer.getId());
+//            answer.setId(answer.getId());
             answer.setContents(answerDto.getContents());
             answer.setCreatedAt(LocalDateTime.now());
             answer.setMember(member);
+            answer.setQuestion(question);
 
             return answer;
         }
