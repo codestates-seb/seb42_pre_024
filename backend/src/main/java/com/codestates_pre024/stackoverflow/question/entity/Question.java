@@ -1,6 +1,7 @@
 package com.codestates_pre024.stackoverflow.question.entity;
 
 import com.codestates_pre024.stackoverflow.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
+    @JsonIgnore
     private Member member;
 
 //    @OneToMany(mappedBy = "Question")

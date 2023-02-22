@@ -48,13 +48,13 @@ public class QuestionService {
         return questionRepository.save(findQuestion);
     }
 
-    public Question findQuestion(long questionId) {
+    public Question findQuestion(Long questionId) {
         return findVerifiedQuestion(questionId);
     }
 
     public Page<Question> findQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size,
-                Sort.by("questionId").descending()));
+                Sort.by("id").descending()));
     }
 
     public void deleteQuestion(long questionId) {
@@ -71,7 +71,7 @@ public class QuestionService {
     }
 
 //     유효한 question인지 검증
-    private Question findVerifiedQuestion(long questionId) {
+    private Question findVerifiedQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
         Question findQuestion =
@@ -79,5 +79,9 @@ public class QuestionService {
                         new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
         return findQuestion;
+    }
+    // memberId에 해당하는 질문들 가져오기
+    public void findQuestionsOfMember (Long memberId) {
+        questionRepository.findByMemberId(memberId);
     }
 }
