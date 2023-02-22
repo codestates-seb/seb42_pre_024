@@ -61,7 +61,7 @@ public class MemberService {
         Member member = checkMemberExistById(id);
         memberRepository.delete(member);
     }
-    private Member checkMemberExistById(Long id) {
+    public Member checkMemberExistById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
