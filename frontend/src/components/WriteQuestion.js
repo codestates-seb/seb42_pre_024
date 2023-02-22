@@ -119,14 +119,25 @@ function WriteQuestion() {
   const sendQuestion = async (e) => {
     //setRedirect
     e.preventDefault();
-    await axios.post(
-      "http://localhost:4000/question",
-      {
-        title: queTitle,
-        contents: queContent,
-      },
-      { withCredentials: true }
-    );
+    if (!queTitle && queContent) {
+      alert("제목을 입력해주세요");
+    } else if (queTitle && !queContent) {
+      alert("내용을 입력해주세요");
+    } else if (!queTitle && !queContent) {
+      alert("제목과 내용을 입력해주세요");
+    } else {
+      await axios.post(
+        "http://localhost:4000/question",
+        {
+          title: queTitle,
+          contents: queContent,
+        },
+        { withCredentials: true }
+      );
+      setQueTitle("");
+      setQueContent("");
+    }
+    //버튼을 눌렀을 때 질문페이지 이동하기
   };
   return (
     <>
@@ -154,7 +165,6 @@ function WriteQuestion() {
 
         <BodyContainer>
           <span className="b1">What are the details of your problem?</span>
-          {/* <p>Introduce the problem and expand on what you put in the title.</p> */}
           <Body
             placeholder="  Introduce the problem and expand on what you put in the title "
             value={queContent}

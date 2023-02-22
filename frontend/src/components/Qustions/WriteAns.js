@@ -47,7 +47,6 @@ function WriteAns(props) {
       <Title>Your Answer</Title>
       <Container>
         <Ans />
-
         <SubBtn>Post Your Answer</SubBtn>
       </Container>
     </>
