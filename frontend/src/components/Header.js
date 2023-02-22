@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 // eslint-disable-next-line import/no-unresolved
 import logo from "../image/logo-stackoverflow.png";
 import profile from "../image/profile.png";
@@ -102,9 +103,9 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo>
-        <a href="http://localhost:3000/">
+        <Link to="http://localhost:3000/">
           <img alt="logo" src={logo} />
-        </a>
+        </Link>
       </Logo>
       <form>
         <SearchContainer>
