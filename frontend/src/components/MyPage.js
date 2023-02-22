@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Wrap = styled.main`
@@ -47,6 +47,7 @@ const ProfileContainer = styled.form`
 `;
 
 const MyQuestionsContainer = styled.div`
+  margin-bottom: 160px;
   > div {
     border: 1px solid #d6d9db;
     border-radius: 4px;
@@ -74,10 +75,24 @@ const MyPageButton = styled.button`
 
 function MyPage() {
   const [myProfile, setMyProfile] = useState();
+  const navigate = useNavigate();
 
   const readMyProfile = async () => {
     const { data } = await axios.get("http://localhost:4000/members");
     setMyProfile(data);
+  };
+  console.log(myProfile);
+  const deleteAccount = async () => {
+    await axios.delete(`http://localhost:4000/members/${myProfile[0].id}`);
+  };
+
+  const resignHandler = (e) => {
+    e.preventDefault();
+    let isSure = window.confirm("정말로 탈퇴하시겠습니까?");
+    if (isSure) {
+      deleteAccount();
+      navigate("/");
+    }
   };
 
   useEffect(() => {
@@ -88,45 +103,48 @@ function MyPage() {
 
   return (
     <Wrap>
-      {myProfile && (
-        <>
-          <ProfileContainer>
-            <div className="imgContainer">
-              <img alt="profile_image" src={myProfile.profileImage}></img>
-            </div>
-            <div className="userInfoContainer">
-              <h1>{myProfile.name}</h1>
-              <div>{myProfile.aboutMe}</div>
-            </div>
-            <div className="buttonContainer">
-              <MyPageButton>Edit my profile</MyPageButton>
-            </div>
-          </ProfileContainer>
-          <MyQuestionsContainer>
-            <h1>My Questions</h1>
-            <div>
-              {myProfile.questions.length === 0 && (
-                <p>작성한 질문이 없습니다.</p>
-              )}
-              {myProfile.questions &&
-                myProfile.questions.map((question) => {
-                  return (
-                    <ul>
-                      <li key={question.id}>
-                        <Link
-                          to={`http://localhost:3000/questions/${question.id}`}
-                        >
-                          {question.title}
-                        </Link>
-                      </li>
-                    </ul>
-                  );
-                })}
-            </div>
-          </MyQuestionsContainer>
-          <MyPageButton>탈퇴하기</MyPageButton>
-        </>
-      )}
+      {myProfile &&
+        myProfile.map((el) => {
+          return (
+            <>
+              <ProfileContainer>
+                <div className="imgContainer">
+                  <img alt="profile_image" src={myProfile.profileImage}></img>
+                </div>
+                <div className="userInfoContainer">
+                  <h1>{el.name}</h1>
+                  <div>{el.aboutMe}</div>
+                </div>
+                <div className="buttonContainer">
+                  <MyPageButton>Edit my profile</MyPageButton>
+                </div>
+              </ProfileContainer>
+              <MyQuestionsContainer>
+                <h1>My Questions</h1>
+                <div>
+                  {el.questions.length === 0 && <p>작성한 질문이 없습니다.</p>}
+                  {el.questions &&
+                    el.questions.map((question) => {
+                      return (
+                        <ul>
+                          <li key={question.id}>
+                            <Link
+                              to={`http://localhost:3000/questions/${question.id}`}
+                            >
+                              {question.title}
+                            </Link>
+                          </li>
+                        </ul>
+                      );
+                    })}
+                </div>
+              </MyQuestionsContainer>
+              <form onSubmit={resignHandler}>
+                <MyPageButton type="submit">탈퇴하기</MyPageButton>
+              </form>
+            </>
+          );
+        })}
     </Wrap>
   );
 }
