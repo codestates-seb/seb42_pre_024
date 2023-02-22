@@ -70,6 +70,6 @@ public class MemberService {
         Member findEmailMember = null;
         findEmailMember = memberRepository.findByEmail(email);
         if (findEmailMember != null)
-            throw new BusinessLogicException(ExceptionCode.EMAIL_AREADY_EXIST);
+            throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXIST);
     }
 }
