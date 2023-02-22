@@ -109,44 +109,42 @@ const Profile = styled.div`
   }
 `;
 
-function DisplayQ(props) {
+function DisplayQ({ list }) {
   return (
     <>
       {/* {qustion && (본문 컴포넌트)} */}
-      <TitleContainer>
-        <div className="titleCreate">
-          <Title>javascript split method comma but without double quotes</Title>
-          <div className="createAt">
-            <sapn>Asked: 2023-02-21T15:42:18</sapn>
-            <span>Modified: 2023-02-21T15:42:18 </span>
-          </div>
-        </div>
-        <AskBtn>Ask Quetion</AskBtn>
-      </TitleContainer>
-      <QuestionContainer>
-        <p>
-          position: relative 요소를 일반적인 문서 흐름에 따라 배치하고, 자기
-          자신을 기준으로 top, right, bottom, left의 값에 따라 오프셋을
-          적용합니다. 절차 : box modal -> nomal flow -> positioning position:
-          relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산 후
-          position: relative 요소를 일반적인 문서 흐름에 따라 배치하고, 자기
-          자신을 기준으로 top, right, bottom, left의 값에 따라 오프셋을
-          적용합니다. 절차 : box modal -> nomal flow -> positioning position:
-          relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산 후
-          position: relative 요소를 일반적인 문서 흐름에 따라 배치하고, 자기
-          자신을 기준으로 top, right, bottom, left의 값에 따라 오프셋을
-          적용합니다. 절차 : box modal -> nomal flow -> positioning position:
-          relative로 적용된 element는 static과 마찬가지로 박스 사이즈를 계산 후
-        </p>
-        <ModifyWrap>
-          <Edit>Edit</Edit>
-          <Delete>Delete</Delete>
-          <Profile>
-            <img alt="logo" src={profile}></img>
-            <b>1234567890123456</b>
-          </Profile>
-        </ModifyWrap>
-      </QuestionContainer>
+      {list &&
+        list.map((el) => {
+          return (
+            <>
+              <TitleContainer>
+                <div className="titleCreate">
+                  <Title>{el.title}</Title>
+                  <div className="createAt">
+                    <sapn>
+                      Asked: {new Date(el.createdAt).toLocaleString()}
+                    </sapn>
+                    <span>
+                      Modified: {new Date(el.modifiedAt).toLocaleString()}{" "}
+                    </span>
+                  </div>
+                </div>
+                <AskBtn>Ask Quetion</AskBtn>
+              </TitleContainer>
+              <QuestionContainer>
+                <p>{el.contents}</p>
+                <ModifyWrap>
+                  <Edit>Edit</Edit>
+                  <Delete>Delete</Delete>
+                  <Profile>
+                    <img alt="logo" src={el.member.profileImage}></img>
+                    <b>{el.member.name}</b>
+                  </Profile>
+                </ModifyWrap>
+              </QuestionContainer>
+            </>
+          );
+        })}
     </>
   );
 }
