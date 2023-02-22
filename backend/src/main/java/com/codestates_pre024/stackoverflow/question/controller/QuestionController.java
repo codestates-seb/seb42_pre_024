@@ -1,11 +1,13 @@
 package com.codestates_pre024.stackoverflow.question.controller;
 
 import com.codestates_pre024.stackoverflow.global.utils.ApiResponse;
+import com.codestates_pre024.stackoverflow.global.utils.MultiResponse;
 import com.codestates_pre024.stackoverflow.global.utils.UriMaker;
 import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
 import com.codestates_pre024.stackoverflow.question.dto.QuestionDto;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ import java.util.List;
 @RequestMapping("/questions")
 @Validated
 public class QuestionController {
-//    public final static String QUESTION_DEFAULT_URL = "/questions";
+    public final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
     private final QuestionMapper mapper;
 
@@ -33,7 +35,7 @@ public class QuestionController {
     // 질문 등록
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post postDto) {
-        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(postDto));
+        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(postDto), postDto.getMemberId());
 
 //        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, question.getQuestionId());
 
@@ -48,13 +50,13 @@ public class QuestionController {
                                         @Valid @RequestBody QuestionDto.Patch patchDto) {
         patchDto.setQuestionId(questionId);
 
-        questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
+        Question updateQuestion = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
 
-//        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, question.getQuestionId());
+        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, updateQuestion.getQuestionId());
 
-        ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED");
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED", uri);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
     }
 
     // {question-id}에 해당하는 질문+답변 조회
@@ -76,8 +78,8 @@ public class QuestionController {
         Page<Question> pageQuestions = questionService.findQuestions(page - 1, size);
         List<Question> questions = pageQuestions.getContent();
 
-        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
-                mapper.questionsToQuestionResponseDto(questions));
+        MultiResponse response = new MultiResponse(HttpStatus.OK, "SUCCESS",
+                mapper.questionsToQuestionResponseDto(questions), pageQuestions);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
