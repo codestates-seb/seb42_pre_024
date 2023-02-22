@@ -12,7 +12,7 @@ public enum ExceptionCode {
 
     //409 - CONFLICT
 
-    EMAIL_AREADY_EXIST(409, "Email Aready Exist");
+    EMAIL_ALREADY_EXIST(409, "Email Already Exist");
 
     @Getter
     private int status;
