@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-//3
+
 const Title = styled.h2`
   width: 100%;
   margin-left: 10px;
@@ -12,7 +12,6 @@ const Container = styled.form`
   position: relative;
   width: 100%;
   height: 300px;
-  /* margin-left: 100px; */
   border: solid;
   border-color: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -22,17 +21,17 @@ const Container = styled.form`
 
 const Ans = styled.textarea`
   position: relative;
-  max-width: 70%;
-  width: 800px;
-  height: 300px;
-  margin-bottom: 10px;
-  margin-top: 50px;
+  max-width: 90%;
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+  border: none;
 `;
 
 const SubBtn = styled.button`
-  width: 100px;
+  width: 130px;
   height: 40px;
-  margin-top: 30px;
+  margin: 30px 0 0 10px;
   border: solid;
   background-color: #4393f7;
   border-color: #8ebefa;
@@ -47,8 +46,8 @@ function WriteAns(props) {
       <Title>Your Answer</Title>
       <Container>
         <Ans />
-        <SubBtn>Post Your Answer</SubBtn>
       </Container>
+      <SubBtn>Post Your Answer</SubBtn>
     </>
   );
 }
