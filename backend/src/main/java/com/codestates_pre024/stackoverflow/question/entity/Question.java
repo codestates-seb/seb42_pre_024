@@ -1,5 +1,6 @@
 package com.codestates_pre024.stackoverflow.question.entity;
 
+import com.codestates_pre024.stackoverflow.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,8 @@ import java.time.LocalDateTime;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionId;
+    @Column(name = "QUESTION_ID")
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -28,9 +30,9 @@ public class Question {
     @Column(name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
 //    @OneToMany(mappedBy = "Question")
 //    private List<Answer> answers;
