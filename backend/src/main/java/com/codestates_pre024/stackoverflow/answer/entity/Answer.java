@@ -14,10 +14,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Builder
 public class Answer {
     @Id
-//    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -41,8 +39,9 @@ public class Answer {
 
     public void addMember(Member member) {
         this.member = member;
-//        if (!this.member.getAnswer().contains(this)) {
-//            this.member.getAnswer().add(this);
-//        }
+    }
+
+    public void addQuestion(Question question) {
+        this.question = question;
     }
 }
