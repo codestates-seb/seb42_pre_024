@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../store/userSlice";
+import { login } from "../api/userAPI";
 
 const Wrap = styled.div`
   position: fixed;
@@ -100,8 +101,7 @@ function Login() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    //작성한 데이터를 서버에 보냄 -> 서버에서 확인을 하고 mypage 데이터 받아옴
-    // const res = await login(data);
+    const res = await login(data);
     // if (res?.status !== 200) {
     //   alert("로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.");
     //   return setIsAuthorized(false);
@@ -110,10 +110,10 @@ function Login() {
     //   localStorage.setItem("userId", JSON.stringify(userId));
     //   const token = res.headers?.authorization.split(" ")[1];
     //   dispatch(loginUser({ token, userId }));
-    //   cookie.set("token", token);
+    //   // cookie.set("token", token);
     //   navigate("/");
     // }
-    console.log(data);
+    console.log(res);
   };
 
   return (
@@ -163,7 +163,7 @@ function Login() {
       </LoginContainer>
       <SignupWrap>
         <span>Don't have an account?</span>
-        <a href="http://localhost:3000/signup">Sign up</a>
+        <Link to="http://localhost:3000/signup">Sign up</Link>
       </SignupWrap>
     </Wrap>
   );
