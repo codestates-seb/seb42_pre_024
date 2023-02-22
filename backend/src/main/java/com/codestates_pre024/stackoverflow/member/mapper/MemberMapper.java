@@ -3,6 +3,7 @@ package com.codestates_pre024.stackoverflow.member.mapper;
 import com.codestates_pre024.stackoverflow.member.dto.MemberPatchDto;
 import com.codestates_pre024.stackoverflow.member.dto.MemberResponseDto;
 import com.codestates_pre024.stackoverflow.member.dto.SignupDto;
+import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import org.mapstruct.Mapper;
 
@@ -36,4 +37,5 @@ public interface MemberMapper {
     }
     MemberResponseDto MemberToMemberResponseDto(Member member);
     List<MemberResponseDto> MemberListToMemberResponseDtoList(List<Member> allMembers);
+    WriterResponse MemberToWriterResponse(Member member);
 }
