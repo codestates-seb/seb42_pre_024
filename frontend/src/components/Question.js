@@ -27,7 +27,7 @@ function Question(props) {
 
   const readData = async () => {
     const { data } = await axios.get("http://localhost:4000/data");
-    setList([data]);
+    setList(data);
   };
   useEffect(() => {
     (async () => {

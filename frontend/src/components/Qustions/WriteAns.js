@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Title = styled.h2`
@@ -40,12 +40,24 @@ const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-function WriteAns(props) {
+function WriteAns({ edit }) {
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    if (!edit) {
+      setInput("");
+    } else setInput(edit);
+  }, [edit]);
+
   return (
     <>
       <Title>Your Answer</Title>
       <Container>
-        <Ans />
+        {edit ? (
+          <Ans value={input} onChange={(e) => setInput(e.target.value)} />
+        ) : (
+          <Ans value={input} onChange={(e) => setInput(e.target.value)} />
+        )}
       </Container>
       <SubBtn>Post Your Answer</SubBtn>
     </>
