@@ -2,6 +2,7 @@ package com.codestates_pre024.stackoverflow.question.service;
 
 import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
 import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
+import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.repository.QuestionRepository;
@@ -16,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
-@Slf4j
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
@@ -27,10 +27,11 @@ public class QuestionService {
         this.memberService = memberService;
     }
 
-    public Question createQuestion(Question question) {
-        verifyMember(question);
+    public Question createQuestion(Question question, Long memberId) {
+        Member member = verifyMember(memberId);
 
-//        question.setCreatedAt(LocalDateTime.now());
+//        question.setMember(member);
+        question.setCreatedAt(LocalDateTime.now());
 
         return questionRepository.save(question);
     }
@@ -64,8 +65,10 @@ public class QuestionService {
     }
 
 //     질문에 해당하는 멤버가 존재하는지 확인
-    private void verifyMember(Question question) {
-        memberService.getMember(question.getMember().getId());
+    private Member verifyMember(Long memberId) {
+        Member member = memberService.checkMemberExistById(memberId);
+
+        return member;
     }
 
 //     유효한 question인지 검증

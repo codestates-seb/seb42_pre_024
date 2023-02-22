@@ -1,7 +1,9 @@
 package com.codestates_pre024.stackoverflow.question.entity;
 
 import com.codestates_pre024.stackoverflow.answer.entity.Answer;
+import com.codestates_pre024.stackoverflow.global.utils.CustomDateTimeFormatter;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,24 +27,16 @@ public class Question {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String contents;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "LAST_MODIFIED_AT")
+    @Column(name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "MEMBER_ID")
+//    private Member member;
 
 //    @OneToMany(mappedBy = "Question")
 //    private List<Answer> answers;
-//
-//    public void setMember(Member member) {
-//        this.member = member;
-//    }
-//
-//    public void setAnswers(List<Answer> answers) {
-//        this.answers = answers;
-//    }
 }

@@ -61,7 +61,7 @@ public class MemberService {
         Member member = checkMemberExistById(id);
         memberRepository.delete(member);
     }
-    private Member checkMemberExistById(Long id) {
+    public Member checkMemberExistById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
@@ -70,6 +70,6 @@ public class MemberService {
         Member findEmailMember = null;
         findEmailMember = memberRepository.findByEmail(email);
         if (findEmailMember != null)
-            throw new BusinessLogicException(ExceptionCode.EMAIL_AREADY_EXIST);
+            throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXIST);
     }
 }

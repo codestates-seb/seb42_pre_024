@@ -8,9 +8,11 @@ public enum ExceptionCode {
     QUESTION_NOT_FOUND(404, "Question Not Found"),
     MEMBER_NOT_FOUND(404, "Member Not Found"),
 
+    ANSWER_NOT_FOUND(404, "Answer Not Found"),
+
     //409 - CONFLICT
 
-    EMAIL_AREADY_EXIST(409, "Email Aready Exist");
+    EMAIL_ALREADY_EXIST(409, "Email Already Exist");
 
     @Getter
     private int status;
