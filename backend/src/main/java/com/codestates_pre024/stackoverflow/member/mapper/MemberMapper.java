@@ -5,6 +5,10 @@ import com.codestates_pre024.stackoverflow.member.dto.MemberResponseDto;
 import com.codestates_pre024.stackoverflow.member.dto.SignupDto;
 import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
+import com.codestates_pre024.stackoverflow.question.dto.QuestionDto;
+import com.codestates_pre024.stackoverflow.question.entity.Question;
+import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
+import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -35,7 +39,31 @@ public interface MemberMapper {
                     .build();
         }
     }
-    MemberResponseDto MemberToMemberResponseDto(Member member);
+    default MemberResponseDto MemberToMemberResponseDto(Member member, QuestionService questionService, QuestionMapper questionMapper) {
+        if ( member == null ) {
+            return null;
+        }
+
+        Long id = null;
+        String name = null;
+        String aboutMe = null;
+        String profileImage = null;
+        List<QuestionDto.myPageResponse> questionDtoList = null;
+
+        id = member.getId();
+        name = member.getName();
+        aboutMe = member.getAboutMe();
+        profileImage = member.getProfileImage();
+        List<Question> questions = questionService.findQuestionsOfMember(id);
+
+        questionDtoList = questionMapper.questionListToMyPageResponseDtoList(questions);
+
+
+        MemberResponseDto memberResponseDto = new MemberResponseDto( id, name, aboutMe, profileImage, questionDtoList );
+
+        return memberResponseDto;
+    }
+
     List<MemberResponseDto> MemberListToMemberResponseDtoList(List<Member> allMembers);
     WriterResponse MemberToWriterResponse(Member member);
 }

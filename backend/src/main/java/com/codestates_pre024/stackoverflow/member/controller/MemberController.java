@@ -7,6 +7,8 @@ import com.codestates_pre024.stackoverflow.member.dto.SignupDto;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.mapper.MemberMapper;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
+import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
+import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ import java.util.List;
 public class MemberController {
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberService memberService;
+    private final QuestionService questionService;
+    private final QuestionMapper questionMapper;
+
     private final MemberMapper memberMapper;
 
     @PostMapping
@@ -43,7 +48,7 @@ public class MemberController {
         Member member = memberService.getMember(id);
 
         ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
-                memberMapper.MemberToMemberResponseDto(member));
+                memberMapper.MemberToMemberResponseDto(member, questionService, questionMapper));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @GetMapping
