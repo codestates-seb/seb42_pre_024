@@ -49,7 +49,10 @@ public class QuestionService {
     }
 
     public Question findQuestion(Long questionId) {
-        return findVerifiedQuestion(questionId);
+        Question question = findVerifiedQuestion(questionId);
+        question.getAnswers();
+
+        return question;
     }
 
     public Page<Question> findQuestions(int page, int size) {
