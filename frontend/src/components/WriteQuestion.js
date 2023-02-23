@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { doEdit } from "../store/editSlice";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
-//44
+
 const Wrap = styled.form`
   width: 72%;
   height: 100%;
@@ -15,12 +15,12 @@ const Wrap = styled.form`
   margin-top: 70px;
   padding: 30px;
 `;
+
 const TopTitle = styled.div`
-  /* height: 70px; */
   height: 70px;
   display: flex;
   justify-content: right;
-  border-bottom: 1px solid #d6d9dc;
+  border-bottom: 1px solid var(--graylight);
   .toptitle {
     flex: 1;
     margin: 0;
@@ -32,22 +32,22 @@ const TitleContainer = styled.div`
   flex-direction: column;
   width: 80%;
   height: 150px;
-  border: solid rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  border: solid var(--gray);
+  border-radius: var(--bd-rd);
+  box-shadow: var(--form);
   margin-top: 100px;
-  color: #ffff;
+  color: var(--white);
   overflow: auto;
   .b {
     display: fixed;
     margin: 30px 0 0 20px;
     font-size: 22px;
     font-weight: bold;
-    color: black;
+    color: var(--black);
   }
   p {
     display: fixed;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--graydark);
     margin: 10px 0 10px 20px;
   }
 `;
@@ -56,8 +56,15 @@ const TitleInput = styled.input`
   margin: 5px 0 10px 20px;
   width: 90%;
   height: 30px;
-  border: solid 1px rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
+  border: solid 1px var(--graydark);
+  border-radius: var(--bd-rd);
+  padding-left: 10px;
+  :focus {
+    outline: none;
+    border: 1px solid var(--grayblue);
+    box-shadow: 0 0 0 5px var(--graywhite);
+    border-radius: var(--bd-rd);
+  }
 `;
 
 const BodyContainer = styled.div`
@@ -65,24 +72,31 @@ const BodyContainer = styled.div`
   flex-direction: column;
   width: 80%;
   height: 400px;
-  border: solid rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  border: solid var(--gray);
+  border-radius: var(--bd-rd);
+  box-shadow: var(--form);
   margin-top: 100px;
   .b1 {
     margin: 30px 0 10px 20px;
     font-size: 22px;
     font-weight: bold;
-    color: black;
+    color: var(--black);
   }
 `;
+
 const Body = styled.textarea`
   margin: 5px 0 10px 20px;
   width: 90%;
   height: 60%;
-  border: solid 1px rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
-  font-size: 20px;
+  border: solid 1px var(--graydark);
+  border-radius: var(--bd-rd);
+  padding-left: 10px;
+  :focus {
+    outline: none;
+    border: 1px solid var(--grayblue);
+    box-shadow: 0 0 0 5px var(--graywhite);
+    border-radius: var(--bd-rd);
+  }
 `;
 
 const Submitbtn = styled.button`
@@ -90,12 +104,16 @@ const Submitbtn = styled.button`
   height: 40px;
   margin: 10px 0 0 20px;
   border: solid;
-  background-color: #4393f7;
-  border-color: #8ebefa;
-  color: #ffff;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: var(--blue);
+  border-color: var(--bluelight);
+  color: var(--white);
+  border-radius: var(--bd-rd);
+  :hover {
+    cursor: pointer;
+    background-color: var(--bluedark);
+  }
 `;
+
 function WriteQuestion() {
   //title,body,redirec
   const [btn, setBtn] = useState(false);
@@ -172,7 +190,7 @@ function WriteQuestion() {
           </p>
           <div className="title">
             <TitleInput
-              placeholder="  Title..."
+              placeholder="Title..."
               value={queTitle}
               onChange={(e) => setQueTitle(e.target.value)}
             />
@@ -182,7 +200,7 @@ function WriteQuestion() {
         <BodyContainer>
           <span className="b1">What are the details of your problem?</span>
           <Body
-            placeholder="  Introduce the problem and expand on what you put in the title "
+            placeholder="Introduce the problem and expand on what you put in the title "
             value={queContent}
             onChange={(e) => setQueContent(e.target.value)}
             onClick={ClickBtn}
