@@ -15,7 +15,6 @@ public class AnswerCustomRepositoryImpl implements AnswerCustomRepository {
     @Override
     public List<Answer> findByQuestionId(Long id) {
         QAnswer a = new QAnswer("a");
-//        QQuestion q = new QQuestion("q");
         return queryFactory
                 .select(a)
                 .from(a)
