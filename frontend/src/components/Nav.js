@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const NavContainer = styled.nav`
   width: 280px;
@@ -7,6 +8,8 @@ const NavContainer = styled.nav`
   /* margin-left: 120px; */
   top: 70px;
   position: fixed;
+  z-index: 999;
+  background-color: var(--white);
 `;
 
 const NavButton = styled.button`
@@ -17,12 +20,20 @@ const NavButton = styled.button`
   background-color: var(--whitegray);
   border: none;
   border-right: 3px solid var(--orange);
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 function Nav() {
+  const navigate = useNavigate();
+  const clickHandler = () => {
+    navigate("/");
+  };
+
   return (
     <NavContainer>
-      <NavButton>Questions</NavButton>
+      <NavButton onClick={clickHandler}>Questions</NavButton>
     </NavContainer>
   );
 }
