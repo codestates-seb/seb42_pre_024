@@ -124,6 +124,7 @@ function Login() {
           <LoginLabel htmlFor="email">Email</LoginLabel>
           <LoginInput
             type="email"
+            name="email"
             aria-invalid={
               !isDirty ? undefined : errors.email ? "true" : "false"
             }
@@ -142,6 +143,8 @@ function Login() {
           <LoginLabel htmlFor="password">Password</LoginLabel>
           <LoginInput
             type="password"
+            name="password"
+            autoComplete="on"
             aria-invalid={
               !isDirty ? undefined : errors.password ? "true" : "false"
             }

@@ -181,6 +181,7 @@ function SignUp() {
               <SignUpLabel htmlFor="Display Name">Display Name</SignUpLabel>
               <SignUpInput
                 type="text"
+                name="username"
                 aria-invalid={
                   !isDirty ? undefined : errors.name ? "true" : "false"
                 }
@@ -199,6 +200,7 @@ function SignUp() {
               <SignUpLabel htmlFor="Email">Email</SignUpLabel>
               <SignUpInput
                 type="email"
+                name="email"
                 aria-invalid={
                   !isDirty ? undefined : errors.email ? "true" : "false"
                 }
@@ -217,6 +219,8 @@ function SignUp() {
               <SignUpLabel htmlFor="Password">Password</SignUpLabel>
               <SignUpInput
                 type="password"
+                name="password"
+                autoComplete="on"
                 aria-invalid={
                   !isDirty ? undefined : errors.password ? "true" : "false"
                 }
