@@ -7,13 +7,15 @@ export const questionSlice = createSlice({
     contents: "",
   },
   reducers: {
-    saveQuestion: (state, action) => {
+    saveTitle: (state, action) => {
       //action type이 loginUser일 때 실행
       state.title = action.payload; //actions에 payloadr값이 들어옴
+    },
+    saveContents: (state, action) => {
       state.contents = action.payload;
     },
   },
 });
 
-export const { saveQuestion } = questionSlice.actions;
+export const { saveTitle, saveContents } = questionSlice.actions;
 export default questionSlice.reducer;
