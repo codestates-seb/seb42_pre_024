@@ -106,9 +106,7 @@ public class QuestionController {
         Answer createAnswer = answerService.createAnswer(
                 answerMapper.answerDtoToAnswer(answerDto), answerDto.getMemberId(), answerDto.getQuestionId());
 
-        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, createAnswer.getId());
-
-        ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED", uri);
+        ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

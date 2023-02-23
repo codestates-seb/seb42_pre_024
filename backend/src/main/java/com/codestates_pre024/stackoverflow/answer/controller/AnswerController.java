@@ -44,7 +44,7 @@ public class AnswerController {
 
         ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS", uri);
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
     }
 
     //answer 삭제
