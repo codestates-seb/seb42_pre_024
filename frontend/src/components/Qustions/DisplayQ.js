@@ -120,7 +120,7 @@ function DisplayQ({ list }) {
     dispatch(saveTitle(title));
     dispatch(saveContents(contents));
     dispatch(doEdit(true));
-    navigate(`/question`);
+    navigate("/question");
   };
   return (
     <>
