@@ -1,5 +1,6 @@
 package com.codestates_pre024.stackoverflow.question.entity;
 
+import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @Setter
@@ -36,6 +38,6 @@ public class Question {
     @JsonIgnore
     private Member member;
 
-//    @OneToMany(mappedBy = "Question")
-//    private List<Answer> answers;
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers;
 }
