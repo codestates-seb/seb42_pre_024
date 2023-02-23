@@ -164,6 +164,7 @@ function WriteQuestion() {
             <h1>Ask a public question</h1>
           </div>
         </TopTitle>
+
         <TitleContainer>
           <span className="b">Title</span>
           <p>

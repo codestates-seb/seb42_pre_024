@@ -52,7 +52,7 @@ const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-function WriteAns({ edit, editYes }) {
+function WriteAns({ edit, id }) {
   const [input, setInput] = useState("");
 
   useEffect(() => {

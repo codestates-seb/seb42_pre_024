@@ -122,7 +122,7 @@ function DisplayQ({ list }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleEdit = ({ title, contents }) => {
+  const handleEdit = ({ id, title, contents }) => {
     // dispatch(saveTitle(title));
     const newContents = {
       title,
@@ -130,8 +130,12 @@ function DisplayQ({ list }) {
     };
     dispatch(saveContents(newContents));
     dispatch(doEdit(true));
+    navigate(`/question`);
+  };
+  const moveQuestion = () => {
     navigate("/question");
   };
+
   return (
     <>
       {/* {qustion && (본문 컴포넌트)} */}
@@ -151,7 +155,7 @@ function DisplayQ({ list }) {
                     </span>
                   </div>
                 </div>
-                <AskBtn>Ask Quetion</AskBtn>
+                <AskBtn onClick={moveQuestion}>Ask Quetion</AskBtn>
               </TitleContainer>
               <QuestionContainer>
                 <p>{el.contents}</p>
