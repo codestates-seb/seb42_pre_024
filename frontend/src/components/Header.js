@@ -89,6 +89,7 @@ const MypageButton = styled.button`
     border-radius: var(--bd-rd);
   }
 `;
+
 const LogoutButton = styled.button`
   border: solid;
   border-color: #83a6c4;
@@ -99,6 +100,7 @@ const LogoutButton = styled.button`
   border-radius: var(--bd-rd);
   margin-right: 10px;
 `;
+
 function Header() {
   return (
     <HeaderContainer>
@@ -113,7 +115,6 @@ function Header() {
           <SearchInput placeholder="Search..." />
         </SearchContainer>
       </form>
-
       <HeaderNav>
         <ol>
           <li>

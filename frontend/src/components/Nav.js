@@ -8,7 +8,7 @@ const NavContainer = styled.nav`
   /* margin-left: 120px; */
   top: 70px;
   position: fixed;
-  z-index: 999;
+  z-index: 100;
   background-color: var(--white);
 `;
 
