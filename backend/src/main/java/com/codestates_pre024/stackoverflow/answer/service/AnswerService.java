@@ -28,7 +28,9 @@ public class AnswerService {
         answer.addMember(memberService.getMember(memberId));
         answer.addQuestion(questionService.findQuestion(questionId));
 
-        //로그인 된 회원인지 확인
+        //로그인 된 회원인지 확인하는 로직 추가
+        memberService.checkMemberExistById(memberId);
+
         return answerRepository.save(answer);
     }
 
@@ -36,7 +38,6 @@ public class AnswerService {
     public Answer updateAnswer(Answer answer, Long memberId, Long id) {
         //로그인된 회원이 작성자와 같은 회원이지 확인 (if문) 다르면 exception code 날림
         memberService.checkMemberExistById(memberId);
-//        answer.findAnswerIdForPatch(id);
 
         Answer findAnswer = findVerifiedAnswer(id);
 

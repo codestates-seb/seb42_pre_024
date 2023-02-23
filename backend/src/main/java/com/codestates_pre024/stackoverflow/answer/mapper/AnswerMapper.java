@@ -44,5 +44,5 @@ public interface AnswerMapper {
 
     AnswerResponseDto answerToAnswerResponseDto(Answer answer);
 
-//    List<AnswerResponseDto> answerToAnswerResponseDtoList(List<Answer> answerList);
+    List<AnswerResponseDto> answerToAnswerResponseDtoList(List<Answer> answerList);
 }
