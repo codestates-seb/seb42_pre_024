@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/stackoverflow?serverTimezone=Asia/Seoul
+    username: root
+    password: 0901
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+server:
+  servlet:
+    encoding:
+      force-response: true

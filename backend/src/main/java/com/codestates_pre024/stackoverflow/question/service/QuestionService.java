@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -84,7 +85,7 @@ public class QuestionService {
         return findQuestion;
     }
     // memberId에 해당하는 질문들 가져오기
-    public void findQuestionsOfMember (Long memberId) {
-        questionRepository.findByMemberId(memberId);
+    public List<Question> findQuestionsOfMember (Long memberId) {
+        return questionRepository.findByMemberId(memberId);
     }
 }

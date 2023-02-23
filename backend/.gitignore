@@ -19,7 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .DS_Store
-application.yml
+application-local.yml
 .idea
 *.iws
 *.iml
