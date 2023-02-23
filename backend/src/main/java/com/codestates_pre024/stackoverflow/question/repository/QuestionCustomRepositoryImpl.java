@@ -12,12 +12,12 @@ public class QuestionCustomRepositoryImpl implements QuestionCustomRepository {
     private final JPAQueryFactory queryFactory;
 
     public List<Question> findByMemberId(Long id) {
-        QQuestion q = new QQuestion("q");
+        QQuestion question = new QQuestion("question");
         return queryFactory
-                .select(q)
-                .from(q)
-                .where(q.id.eq(id))
-                .orderBy(q.id.desc())
+                .select(question)
+                .from(question)
+                .where(question.member.id.eq(id))
+                .orderBy(question.id.desc())
                 .limit(10)
                 .fetch();
     }
