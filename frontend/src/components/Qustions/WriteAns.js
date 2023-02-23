@@ -52,7 +52,7 @@ const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-function WriteAns({ edit }) {
+function WriteAns({ edit, editYes }) {
   const [input, setInput] = useState("");
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function WriteAns({ edit }) {
       <Btndiv>
         {edit ? (
           <>
-            <SubBtn>Post Your Answer</SubBtn>
+            <SubBtn>Add</SubBtn>
             <CancelBtn onClick={handleCancel}>Cancel</CancelBtn>
           </>
         ) : (

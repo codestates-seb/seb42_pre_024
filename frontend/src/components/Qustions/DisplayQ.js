@@ -1,7 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { saveTitle, saveContents } from "../../store/questionSlice";
+import { doEdit } from "../../store/editSlice";
 import styled from "styled-components";
-import profile from "../../image/profile.png";
 
+import { Navigate, useNavigate } from "react-router-dom";
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -110,6 +113,15 @@ const Profile = styled.div`
 `;
 
 function DisplayQ({ list }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleEdit = ({ title, contents }) => {
+    dispatch(saveTitle(title));
+    dispatch(saveContents(contents));
+    dispatch(doEdit(true));
+    navigate("/question");
+  };
   return (
     <>
       {/* {qustion && (본문 컴포넌트)} */}
@@ -134,7 +146,7 @@ function DisplayQ({ list }) {
               <QuestionContainer>
                 <p>{el.contents}</p>
                 <ModifyWrap>
-                  <Edit>Edit</Edit>
+                  <Edit onClick={() => handleEdit(el)}>Edit</Edit>
                   <Delete>Delete</Delete>
                   <Profile>
                     <img alt="logo" src={el.member.profileImage}></img>

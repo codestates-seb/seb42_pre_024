@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { saveQuestion } from "../store/questionSlice";
+import { doEdit } from "../store/editSlice";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 //44
 const Wrap = styled.form`
@@ -100,11 +101,22 @@ function WriteQuestion() {
   const [btn, setBtn] = useState(false);
   const [queTitle, setQueTitle] = useState("");
   const [queContent, setQueContent] = useState("");
-  let editQuestion = useSelector((state) => {
-    return state.question;
-  });
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  let editQuestion = useSelector((state) => {
+    return state;
+  });
 
+  useEffect(() => {
+    if (editQuestion.edit !== true) {
+      setQueTitle(editQuestion.question.title);
+      setQueContent(editQuestion.question.contents);
+      dispatch(doEdit(true));
+    } else {
+      setQueTitle("");
+      setQueContent("");
+    }
+  }, []);
   // const readData = async () => {
   //   await axios.get("http://localhost:4000/data");
   // };
@@ -129,18 +141,18 @@ function WriteQuestion() {
     } else if (!queTitle && !queContent) {
       alert("제목과 내용을 입력해주세요");
     } else {
-      await axios.post(
-        "http://localhost:4000/question",
-        {
-          title: queTitle,
-          contents: queContent,
-        },
-        { withCredentials: true }
-      );
+      // await axios.post(
+      //   "http://localhost:4000/question",
+      //   {
+      //     title: queTitle,
+      //     contents: queContent,
+      //   },
+      //   { withCredentials: true }
+      // );
       setQueTitle("");
       setQueContent("");
     }
-    //버튼을 눌렀을 때 질문페이지 이동하기
+    navigate(`/questionlist`);
   };
   return (
     <>
