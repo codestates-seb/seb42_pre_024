@@ -3,6 +3,7 @@ import profile from "../image/profile.png";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const Wrap = styled.main`
   width: 72%;
   height: 100%;
@@ -109,23 +110,31 @@ const MovePageButton = styled.button`
 
 function QuestionsList() {
   const [list, setList] = useState("");
-
+  const navigate = useNavigate();
   const readData = async () => {
     const { data } = await axios.get("http://localhost:4000/data");
     setList(data);
   };
-  console.log(list);
+
   useEffect(() => {
     (async () => {
       await readData();
     })();
   }, []);
 
+  const click = () => {
+    navigate("./question");
+  };
+
+  const moveQustion = ({ id }) => {
+    navigate(`./questionlist/${id}`);
+  };
+
   return (
     <Wrap>
       <div className="buttonContainer">
         <h1>All Questions</h1>
-        <WriteButton>Ask Question</WriteButton>
+        <WriteButton onClick={click}>Ask Question</WriteButton>
       </div>
       <div className="questionsContainer">
         <ListContainer>
@@ -137,7 +146,7 @@ function QuestionsList() {
                   <div id="viewCounts">1</div>
                 </div>
                 <div className="contentContainer">
-                  <h3>{el.title}</h3>
+                  <h3 onClick={() => moveQustion(el)}>{el.title}</h3>
                   <div className="writerContainer">
                     <img alt=" profile_image" src={profile}></img>
                     <div>{el.id}</div>
