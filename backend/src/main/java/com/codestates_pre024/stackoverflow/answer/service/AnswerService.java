@@ -27,6 +27,7 @@ public class AnswerService {
     public Answer createAnswer(Answer answer, Long memberId, Long questionId) {
 
         answer.addMember(memberService.getMember(memberId));
+
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
         Question findQuestion =

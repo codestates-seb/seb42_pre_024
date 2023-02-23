@@ -2,6 +2,7 @@ package com.codestates_pre024.stackoverflow.answer.repository;
 
 import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.answer.entity.QAnswer;
+import com.codestates_pre024.stackoverflow.question.entity.QQuestion;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -14,10 +15,11 @@ public class AnswerCustomRepositoryImpl implements AnswerCustomRepository {
     @Override
     public List<Answer> findByQuestionId(Long id) {
         QAnswer a = new QAnswer("a");
+//        QQuestion q = new QQuestion("q");
         return queryFactory
                 .select(a)
                 .from(a)
-                .where(a.id.eq(id))
+                .where(a.question.id.eq(id))
                 .fetch();
     }
 }

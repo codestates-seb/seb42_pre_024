@@ -1,6 +1,9 @@
 package com.codestates_pre024.stackoverflow.question.controller;
 
+import com.codestates_pre024.stackoverflow.answer.dto.AnswerDto;
+import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.answer.mapper.AnswerMapper;
+import com.codestates_pre024.stackoverflow.answer.service.AnswerService;
 import com.codestates_pre024.stackoverflow.global.utils.ApiResponse;
 import com.codestates_pre024.stackoverflow.global.utils.MultiResponse;
 import com.codestates_pre024.stackoverflow.global.utils.UriMaker;
@@ -29,6 +32,7 @@ import java.util.List;
 public class QuestionController {
     private final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
+    private final AnswerService answerService;
     private final QuestionMapper mapper;
     private final MemberMapper memberMapper;
     private final AnswerMapper answerMapper;
@@ -91,5 +95,21 @@ public class QuestionController {
         ApiResponse response = new ApiResponse(HttpStatus.NO_CONTENT, "DELETED");
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+
+    //답변 등록
+    @PostMapping("/{question-id}/answers")
+    public ResponseEntity postAnswer(@PathVariable("question-id") @Positive Long questionId,
+                                      @Valid @RequestBody AnswerDto answerDto) {
+        answerDto.setQuestionId(questionId);
+
+        Answer createAnswer = answerService.createAnswer(
+                answerMapper.answerDtoToAnswer(answerDto), answerDto.getMemberId(), answerDto.getQuestionId());
+
+        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, createAnswer.getId());
+
+        ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED", uri);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
