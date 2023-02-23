@@ -95,7 +95,7 @@ const Profile = styled.div`
   }
   b {
     margin-left: 5px;
-    color: #2e75c6;
+    color: var(--bluedark);
   }
 `;
 function DisplayA({ list, readData, qId }) {
@@ -135,7 +135,7 @@ function DisplayA({ list, readData, qId }) {
                 !el ? (
                   ""
                 ) : (
-                  <Wrap key={el.id}>
+                  <Wrap key={`${el.id}`}>
                     {editYes === el.id ? (
                       <WriteAns edit={edit} editYes={editYes} />
                     ) : (

@@ -138,14 +138,14 @@ function DisplayQ({ list }) {
       {list &&
         list.map((el) => {
           return (
-            <>
+            <div key={`${el.id}`}>
               <TitleContainer>
                 <div className="titleCreate">
                   <Title>{el.title}</Title>
                   <div className="createAt">
-                    <sapn>
+                    <span>
                       Asked: {new Date(el.createdAt).toLocaleString()}
-                    </sapn>
+                    </span>
                     <span>
                       Modified: {new Date(el.modifiedAt).toLocaleString()}{" "}
                     </span>
@@ -164,7 +164,7 @@ function DisplayQ({ list }) {
                   </Profile>
                 </ModifyWrap>
               </QuestionContainer>
-            </>
+            </div>
           );
         })}
     </>
