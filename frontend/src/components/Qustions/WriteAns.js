@@ -13,8 +13,8 @@ const Container = styled.form`
   width: 100%;
   height: 300px;
   border: solid;
-  border-color: rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+  border-color: var(--graymiddle);
+  border-radius: var(--bd-rd);
   margin-left: 10px;
   padding-bottom: 20px;
 `;
@@ -34,9 +34,9 @@ const CancelBtn = styled.button`
   height: 40px;
   margin: 30px 0 0 10px;
   border: solid;
-  background-color: red;
-  border-radius: 5px;
-  color: #ffff;
+  background-color: var(--red);
+  border-radius: var(--bd-rd);
+  color: var(--white);
   cursor: pointer;
 `;
 
@@ -45,10 +45,10 @@ const SubBtn = styled.button`
   height: 40px;
   margin: 30px 0 0 10px;
   border: solid;
-  background-color: #4393f7;
-  border-color: #8ebefa;
-  border-radius: 5px;
-  color: #ffff;
+  background-color: var(--blue);
+  border-color: var(--bluelight);
+  border-radius: var(--bd-rd);
+  color: var(--white);
   cursor: pointer;
 `;
 

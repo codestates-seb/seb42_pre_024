@@ -37,7 +37,7 @@ const LoginContainer = styled.div`
   justify-content: center;
   height: 400px;
   width: 412px;
-  background-color: #ffffff;
+  background-color: var(--white);
   border-radius: 2%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
@@ -61,7 +61,7 @@ const LoginInput = styled.input`
   height: 30px;
   margin-bottom: 20px;
   border: 1px solid #c4c8cc;
-  border-radius: 4px;
+  border-radius: var(--bd-rd);
   :focus {
     outline: none;
     border: 1px solid #6ba2d9;
@@ -72,10 +72,10 @@ const LoginInput = styled.input`
 const LoginButton = styled.button`
   height: 40px;
   background-color: #4393f7;
-  color: #ffff;
+  color: var(--white);
   border: solid;
   border-color: #83a6c4;
-  border-radius: 4px;
+  border-radius: var(--bd-rd);
   cursor: pointer;
   :hover {
     background-color: #3172c6;

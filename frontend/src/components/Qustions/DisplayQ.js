@@ -12,7 +12,7 @@ const TitleContainer = styled.div`
   /* left: 80px; */
   /* width: 80%; */
   min-height: 70px auto;
-  border-bottom: 1px solid #d6d9dc;
+  border-bottom: 1px solid var(--graylight);
   margin-top: 70px;
   margin-left: 10px;
   .titleCreate {
@@ -20,7 +20,7 @@ const TitleContainer = styled.div`
   }
   .createAt {
     margin-bottom: 10px;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--graydark);
     > :nth-child(1) {
       margin-right: 15px;
     }
@@ -41,10 +41,10 @@ const AskBtn = styled.button`
   width: 100px;
   height: 40px;
   border: solid;
-  background-color: #4393f7;
-  border-color: #8ebefa;
-  color: #ffff;
-  border-radius: 5px;
+  background-color: var(--blue);
+  border-color: var(--bluelight);
+  color: var(--white);
+  border-radius: var(--bd-rd);
   cursor: pointer;
 `;
 
@@ -76,7 +76,7 @@ const Edit = styled.button`
   border: none;
   height: 40px;
   border: none;
-  background-color: #ffff;
+  background-color: var(--white);
   font-size: 15px;
   margin-right: 30px;
 `;
@@ -85,9 +85,9 @@ const Delete = styled.button`
   left: 60px; */
   height: 40px;
   border: none;
-  background-color: #ffff;
+  background-color: var(--white);
   font-size: 15px;
-  color: red;
+  color: var(--red);
 `;
 const Profile = styled.div`
   position: absolute;
@@ -96,19 +96,19 @@ const Profile = styled.div`
   width: 187px;
   height: 60px;
   padding: 5px 6px 7px 7px;
-  background-color: #dce9f6;
+  background-color: var(--graywhite);
   display: flex;
   align-items: center;
   margin-bottom: 10px;
   margin-right: 50px;
-  border-radius: 5px;
+  border-radius: var(--bd-rd);
   img {
     width: 50px;
     height: 50px;
   }
   b {
     margin-left: 5px;
-    color: #2e75c6;
+    color: var(--bluedark);
   }
 `;
 

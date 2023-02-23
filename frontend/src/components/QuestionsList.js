@@ -16,7 +16,7 @@ const Wrap = styled.main`
     height: 70px;
     display: flex;
     justify-content: right;
-    border-bottom: 1px solid #d6d9dc;
+    border-bottom: 1px solid var(--graylight);
     > h1 {
       flex: 1;
       margin: 0;
@@ -30,7 +30,7 @@ const Wrap = styled.main`
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #d6d9dc;
+  border-bottom: 1px solid var(--graylight);
 `;
 
 const QuestionContainer = styled.div`
@@ -38,7 +38,7 @@ const QuestionContainer = styled.div`
   div:nth-child(1) {
     margin: auto 20px;
     text-align: center;
-    color: #6a737c;
+    color: var(--graydark);
   }
   #viewCounts {
     font-weight: bold;
@@ -65,10 +65,10 @@ const WriteButton = styled.button`
   width: 100px;
   height: 40px;
   border: solid;
-  background-color: #4393f7;
-  border-color: #8ebefa;
-  color: #ffff;
-  border-radius: 5px;
+  background-color: var(--blue);
+  border-color: var(--bluelight);
+  color: var(--white);
+  border-radius: var(--bd-rd);
   cursor: pointer;
 `;
 
@@ -77,33 +77,33 @@ const PageContainer = styled.div``;
 const PageButton = styled.button`
   width: 26.8px;
   height: 27px;
-  border: 1px solid #d6d9dc;
-  border-radius: 4px;
-  background-color: #ffffff;
+  border: 1px solid var(--graylight);
+  border-radius: var(--bd-rd);
+  background-color: var(--white);
   margin: 0 2px;
   padding: 0 auto;
   :hover {
     cursor: pointer;
-    background-color: #d7d9dc;
+    background-color: var(--graylight);
   }
 `;
 
 const PageSelectedButton = styled.button`
   width: 26.8px;
   height: 27px;
-  border: 1px solid #d6d9dc;
-  border-radius: 4px;
-  background-color: #f48224;
-  color: #ffffff;
+  border: 1px solid var(--graylight);
+  border-radius: var(--bd-rd);
+  background-color: var(--orangelight);
+  color: var(--white);
   margin: 0 2px;
   padding: 0 auto;
 `;
 
 const MovePageButton = styled.button`
   height: 27px;
-  border: 1px solid #d6d9dc;
+  border: 1px solid var(--graylight);
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: var(--white);
   margin: 0 2px;
 `;
 

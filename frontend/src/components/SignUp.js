@@ -32,10 +32,10 @@ const LoginWrap = styled.div`
   > a {
     margin-left: 10px;
     text-decoration-line: none;
-    color: #3172c6;
+    color: var(--bluedark);
     :hover {
       cursor: pointer;
-      color: #4393f7;
+      color: var(--blue);
     }
   }
 `;
@@ -60,10 +60,10 @@ const Info = styled.div`
   }
   > div > div:nth-last-child(1) {
     font-size: 14px;
-    color: #3172c6;
+    color: var(--bluedark);
     :hover {
       cursor: pointer;
-      color: #4393f7;
+      color: var(--blue);
     }
   }
 `;
@@ -77,8 +77,8 @@ const SignUpContainer = styled.div`
   width: 300px;
   padding: 10px;
   background-color: #ffffff;
-  border-radius: 2%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: var(--bd-rd);
+  box-shadow: var(--form);
 `;
 
 const SignUpForm = styled.form`
@@ -92,7 +92,7 @@ const SignUpForm = styled.form`
   .singUpInstruction {
     text-align: left;
     font-size: 14px;
-    color: #6a737c;
+    color: var(--graydark);
     margin-top: 0px;
   }
 `;
@@ -106,31 +106,31 @@ const SignUpLabel = styled.label`
 const SignUpInput = styled.input`
   height: 30px;
   margin-bottom: 20px;
-  border: 1px solid #c4c8cc;
-  border-radius: 4px;
+  border: 1px solid var(--gray);
+  border-radius: var(--bd-rd);
   :focus {
     outline: none;
-    border: 1px solid #6ba2d9;
-    box-shadow: 0 0 0 5px #e0eaf6;
+    border: 1px solid var(--grayblue);
+    box-shadow: 0 0 0 5px var(--graywhite);
   }
 `;
 
 const SignUpButton = styled.button`
   height: 40px;
   margin: 10px 0 10px 0;
-  background-color: #4393f7;
-  color: #ffff;
+  background-color: var(--blue);
+  color: var(--white);
   border: solid;
-  border-color: #83a6c4;
-  border-radius: 4px;
+  border-color: var(--grayblue);
+  border-radius: var(--bd-rd);
   cursor: pointer;
   :hover {
-    background-color: #3172c6;
+    background-color: var(--bluedark);
   }
 `;
 
 const ErrorMsg = styled.p`
-  color: red;
+  color: var(--red);
   font-size: small;
   width: 100%;
   margin-top: 0px;
