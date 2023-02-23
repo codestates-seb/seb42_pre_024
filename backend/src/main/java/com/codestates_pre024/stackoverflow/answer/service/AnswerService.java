@@ -56,10 +56,10 @@ public class AnswerService {
         return answerRepository.save(findAnswer);
     }
 
-    public Answer getAnswer(Long id) {
-        Answer getAnswer = findVerifiedAnswer(id);
-        return getAnswer;
-    }
+//    public Answer getAnswer(Long id) {
+//        Answer getAnswer = findVerifiedAnswer(id);
+//        return getAnswer;
+//    }
 
     //해당 질문에 있는 answer 다 가져오기
     public List<Answer> findAnswers(Long questionId) {

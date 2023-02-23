@@ -25,11 +25,4 @@ public class AnswerResponseDto {
 
     private WriterResponse member;
 
-//    public void setCreatedAt(LocalDateTime createdAt) {
-//        this.createdAt = CustomDateTimeFormatter.formatDateTime(createdAt);
-//    }
-//
-//    public void setModifiedAt(LocalDateTime modifiedAt) {
-//        this.modifiedAt = CustomDateTimeFormatter.formatDateTime(modifiedAt);
-//    }
 }
