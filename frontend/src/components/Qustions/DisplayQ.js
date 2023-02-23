@@ -79,6 +79,9 @@ const Edit = styled.button`
   background-color: var(--white);
   font-size: 15px;
   margin-right: 30px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const Delete = styled.button`
   /* position: relative;
@@ -88,6 +91,9 @@ const Delete = styled.button`
   background-color: var(--white);
   font-size: 15px;
   color: var(--red);
+  :hover {
+    cursor: pointer;
+  }
 `;
 const Profile = styled.div`
   position: absolute;
