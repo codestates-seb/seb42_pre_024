@@ -131,7 +131,7 @@ function QuestionsList() {
         <ListContainer>
           {list &&
             list.map((el) => (
-              <QuestionContainer>
+              <QuestionContainer key={`${el.id}`}>
                 <div>
                   <div>View</div>
                   <div id="viewCounts">1</div>

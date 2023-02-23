@@ -11,7 +11,8 @@ const Wrap = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #f1f2f3;
+  background-color: var(--whitegray);
+  z-index: 800;
 `;
 
 const Container = styled.div`
