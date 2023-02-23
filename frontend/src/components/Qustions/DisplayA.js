@@ -15,8 +15,8 @@ const AnsContainer = styled.div`
   justify-content: center;
 `;
 const Answer = styled.div`
-  border: solid rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+  border: solid var(--graymiddle);
+  border-radius: var(--bd-rd);
   width: 100%;
   max-height: 300px auto;
   margin-top: 20px;
@@ -38,7 +38,7 @@ const Date = styled.div`
     display: flex;
     flex-direction: column;
     text-align: right;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--graydark);
     font-size: small;
   }
 `;
@@ -56,7 +56,7 @@ const Edit = styled.button`
   border: none;
   height: 40px;
   border: none;
-  background-color: #ffff;
+  background-color: var(--white);
   font-size: 15px;
 `;
 const Delete = styled.button`
@@ -64,9 +64,9 @@ const Delete = styled.button`
   left: 60px;
   height: 40px;
   border: none;
-  background-color: #ffff;
+  background-color: var(--white);
   font-size: 15px;
-  color: red;
+  color: var(--red);
 `;
 const Profile = styled.div`
   position: absolute;
@@ -75,12 +75,12 @@ const Profile = styled.div`
   width: 187px;
   height: 60px;
   padding: 5px 6px 7px 7px;
-  background-color: #dce9f6;
+  background-color: var(--graywhite);
   display: flex;
   align-items: center;
   margin-bottom: 10px;
   margin-right: 50px;
-  border-radius: 5px;
+  border-radius: var(--bd-rd);
   img {
     width: 50px;
     height: 50px;

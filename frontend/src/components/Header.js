@@ -16,7 +16,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-around;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-  background-color: #ffff;
+  background-color: var(--white);
   z-index: 999;
 `;
 
@@ -61,7 +61,7 @@ const HeaderNav = styled.nav`
 //   height: 30px;
 //   background-color: #e1ecf4;
 //   color: #39739d;
-//   border-radius: 7%;
+//   border-radius: var(--bd-rd);
 //   margin-right: 10px;
 // `;
 
@@ -69,8 +69,8 @@ const HeaderNav = styled.nav`
 //   width: 65px;
 //   height: 30px;
 //   background-color: #0a95ff;
-//   color: #ffffff;
-//   border-radius: 7%;
+//   color: var(--white);
+//   border-radius: var(--bd-rd);
 //   border: solid;
 //   border-color: rgba(67, 147, 247, 1);
 // `;
@@ -86,7 +86,7 @@ const MypageButton = styled.button`
   img {
     width: 30px;
     height: 30px;
-    border-radius: 7%;
+    border-radius: var(--bd-rd);
   }
 `;
 const LogoutButton = styled.button`
@@ -96,7 +96,7 @@ const LogoutButton = styled.button`
   height: 30px;
   background-color: #e1ecf4;
   color: #39739d;
-  border-radius: 7%;
+  border-radius: var(--bd-rd);
   margin-right: 10px;
 `;
 function Header() {

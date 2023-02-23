@@ -3,7 +3,7 @@ import styled from "styled-components";
 const NavContainer = styled.nav`
   width: 280px;
   height: 100vh;
-  border-right: 1px solid #d7d9dc;
+  border-right: 1px solid var(--graylight);
   /* margin-left: 120px; */
   top: 70px;
   position: fixed;
@@ -14,9 +14,9 @@ const NavButton = styled.button`
   margin-left: 130px;
   width: 150px;
   height: 33px;
-  background-color: #f6f6f6;
+  background-color: var(--whitegray);
   border: none;
-  border-right: 3px solid #e5883e;
+  border-right: 3px solid var(--orange);
 `;
 
 function Nav() {

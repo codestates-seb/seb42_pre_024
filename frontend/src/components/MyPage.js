@@ -29,7 +29,7 @@ const ProfileContainer = styled.form`
     > img {
       width: 130px;
       height: 130px;
-      border-radius: 4px;
+      border-radius: var(--bd-rd);
     }
   }
   .userInfoContainer {
@@ -49,8 +49,8 @@ const ProfileContainer = styled.form`
 const MyQuestionsContainer = styled.div`
   margin-bottom: 160px;
   > div {
-    border: 1px solid #d6d9db;
-    border-radius: 4px;
+    border: 1px solid var(--graylight);
+    border-radius: var(--bd-rd);
     height: 300px;
     padding: 30px;
     > ul {
@@ -63,13 +63,13 @@ const MyQuestionsContainer = styled.div`
 const MyPageButton = styled.button`
   width: 103px;
   height: 35px;
-  background-color: #ffffff;
-  border: 1px solid #9ea6ac;
-  border-radius: 4px;
-  color: #51595f;
+  background-color: var(--white);
+  border: 1px solid var(--graymiddle);
+  border-radius: var(--bd-rd);
+  color: var(--graydarker);
   :hover {
     cursor: pointer;
-    background-color: #f8f9f9;
+    background-color: var(--white);
   }
 `;
 

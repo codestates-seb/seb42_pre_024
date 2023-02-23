@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import "./styles/variable.css";
 import Header from "./components/Header";
 import Nav from "./components/Nav";
 import WriteQuestion from "./components/WriteQuestion";
