@@ -93,13 +93,15 @@ const Profile = styled.div`
 function DisplayA({ list, readData, qId }) {
   const [editYes, setEditYes] = useState(-1);
   const [edit, setEdit] = useState("");
+  //리덕스 불러와서 아이디 일치 여부
 
   // useEffect(()=>{
   //   setEditYes(false)
   // ,[handleEdit])
 
-  const handleEdit = async ({ id, contents }) => {
+  const handleEdit = async ({ id, contents, member }) => {
     setEditYes(id);
+    // console.log(member.name);
 
     // await axios.patch(`http://localhost:4000/data/${id}`, {
     //   contents: contents,
@@ -127,7 +129,7 @@ function DisplayA({ list, readData, qId }) {
                 ) : (
                   <Wrap key={el.id}>
                     {editYes === el.id ? (
-                      <WriteAns edit={edit} />
+                      <WriteAns edit={edit} editYes={editYes} />
                     ) : (
                       <Answer>
                         <p>{el.contents}</p>
