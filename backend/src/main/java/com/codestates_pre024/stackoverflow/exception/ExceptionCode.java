@@ -11,8 +11,10 @@ public enum ExceptionCode {
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
 
     //409 - CONFLICT
+    EMAIL_ALREADY_EXIST(409, "Email Already Exist"),
 
-    EMAIL_ALREADY_EXIST(409, "Email Already Exist");
+    //500 - server error
+    INTERNAL_SERVER_ERROR(500, "Internal_Server_Error)");
 
     @Getter
     private int status;
