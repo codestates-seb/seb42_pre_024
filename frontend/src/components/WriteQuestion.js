@@ -106,11 +106,11 @@ function WriteQuestion() {
   let editQuestion = useSelector((state) => {
     return state;
   });
-
+  console.log(editQuestion);
   useEffect(() => {
     if (editQuestion.edit !== true) {
-      setQueTitle(editQuestion.question.title);
-      setQueContent(editQuestion.question.contents);
+      setQueTitle(editQuestion.question.contents.title);
+      setQueContent(editQuestion.question.contents.contents);
       dispatch(doEdit(true));
     } else {
       setQueTitle("");

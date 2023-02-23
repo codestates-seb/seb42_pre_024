@@ -117,8 +117,12 @@ function DisplayQ({ list }) {
   const navigate = useNavigate();
 
   const handleEdit = ({ title, contents }) => {
-    dispatch(saveTitle(title));
-    dispatch(saveContents(contents));
+    // dispatch(saveTitle(title));
+    const newContents = {
+      title,
+      contents,
+    };
+    dispatch(saveContents(newContents));
     dispatch(doEdit(true));
     navigate("/question");
   };
