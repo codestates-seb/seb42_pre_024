@@ -1,12 +1,15 @@
 package com.codestates_pre024.stackoverflow.question.controller;
 
+import com.codestates_pre024.stackoverflow.answer.mapper.AnswerMapper;
 import com.codestates_pre024.stackoverflow.global.utils.ApiResponse;
 import com.codestates_pre024.stackoverflow.global.utils.MultiResponse;
 import com.codestates_pre024.stackoverflow.global.utils.UriMaker;
+import com.codestates_pre024.stackoverflow.member.mapper.MemberMapper;
 import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
 import com.codestates_pre024.stackoverflow.question.dto.QuestionDto;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +25,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/questions")
 @Validated
+@RequiredArgsConstructor
 public class QuestionController {
     private final static String QUESTION_DEFAULT_URL = "/questions";
     private final QuestionService questionService;
     private final QuestionMapper mapper;
-
-    public QuestionController(QuestionService questionService, QuestionMapper mapper) {
-        this.questionService = questionService;
-        this.mapper = mapper;
-    }
+    private final MemberMapper memberMapper;
+    private final AnswerMapper answerMapper;
     // 질문 등록
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post postDto) {
@@ -62,10 +63,9 @@ public class QuestionController {
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") @Min(1) Long questionId) {
         Question question = questionService.findQuestion(questionId);
-//        question.getAnswers();
 
         ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
-                mapper.questionToQuestionResponseDto(question));
+                mapper.questionToQuestionResponseDto(question, memberMapper, answerMapper));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

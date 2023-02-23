@@ -1,6 +1,7 @@
 package com.codestates_pre024.stackoverflow.question.dto;
 
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerResponseDto;
+import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import lombok.*;
 import org.springframework.lang.Nullable;
@@ -46,7 +47,7 @@ public class QuestionDto {
         private String contents;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        private Member member;
+        private WriterResponse member;
         private List<AnswerResponseDto> answers;
     }
 
@@ -60,7 +61,7 @@ public class QuestionDto {
         private String contents;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        private Member member;
+        private WriterResponse member;
     }
 
     // 마이페이지로 넘겨주는 Response 데이터
