@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/stackoverflow?serverTimezone=Asia/Seoul
     username: root
-    password: 0901
+    password:
 
   jpa:
     hibernate:
