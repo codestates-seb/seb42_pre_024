@@ -30,6 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<QuestionsList />} />
           <Route path="/question" element={<WriteQuestion />} />
+          <Route path="/question/:id" element={<WriteQuestion />} />
           <Route path="/questionlist/:id" element={<Question />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

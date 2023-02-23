@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { saveTitle, saveContents } from "../../store/questionSlice";
+import { saveContents } from "../../store/questionSlice";
 import { doEdit } from "../../store/editSlice";
 import styled from "styled-components";
 
@@ -130,10 +130,10 @@ function DisplayQ({ list }) {
     };
     dispatch(saveContents(newContents));
     dispatch(doEdit(true));
-    navigate(`/question`);
+    navigate(`/question/${id}`);
   };
   const moveQuestion = () => {
-    navigate("/question");
+    navigate(`/question`);
   };
 
   return (
