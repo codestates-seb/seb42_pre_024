@@ -28,11 +28,25 @@ const Logo = styled.a`
   }
 `;
 
-const SearchContainer = styled.div``;
+const SearchContainer = styled.div`
+  .icon {
+    position: absolute;
+    top: 36%;
+    margin-left: 7px;
+    color: var(--graydark);
+  }
+`;
 
 const SearchInput = styled.input`
   width: 710px;
   height: 30px;
+  padding-left: 25px;
+  :focus {
+    outline: none;
+    border: 1px solid var(--grayblue);
+    box-shadow: 0 0 0 5px var(--graywhite);
+    border-radius: var(--bd-rd);
+  }
 `;
 
 const HeaderNav = styled.nav`
@@ -111,7 +125,7 @@ function Header() {
       </Logo>
       <form>
         <SearchContainer>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <FontAwesomeIcon className="icon" icon={faMagnifyingGlass} />
           <SearchInput placeholder="Search..." />
         </SearchContainer>
       </form>
