@@ -84,7 +84,7 @@ public class AnswerController {
         List<Answer> getAnswers = answerService.findAnswers(questionId);
 
         ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
-                mapper.answerToAnswerResponseDtoList(getAnswers));
+                mapper.answerListToAnswerResponseDtoList(getAnswers));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -1,11 +1,13 @@
 package com.codestates_pre024.stackoverflow.question.service;
 
+import com.codestates_pre024.stackoverflow.answer.service.AnswerService;
 import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
 import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.repository.QuestionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,14 +20,11 @@ import java.util.Optional;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
-
-    public QuestionService(QuestionRepository questionRepository, MemberService memberService) {
-        this.questionRepository = questionRepository;
-        this.memberService = memberService;
-    }
+    private final AnswerService answerService;
 
     public Question createQuestion(Question question, Long memberId) {
         Member member = verifyMember(memberId);
@@ -51,7 +50,7 @@ public class QuestionService {
 
     public Question findQuestion(Long questionId) {
         Question question = findVerifiedQuestion(questionId);
-        question.getAnswers();
+        question.setAnswers(answerService.findAnswers(questionId));
 
         return question;
     }

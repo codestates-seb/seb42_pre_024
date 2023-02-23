@@ -8,6 +8,7 @@ import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
+import com.codestates_pre024.stackoverflow.question.repository.QuestionRepository;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,19 +21,24 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final MemberService memberService;
-    private final QuestionService questionService;
+    private final QuestionRepository questionRepository;
 
     //answer 둥록
     public Answer createAnswer(Answer answer, Long memberId, Long questionId) {
 
         answer.addMember(memberService.getMember(memberId));
-        answer.addQuestion(questionService.findQuestion(questionId));
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 
-        //로그인 된 회원인지 확인하는 로직 추가
-        memberService.checkMemberExistById(memberId);
+        Question findQuestion =
+                optionalQuestion.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
+        answer.addQuestion(findQuestion);
+
+        //로그인 된 회원인지 확인
         return answerRepository.save(answer);
     }
+
 
     //answer 수정
     public Answer updateAnswer(Answer answer, Long memberId, Long id) {
