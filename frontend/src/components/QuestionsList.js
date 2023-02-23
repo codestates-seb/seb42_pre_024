@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import profile from "../image/profile.png";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { paramsId } from "../store/paramsId.Slice";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -110,6 +112,7 @@ const MovePageButton = styled.button`
 
 function QuestionsList() {
   const [list, setList] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const readData = async () => {
     const { data } = await axios.get("http://localhost:4000/data");
@@ -127,6 +130,7 @@ function QuestionsList() {
   };
 
   const moveQustion = ({ id }) => {
+    dispatch(paramsId(id));
     navigate(`./questionlist/${id}`);
   };
 

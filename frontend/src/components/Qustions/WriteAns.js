@@ -52,9 +52,14 @@ const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-function WriteAns({ edit, id }) {
+function WriteAns({ edit, id, editYes }) {
   const [input, setInput] = useState("");
+  //editYes는 멤버 아이디 전달
+  //id 는 params id
+  //답변 수정시 /questions/id/answers/editYes
+  //답변 등록시 /questions/id/answers
 
+  console.log(editYes);
   useEffect(() => {
     if (!edit) {
       setInput("");
