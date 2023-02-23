@@ -22,15 +22,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping(path = "/questions")
 @RequiredArgsConstructor
 @Slf4j
 //@Validated
 public class AnswerController {
     private final static String ANSWER_DEFAULT_URL = "/questions";
     private final AnswerService answerService;
-    private final MemberService memberService;
-    private final QuestionService questionService;
     private final AnswerMapper mapper;
 
     //answer 등록
@@ -42,9 +40,9 @@ public class AnswerController {
         Answer createAnswer = answerService.createAnswer(
                 mapper.answerDtoToAnswer(answerDto), answerDto.getMemberId(), answerDto.getQuestionId());
 
-//        URI uri = UriMaker.getUri(ANSWER_DEFAULT_URL, createAnswer.getId());
+        URI uri = UriMaker.getUri(ANSWER_DEFAULT_URL, createAnswer.getId());
 
-        ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED");
+        ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED", uri);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -59,37 +57,37 @@ public class AnswerController {
         Answer updateAnswer = answerService.updateAnswer(
                 mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId(), answerPatchDto.getAnswerId());
 
-//        URI uri = UriMaker.getUri(ANSWER_DEFAULT_URL, updateAnswer.getId());
+        URI uri = UriMaker.getUri(ANSWER_DEFAULT_URL, updateAnswer.getId());
 
-        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS");
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS", uri);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    //answer 가져오기(테스트용)
-//    @GetMapping("/{question-id}/answers/{answer-id}")
-//    public ResponseEntity getAnswer(@PathVariable("question-id") @Positive Long questionId,
-//                                    @PathVariable("answer-id") @Positive Long id) {
-//
-//        Answer getAnswer = answerService.getAnswer(id);
-//
-//        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
-//                mapper.answerToAnswerResponseDto(getAnswer));
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
+    //    answer 가져오기(테스트용)
+    @GetMapping("/{question-id}/answers/{answer-id}")
+    public ResponseEntity getAnswer(@PathVariable("question-id") @Positive Long questionId,
+                                    @PathVariable("answer-id") @Positive Long id) {
+
+        Answer getAnswer = answerService.getAnswer(id);
+
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
+                mapper.answerToAnswerResponseDto(getAnswer));
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     //한 개의 질문에 해당하는 answer 가져오기
-//    @GetMapping("/{question-id}/answers")
-//    public ResponseEntity getAnswers(@PathVariable("question-id") @Positive Long questionId) {
-//
-//        List<Answer> getAnswers = answerService.findAnswers(questionId);
-//
-//        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
-//                mapper.answerToAnswerResponseDtoList(getAnswers));
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
+    @GetMapping("/{question-id}/answers")
+    public ResponseEntity getAnswers(@PathVariable("question-id") @Positive Long questionId) {
+
+        List<Answer> getAnswers = answerService.findAnswers(questionId);
+
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
+                mapper.answerToAnswerResponseDtoList(getAnswers));
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     //answer 삭제
     @DeleteMapping("/{question-id}/answers/{answer-id}")
@@ -98,7 +96,6 @@ public class AnswerController {
                                        @Positive @RequestParam long memberId) {
         answerService.deleteAnswer(id);
 
-        ApiResponse response = new ApiResponse(HttpStatus.NO_CONTENT, "DELETED");
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

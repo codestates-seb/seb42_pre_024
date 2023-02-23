@@ -2,6 +2,7 @@ package com.codestates_pre024.stackoverflow.answer.dto;
 
 import com.codestates_pre024.stackoverflow.global.utils.CustomDateTimeFormatter;
 import com.codestates_pre024.stackoverflow.member.dto.MemberResponseDto;
+import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class AnswerResponseDto {
 
     private LocalDateTime modifiedAt;
 
-    private Member member;
+    private WriterResponse member;
 
 //    public void setCreatedAt(LocalDateTime createdAt) {
 //        this.createdAt = CustomDateTimeFormatter.formatDateTime(createdAt);
