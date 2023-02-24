@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-// eslint-disable-next-line import/no-unresolved
 import logo from "../image/logo-stackoverflow.png";
 import profile from "../image/profile.png";
 
@@ -20,7 +19,7 @@ const HeaderContainer = styled.header`
   z-index: 999;
 `;
 
-const Logo = styled.a`
+const Logo = styled.div`
   margin-left: 30px;
   img {
     height: 30px;
@@ -119,7 +118,7 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo>
-        <Link to="http://localhost:3000/">
+        <Link to="/">
           <img alt="logo" src={logo} />
         </Link>
       </Logo>
