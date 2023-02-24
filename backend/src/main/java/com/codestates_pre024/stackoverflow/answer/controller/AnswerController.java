@@ -50,7 +50,7 @@ public class AnswerController {
     //answer 삭제
     @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long id,
-                                       @Positive @RequestParam long memberId) {
+                                       @Positive @RequestParam Long memberId) {
         answerService.deleteAnswer(id);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
