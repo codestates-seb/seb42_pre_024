@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import WriteAns from "./WriteAns";
-
+//2023.02.23 테스트
 const Wrap = styled.div``;
 const AnsTitle = styled.h2`
   width: 100%;
@@ -99,17 +99,17 @@ const Profile = styled.div`
   }
 `;
 function DisplayA({ list, readData, qId }) {
-  const [editYes, setEditYes] = useState(-1);
+  const [editYes, setEditYes] = useState(-1); //answer의 id
   const [edit, setEdit] = useState("");
+
   //리덕스 불러와서 아이디 일치 여부
 
   // useEffect(()=>{
   //   setEditYes(false)
   // ,[handleEdit])
 
-  const handleEdit = async ({ id, contents, member }) => {
+  const handleEdit = async ({ id, contents }) => {
     setEditYes(id);
-    // console.log(member.name);
 
     // await axios.patch(`http://localhost:4000/data/${id}`, {
     //   contents: contents,

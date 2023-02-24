@@ -29,6 +29,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<QuestionsList />} />
+          <Route path="/:page" element={<QuestionsList />} />
           <Route path="/question" element={<WriteQuestion />} />
           <Route path="/question/:id" element={<WriteQuestion />} />
           <Route path="/questionlist/:id" element={<Question />} />

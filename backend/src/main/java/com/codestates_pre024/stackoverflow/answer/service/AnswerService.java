@@ -13,6 +13,7 @@ import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +36,11 @@ public class AnswerService {
                         new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
         answer.addQuestion(findQuestion);
+        answer.setCreatedAt(LocalDateTime.now());
 
         //로그인 된 회원인지 확인
         return answerRepository.save(answer);
     }
-
 
     //answer 수정
     public Answer updateAnswer(Answer answer, Long memberId, Long id) {
@@ -55,11 +56,6 @@ public class AnswerService {
 
         return answerRepository.save(findAnswer);
     }
-
-//    public Answer getAnswer(Long id) {
-//        Answer getAnswer = findVerifiedAnswer(id);
-//        return getAnswer;
-//    }
 
     //해당 질문에 있는 answer 다 가져오기
     public List<Answer> findAnswers(Long questionId) {

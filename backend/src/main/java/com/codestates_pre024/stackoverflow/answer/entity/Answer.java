@@ -27,7 +27,7 @@ public class Answer {
     private LocalDateTime createdAt;
 
     @Column
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    private LocalDateTime modifiedAt;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")

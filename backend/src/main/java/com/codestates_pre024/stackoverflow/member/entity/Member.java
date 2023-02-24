@@ -49,7 +49,7 @@ public class Member {
     @Column(length = 1000)
     private String profileImage;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Question> questions;
 
     private void setAboutMeDefault() {
