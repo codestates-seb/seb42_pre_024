@@ -15,6 +15,7 @@ public class QuestionDto {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Post {
         @NotBlank
         @Size(min = 2, message = "제목은 2자 이상이어야 합니다.")
@@ -28,6 +29,7 @@ public class QuestionDto {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Patch {
         private Long id;
         @Nullable
