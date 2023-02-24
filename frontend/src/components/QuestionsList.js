@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import profile from "../image/profile.png";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { paramsId } from "../store/paramsId.Slice";
@@ -50,6 +49,10 @@ const QuestionContainer = styled.div`
     width: 800px;
     h3 {
       flex-wrap: nowrap;
+    }
+    :hover {
+      color: #3172c6;
+      cursor: pointer;
     }
   }
   .writerContainer {
@@ -115,8 +118,10 @@ function QuestionsList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const readData = async () => {
-    const { data } = await axios.get("http://localhost:4000/data");
-    setList(data);
+    const { data } = await axios.get(
+      "http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10"
+    );
+    setList(data.data);
   };
 
   useEffect(() => {
@@ -152,7 +157,7 @@ function QuestionsList() {
                 <div className="contentContainer">
                   <h3 onClick={() => moveQustion(el)}>{el.title}</h3>
                   <div className="writerContainer">
-                    <img alt=" profile_image" src={profile}></img>
+                    <img alt=" profile_image" src={el.profileImage}></img>
                     <div>{el.id}</div>
                     <div className="date">
                       {new Date(el.createdAt).toLocaleString()}
