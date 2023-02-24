@@ -114,29 +114,41 @@ const Submitbtn = styled.button`
   }
 `;
 
-function WriteQuestion() {
+function WriteQuestion({ list }) {
   //title,body,redirec
   const [btn, setBtn] = useState(false);
   const [queTitle, setQueTitle] = useState("");
   const [queContent, setQueContent] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   let editQuestion = useSelector((state) => {
-    return state;
+    return state.question.contents;
   });
-  console.log(editQuestion);
+  let edit = useSelector((state) => {
+    return state.edit.edit;
+  });
+  let id = useSelector((state) => {
+    return state.paramsId.id;
+  });
+
+  console.log(id);
   useEffect(() => {
-    if (editQuestion.edit !== true) {
-      setQueTitle(editQuestion.question.contents.title);
-      setQueContent(editQuestion.question.contents.contents);
-      dispatch(doEdit(true));
+    if (edit === true) {
+      setQueTitle(editQuestion.title);
+      setQueContent(editQuestion.contents);
     } else {
       setQueTitle("");
       setQueContent("");
     }
   }, []);
+
   // const readData = async () => {
-  //   await axios.get("http://localhost:4000/data");
+  //   const { data } = await axios.get(
+  //     "http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10"
+  //   );
+  //   setGetList(data.data);
   // };
 
   // useEffect(() => {
@@ -158,19 +170,31 @@ function WriteQuestion() {
       alert("내용을 입력해주세요");
     } else if (!queTitle && !queContent) {
       alert("제목과 내용을 입력해주세요");
-    } else {
+    } else if (edit !== true) {
       // await axios.post(
-      //   "http://localhost:4000/question",
+      //   "http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions",
       //   {
       //     title: queTitle,
       //     contents: queContent,
-      //   },
-      //   { withCredentials: true }
+      //     memberId: 1,
+      //   }
       // );
-      setQueTitle("");
-      setQueContent("");
+      // setQueTitle("");
+      // setQueContent("");
     }
-    navigate(`/questionlist`);
+    if (edit === true) {
+      // await axios.patch(
+      //   `http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions/
+      //   ${id}
+      //   `,
+      //   {
+      //     title: queTitle,
+      //     contents: queContent,
+      //   }
+      // );
+      dispatch(doEdit(false));
+    }
+    navigate(`/`);
   };
   return (
     <>
