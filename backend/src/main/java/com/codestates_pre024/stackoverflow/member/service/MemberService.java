@@ -1,5 +1,6 @@
 package com.codestates_pre024.stackoverflow.member.service;
 
+import com.codestates_pre024.stackoverflow.global.auth.utils.CustomAuthorityUtils;
 import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
 import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
@@ -17,13 +18,17 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
     private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
 
     @Transactional
     public Member createMember(Member member){
         //이메일 존재 확인
         verifyExistEmail(member.getEmail());
+
+        //Role 저장
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
 
         //패스워드 암호화
         String originalPassword = member.getPassword();
