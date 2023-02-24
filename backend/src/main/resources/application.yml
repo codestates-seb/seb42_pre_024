@@ -21,3 +21,8 @@ spring:
 logging:
   level:
     org.hibernate.type: trace
+
+jwt:
+  key: ${JWT_KEY}
+  access-token-expiration-minutes: ${JWT_ACCESS_EXPIRATION_MIN}
+  refresh-token-expiration-minutes: ${JWT_REFRESH_EXPIRATION_MIN}
