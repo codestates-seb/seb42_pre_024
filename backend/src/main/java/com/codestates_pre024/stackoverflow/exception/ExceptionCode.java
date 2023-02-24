@@ -3,6 +3,8 @@ package com.codestates_pre024.stackoverflow.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
+    //400 - BAD_REQUEST
+    BAD_REQUEST(400, "Bad Request"),
 
     //404 - NOT FOUND
     QUESTION_NOT_FOUND(404, "Question Not Found"),
