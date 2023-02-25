@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { readData } from "../api/questionAPI";
+import Pagination from "./Pagination";
 
 const Wrap = styled.main`
   width: 72%;
@@ -80,52 +81,9 @@ const WriteButton = styled.button`
   cursor: pointer;
 `;
 
-const PageContainer = styled.div``;
-
-const PageButton = styled.button`
-  width: 26.8px;
-  height: 27px;
-  border: 1px solid var(--graylight);
-  border-radius: var(--bd-rd);
-  background-color: var(--white);
-  margin: 0 2px;
-  padding: 0 auto;
-  :hover {
-    cursor: pointer;
-    background-color: var(--graylight);
-  }
-`;
-
-const PageSelectedButton = styled.button`
-  width: 26.8px;
-  height: 27px;
-  border: 1px solid var(--graylight);
-  border-radius: var(--bd-rd);
-  background-color: var(--orangelight);
-  color: var(--white);
-  margin: 0 2px;
-  padding: 0 auto;
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const MovePageButton = styled.button`
-  height: 27px;
-  border: 1px solid var(--graylight);
-  border-radius: 4px;
-  background-color: var(--white);
-  margin: 0 2px;
-  :hover {
-    cursor: pointer;
-    background-color: var(--graylight);
-  }
-`;
-
 function QuestionsList() {
   const [list, setList] = useState("");
   const [pageInfo, setPageInfo] = useState();
-  const [pageBtnClicked, setPageBtnClicked] = useState(-1);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,45 +94,20 @@ function QuestionsList() {
     setPageInfo(data.pageInfo);
   };
 
-  useEffect(() => {
-    (async () => {
-      await readPage(1);
-    })();
-  }, []);
-
   const click = () => {
     navigate("./question");
   };
 
   const moveQustion = ({ id }) => {
     dispatch(paramsId(id));
-    navigate(`./questionlist/${id}`);
+    navigate(`/questionlist/${id}`);
   };
 
-  const pageHandler = (el) => {
-    setPageBtnClicked(el);
-    readPage(el);
-    navigate(`/${el}`);
-  };
-
-  const prevPageHandler = (el) => {
-    setPageBtnClicked(el - 1);
-    readPage(el - 1);
-    navigate(`/${el - 1}`);
-  };
-
-  const nextPageHandler = (el) => {
-    setPageBtnClicked(el + 1);
-    readPage(el + 1);
-    navigate(`/${el + 1}`);
-  };
-
-  const pageArray = [];
-  if (pageInfo) {
-    for (let i = 1; i <= pageInfo.totalPages; i++) {
-      pageArray.push(i);
-    }
-  }
+  useEffect(() => {
+    (async () => {
+      await readPage(1);
+    })();
+  }, []);
 
   return (
     <Wrap>
@@ -205,62 +138,9 @@ function QuestionsList() {
             ))}
         </ListContainer>
       </div>
-      <PageContainer>
-        {pageArray.length !== 0 && pageBtnClicked !== 1 ? (
-          <MovePageButton onClick={() => prevPageHandler(pageInfo.page)}>
-            prev
-          </MovePageButton>
-        ) : (
-          <span></span>
-        )}
-        {pageArray.length > 0 &&
-          pageArray.length <= 6 &&
-          pageArray.map((page) => {
-            return pageBtnClicked === page ? (
-              <PageSelectedButton key={page} onClick={() => pageHandler(page)}>
-                {page}
-              </PageSelectedButton>
-            ) : (
-              <PageButton key={page} onClick={() => pageHandler(page)}>
-                {page}
-              </PageButton>
-            );
-          })}
-        {pageArray.length >= 7 &&
-          pageArray.map((page) => {
-            return pageBtnClicked === page ? (
-              <PageSelectedButton key={page} onClick={() => pageHandler(page)}>
-                {page}
-              </PageSelectedButton>
-            ) : (
-              <PageButton key={page} onClick={() => pageHandler(page)}>
-                {page}
-              </PageButton>
-            );
-          })}
-        {pageArray.length !== 0 && pageBtnClicked !== pageArray.length ? (
-          <MovePageButton onClick={() => nextPageHandler(pageInfo.page)}>
-            next
-          </MovePageButton>
-        ) : (
-          <span></span>
-        )}
-      </PageContainer>
+      <Pagination pageInfo={pageInfo} readPage={readPage} />
     </Wrap>
   );
 }
 
 export default QuestionsList;
-
-////prev, next 버튼 구현하기
-
-//// 6페이지 이하일 때
-//// 첫번째 페이지에 있으면 1, 2, 3, 4, 5, 6 next
-//// 중간 페이지에 있으면 prev, 1, 2, 3, 4, 5, 6 next
-//// 마지막 페이지에 있으면 prev, 1, 2, 3, 4, 5, 6
-//// prev 첫번째 페이지만 아니면 보이기, next 마지막 페이지만 아니면 보이기
-
-// 7페이지 이상일 때
-// 첫번째 페이지에 있으면 1, 2, 3, 4, 5, ... ,last, next
-// 중간 페이지에 있으면 prev, 1, ... , current-2 ,current- 1, current, current+1, current+2, ... , last, next
-// 마지막 페이지에 있으면 prev, 1, ... , ,last-4, last-3,last-2, last-1, last
