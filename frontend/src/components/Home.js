@@ -4,10 +4,8 @@ import { paramsId } from "../store/paramsId.Slice";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 import { readData } from "../api/questionAPI";
-import Pagination from "./Pagination";
 
 const Wrap = styled.main`
   width: 72%;
@@ -82,18 +80,15 @@ const WriteButton = styled.button`
   cursor: pointer;
 `;
 
-function QuestionsList() {
+function Home() {
   const [list, setList] = useState("");
-  const [pageInfo, setPageInfo] = useState();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { page } = useParams();
 
   const readPage = async (el) => {
     const { data } = await readData(el);
     setList(data.data);
-    setPageInfo(data.pageInfo);
   };
 
   const click = () => {
@@ -107,14 +102,14 @@ function QuestionsList() {
 
   useEffect(() => {
     (async () => {
-      await readPage(page);
+      await readPage(1);
     })();
-  }, [page]);
+  }, []);
 
   return (
     <Wrap>
       <div className="buttonContainer">
-        <h1>All Questions</h1>
+        <h1>10 Questions asked recently</h1>
         <WriteButton onClick={click}>Ask Question</WriteButton>
       </div>
       <div className="questionsContainer">
@@ -140,9 +135,8 @@ function QuestionsList() {
             ))}
         </ListContainer>
       </div>
-      <Pagination pageInfo={pageInfo} readPage={readPage} page={page} />
     </Wrap>
   );
 }
 
-export default QuestionsList;
+export default Home;
