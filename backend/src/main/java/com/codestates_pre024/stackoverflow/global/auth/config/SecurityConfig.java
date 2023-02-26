@@ -1,4 +1,4 @@
-package com.codestates_pre024.stackoverflow.global.config;
+package com.codestates_pre024.stackoverflow.global.auth.config;
 
 
 import com.codestates_pre024.stackoverflow.global.auth.filter.JwtAuthenticationFilter;
@@ -95,6 +95,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
