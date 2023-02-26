@@ -29,6 +29,14 @@ public class ErrorResponse {
         this.message = message;
     }
 
+    public ErrorResponse(Integer status, String message, List<FieldError> fieldErrors,
+                         List<ConstraintViolationError> violationErrors) {
+        this.status = status;
+        this.message = message;
+        this.fieldErrors = fieldErrors;
+        this.violationErrors = violationErrors;
+    }
+
     public static ErrorResponse of(ExceptionCode exceptionCode) {
         return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
     }
@@ -38,11 +46,11 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
-        return new ErrorResponse(null, ConstraintViolationError.of(violations));
+        return new ErrorResponse(400, "Bad Request",null, ConstraintViolationError.of(violations));
     }
 
     public static ErrorResponse of(BindingResult bindingResult) {
-        return new ErrorResponse(FieldError.of(bindingResult), null);
+        return new ErrorResponse(400, "Bad Request", FieldError.of(bindingResult), null);
     }
 
     public static ErrorResponse of(int status, String message) {
