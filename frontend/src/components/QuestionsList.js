@@ -4,6 +4,7 @@ import { paramsId } from "../store/paramsId.Slice";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { readData } from "../api/questionAPI";
 import Pagination from "./Pagination";
@@ -87,6 +88,7 @@ function QuestionsList() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { page } = useParams();
 
   const readPage = async (el) => {
     const { data } = await readData(el);
@@ -105,9 +107,9 @@ function QuestionsList() {
 
   useEffect(() => {
     (async () => {
-      await readPage(1);
+      await readPage(page);
     })();
-  }, []);
+  }, [page]);
 
   return (
     <Wrap>
@@ -138,7 +140,7 @@ function QuestionsList() {
             ))}
         </ListContainer>
       </div>
-      <Pagination pageInfo={pageInfo} readPage={readPage} />
+      <Pagination pageInfo={pageInfo} readPage={readPage} page={page} />
     </Wrap>
   );
 }
