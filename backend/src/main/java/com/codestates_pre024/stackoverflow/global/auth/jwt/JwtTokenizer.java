@@ -1,5 +1,6 @@
 package com.codestates_pre024.stackoverflow.global.auth.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jws;
@@ -92,4 +93,12 @@ public class JwtTokenizer {
         return expiration;
     }
 
+    //JWS Claims 반환
+    public Jws<Claims> getClaimsFromJws(String jws, String encodedBase64SecretKey) {
+
+        Key key = getKeyFromEncodedBase64SecretKey(encodedBase64SecretKey);
+        Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jws);
+
+        return claims;
+    }
 }
