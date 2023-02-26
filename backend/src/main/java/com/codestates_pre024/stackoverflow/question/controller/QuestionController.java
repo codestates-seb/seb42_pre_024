@@ -108,6 +108,8 @@ public class QuestionController {
 
         ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        URI location = UriMaker.getUri(QUESTION_DEFAULT_URL, questionId);
+
+        return ResponseEntity.created(location).body(response);
     }
 }

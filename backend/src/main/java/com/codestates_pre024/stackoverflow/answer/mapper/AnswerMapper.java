@@ -24,7 +24,6 @@ public interface AnswerMapper {
             question.setId(answerDto.getQuestionId());
 
             Answer answer = new Answer();
-//            answer.setId(answer.getId());
             answer.setContents(answerDto.getContents());
             answer.setCreatedAt(LocalDateTime.now());
             answer.setMember(member);
