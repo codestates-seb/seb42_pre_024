@@ -14,6 +14,7 @@ public enum ExceptionCode {
 
     //409 - CONFLICT
     EMAIL_ALREADY_EXIST(409, "Email Already Exist"),
+    NOT_RESOURCE_OWNER(409, "this member is not the owner of resource"),
 
     //500 - server error
     INTERNAL_SERVER_ERROR(500, "Internal_Server_Error)");
