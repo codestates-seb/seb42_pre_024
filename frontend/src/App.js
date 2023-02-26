@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import "./styles/variable.css";
 import Header from "./components/Header";
 import Nav from "./components/Nav";
+import Home from "./components/Home";
 import WriteQuestion from "./components/WriteQuestion";
 import QuestionsList from "./components/QuestionsList";
 import Login from "./components/Login";
@@ -28,7 +29,7 @@ function App() {
         <Header />
         <Nav />
         <Routes>
-          <Route path="/" element={<QuestionsList />} />
+          <Route path="/" element={<Home />} />
           <Route path="/:page" element={<QuestionsList />} />
           <Route path="/question" element={<WriteQuestion />} />
           <Route path="/question/:id" element={<WriteQuestion />} />
