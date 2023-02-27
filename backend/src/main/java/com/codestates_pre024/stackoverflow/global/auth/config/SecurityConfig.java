@@ -29,6 +29,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -47,10 +48,10 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
 
-                .authorizeHttpRequests()
-                .requestMatchers(request -> CorsUtils.isPreFlightRequest(request)).permitAll()
+//                .authorizeHttpRequests()
+//                .requestMatchers(request -> CorsUtils.isPreFlightRequest(request)).permitAll()
+//                .and()
 
-                .and()
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -100,11 +101,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); //인증 정보 있으면 이런식으로 사용
-
+        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedHeader("*");
         configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*", "Authorization"));
         configuration.addExposedHeader("Authorization");
+
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

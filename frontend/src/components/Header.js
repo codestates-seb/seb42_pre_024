@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import logo from "../image/logo-stackoverflow.png";
-import profile from "../image/profile.png";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../api/userAPI";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -66,43 +67,7 @@ const HeaderNav = styled.nav`
   }
 `;
 
-// const LoginButton = styled.button`
-//   border: solid;
-//   border-color: #83a6c4;
-//   width: 58px;
-//   height: 30px;
-//   background-color: #e1ecf4;
-//   color: #39739d;
-//   border-radius: var(--bd-rd);
-//   margin-right: 10px;
-// `;
-
-// const SignUpButton = styled.button`
-//   width: 65px;
-//   height: 30px;
-//   background-color: #0a95ff;
-//   color: var(--white);
-//   border-radius: var(--bd-rd);
-//   border: solid;
-//   border-color: rgba(67, 147, 247, 1);
-// `;
-
-const MypageButton = styled.button`
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  margin: 0;
-  border: none;
-  margin-right: 10px;
-
-  img {
-    width: 30px;
-    height: 30px;
-    border-radius: var(--bd-rd);
-  }
-`;
-
-const LogoutButton = styled.button`
+const LogButton = styled.button`
   border: solid;
   border-color: #83a6c4;
   width: 58px;
@@ -111,9 +76,57 @@ const LogoutButton = styled.button`
   color: #39739d;
   border-radius: var(--bd-rd);
   margin-right: 10px;
+  :hover {
+    cursor: pointer;
+    background-color: var(--bluegray);
+  }
+`;
+
+const SignUpButton = styled.button`
+  width: 65px;
+  height: 30px;
+  background-color: var(--blue);
+  color: var(--white);
+  border-radius: var(--bd-rd);
+  border: solid;
+  border-color: var(--grayblue);
+  :hover {
+    cursor: pointer;
+    background-color: var(--bluedark);
+  }
+`;
+
+const MypageButton = styled.button`
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  margin-right: 10px;
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--bd-rd);
+  }
 `;
 
 function Header() {
+  const navigate = useNavigate();
+
+  const loginHandler = () => {
+    navigate("/login");
+  };
+
+  const signupHandler = () => {
+    navigate("/signup");
+  };
+
+  const logoutHandler = () => {
+    logout();
+    // navigate("/");
+    // window.location.reload();
+  };
+
   return (
     <HeaderContainer>
       <Logo>
@@ -130,16 +143,14 @@ function Header() {
       <HeaderNav>
         <ol>
           <li>
-            {" "}
-            {/* <LoginButton>Log in</LoginButton> */}
-            <MypageButton>
+            <LogButton onClick={loginHandler}>Log in</LogButton>
+            {/* <MypageButton>
               <img alt="profile_image" src={profile}></img>
-            </MypageButton>
+            </MypageButton> */}
           </li>
           <li>
-            {" "}
-            {/* <SignUpButton>Sign up</SignUpButton> */}
-            <LogoutButton>Logout</LogoutButton>
+            <SignUpButton onClick={signupHandler}>Sign up</SignUpButton>
+            <LogButton onClick={logoutHandler}>Logout</LogButton>
           </li>
         </ol>
       </HeaderNav>
