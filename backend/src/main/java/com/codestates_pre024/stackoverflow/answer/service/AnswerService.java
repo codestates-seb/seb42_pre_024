@@ -4,12 +4,9 @@ import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.answer.repository.AnswerRepository;
 import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
 import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
-import com.codestates_pre024.stackoverflow.member.entity.Member;
-import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.repository.QuestionRepository;
-import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +41,14 @@ public class AnswerService {
 
     //answer 수정
     public Answer updateAnswer(Answer answer, Long memberId, Long id) {
+        Answer findAnswer = findVerifiedAnswer(id);
+
         //로그인된 회원이 작성자와 같은 회원이지 확인 (if문) 다르면 exception code 날림
         memberService.checkMemberExistById(memberId);
 
-        Answer findAnswer = findVerifiedAnswer(id);
-
         Optional.ofNullable(answer.getContents())
                 .ifPresent(findAnswer::setContents);
-        Optional.ofNullable(answer.getModifiedAt())
-                .ifPresent(findAnswer::setModifiedAt);
+        findAnswer.setModifiedAt(LocalDateTime.now());
 
         return answerRepository.save(findAnswer);
     }

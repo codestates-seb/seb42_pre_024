@@ -28,6 +28,7 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
 
         return response;
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST, response);
     }
 
     @ExceptionHandler

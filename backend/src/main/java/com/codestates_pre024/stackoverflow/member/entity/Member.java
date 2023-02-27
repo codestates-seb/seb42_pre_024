@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Random;
@@ -50,7 +51,10 @@ public class Member {
     private String profileImage;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER) //권한은 즉시 필요함. (인증정보이므로)
+    private List<String> roles = new ArrayList<>();
 
     private void setAboutMeDefault() {
         this.aboutMe = "안녕하세요";

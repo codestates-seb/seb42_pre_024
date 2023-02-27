@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import logo from "../image/logo-stackoverflow.png";
 import profile from "../image/profile.png";
 
@@ -118,9 +117,9 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo>
-        <Link to="/">
+        <a href="/">
           <img alt="logo" src={logo} />
-        </Link>
+        </a>
       </Logo>
       <form>
         <SearchContainer>

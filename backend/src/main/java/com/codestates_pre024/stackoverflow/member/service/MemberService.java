@@ -1,10 +1,12 @@
 package com.codestates_pre024.stackoverflow.member.service;
 
+import com.codestates_pre024.stackoverflow.global.auth.utils.CustomAuthorityUtils;
 import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
 import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,17 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
     private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
 
     @Transactional
     public Member createMember(Member member){
         //이메일 존재 확인
         verifyExistEmail(member.getEmail());
+
+        //Role 저장
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
 
         //패스워드 암호화
         String originalPassword = member.getPassword();
@@ -48,7 +54,10 @@ public class MemberService {
     @Transactional
     public Member updateMemberMyPage(Member updateMember){
 
-        Member member = checkMemberExistById(updateMember.getId());
+        Long id = updateMember.getId();
+        compareIdAndLoginId(id);
+
+        Member member = checkMemberExistById(id);
 
         Optional.ofNullable(updateMember.getName()).ifPresent(name -> member.setName(name));
         Optional.ofNullable(updateMember.getAboutMe()).ifPresent(aboutMe -> member.setAboutMe(aboutMe));
@@ -58,6 +67,9 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(Long id){
+
+        compareIdAndLoginId(id);
+
         Member member = checkMemberExistById(id);
         memberRepository.delete(member);
     }
@@ -66,10 +78,28 @@ public class MemberService {
                 .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
+    public Member checkMemberExistByEmail(String email) {
+        Member findEmailMember = null;
+        findEmailMember = memberRepository.findByEmail(email);
+        if (findEmailMember == null)
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        return findEmailMember;
+    }
+
+
     private void verifyExistEmail(String email) {
         Member findEmailMember = null;
         findEmailMember = memberRepository.findByEmail(email);
         if (findEmailMember != null)
             throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXIST);
+    }
+
+    public void compareIdAndLoginId(Long id) {
+        if (!id.equals(getLoginUserId()))
+            throw new BusinessLogicException(ExceptionCode.NOT_RESOURCE_OWNER);
+    }
+    public Long getLoginUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //email
+        return checkMemberExistByEmail((String) principal).getId();
     }
 }
