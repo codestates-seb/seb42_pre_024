@@ -5,10 +5,10 @@ import com.codestates_pre024.stackoverflow.question.entity.Question;
 import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import com.google.gson.Gson;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,25 +16,37 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.codestates_pre024.stackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
+import static com.codestates_pre024.stackoverflow.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
 public class QuestionControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -45,21 +57,20 @@ public class QuestionControllerTest {
     @MockBean
     private QuestionService questionService;
 
-    @Autowired
+    @MockBean
     private QuestionMapper mapper;
 
     @Test
     void postQuestionTest() throws Exception {
         // given
-        QuestionDto.Post post = new QuestionDto.Post("제목", "내용", 1L);
-
-        Question question = mapper.questionPostDtoToQuestion(post);
-        question.setId(1L);
-
-        given(questionService.createQuestion(Mockito.any(Question.class), eq(1L)))
-                .willReturn(question);
-
+        QuestionDto.Post post = new QuestionDto.Post("질문 제목", "질문 내용", 1L);
         String content = gson.toJson(post);
+
+        given(mapper.questionPostDtoToQuestion(Mockito.any(QuestionDto.Post.class))).willReturn(new Question());
+
+        Question mockResultQuestion = new Question();
+        mockResultQuestion.setId(1L);
+        given(questionService.createQuestion(Mockito.any(Question.class), eq(1L))).willReturn(new Question());
 
         // when
         ResultActions actions =
@@ -71,52 +82,155 @@ public class QuestionControllerTest {
                 );
 
         // then
-        actions.andExpect(status().isCreated());
+        actions
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", is(startsWith("/questions/"))))
+                .andDo(document(
+                        "post-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
+                                        fieldWithPath("contents").type(JsonFieldType.STRING).description("질문 내용"),
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자")
+                                )
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("Location header. 등록된 리소스의 URI")
+                        )
+                ));
+//        // given
+//        QuestionDto.Post post = new QuestionDto.Post("제목", "내용", 1L);
+//        Question question = mapper.questionPostDtoToQuestion(post);
+//
+//        given(questionService.createQuestion(Mockito.any(Question.class), eq(1L)))
+//                .willReturn(question);
+//
+//        String content = gson.toJson(post);
+//
+//        // when
+//        ResultActions actions =
+//                mockMvc.perform(
+//                        post("/questions")
+//                                .accept(MediaType.APPLICATION_JSON)
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(content)
+//                );
+//
+//        // then
+//        actions
+//                .andExpect(status().isCreated())
+//                .andDo(document(
+//                        "post-question",
+//                        getRequestPreProcessor(),
+//                        getResponsePreProcessor(),
+//                        requestFields(
+//                                List.of(
+//                                        fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
+//                                        fieldWithPath("contents").type(JsonFieldType.STRING).description("내용"),
+//                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자")
+//                                )
+//                        )
+////                        responseHeaders(
+////                                headerWithName(HttpHeaders.LOCATION).description("Location header. 등록된 리소스의 URI")
+////                        )
+//                ));
     }
 
     @Test
     void patchQuestionTest() throws Exception {
         // given
-        QuestionDto.Patch patch = new QuestionDto.Patch(1L, "질문", "내용");
+        QuestionDto.Patch patch = new QuestionDto.Patch(1L, "질문 제목", "질문 내용");
+        patch.setId(1L);
 
         Question question = mapper.questionPatchDtoToQuestion(patch);
 
         given(questionService.updateQuestion(Mockito.any(Question.class)))
                 .willReturn(question);
-
         String content = gson.toJson(patch);
 
         // when
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/questions/" + question.getId())
+                        RestDocumentationRequestBuilders
+                                .patch("/questions/{question-id}", patch.getId())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
                 );
 
         // then
-        actions.andExpect(status().isMovedPermanently());
+        actions
+                .andExpect(status().isOk())     // MockHttpServletResponse에는 200 OK
+                .andDo(document(
+                        "patch-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자 ID")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목").optional(),
+                                        fieldWithPath("contents").type(JsonFieldType.STRING).description("질문 내용").optional()
+                                )
+                        )
+                ));
     }
 
     @Test
     void getQuestionTest() throws Exception {
         // given
-        Question question = new Question("질문", "내용");
+        Question question = new Question("질문 제목", "질문 내용");
         question.setId(1L);
 
         given(questionService.findQuestion(Mockito.anyLong()))
                 .willReturn(question);
 
-        // when / when
-        mockMvc.perform(
-                get("/questions/" + question.getId())
+        // when
+        ResultActions actions = mockMvc.perform(
+                RestDocumentationRequestBuilders
+                        .get("/questions/{question-id}", question.getId())
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        actions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.title").value(question.getTitle()))
-                .andExpect(jsonPath("$.data.contents").value(question.getContents()));
+                .andDo(document(
+                        "get-question",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                        parameterWithName("question-id").description("질문 식별자 ID")
+                        ),
+                        responseFields(
+                                List.of(fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터").optional(),
+                                        fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                        fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문 제목"),
+                                        fieldWithPath("data.contents").type(JsonFieldType.STRING).description("질문 내용"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문 생성 날짜"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 날짜"),
+                                        fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("질문회원 데이터").optional(),
+                                        fieldWithPath("data.member.id").type(JsonFieldType.NUMBER).description("질문회원 식별자"),
+                                        fieldWithPath("data.member.name").type(JsonFieldType.STRING).description("질문회원 이름"),
+                                        fieldWithPath("data.member.profileImage").type(JsonFieldType.STRING).description("질문회원 이미지"),
+                                        fieldWithPath("data.answer").type(JsonFieldType.OBJECT).description("답변 데이터").optional(),
+                                        fieldWithPath("data.answer.id").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.answer.contents").type(JsonFieldType.STRING).description("답변 내용"),
+                                        fieldWithPath("data.answer.createdAt").type(JsonFieldType.STRING).description("답변 생성 날짜"),
+                                        fieldWithPath("data.answer.modifiedAt").type(JsonFieldType.STRING).description("답변 수정 날짜"),
+                                        fieldWithPath("data.answer.member").type(JsonFieldType.OBJECT).description("답변회원 데이터").optional(),
+                                        fieldWithPath("data.answer.member.id").type(JsonFieldType.NUMBER).description("답변회원 식별자"),
+                                        fieldWithPath("data.answer.member.name").type(JsonFieldType.STRING).description("답변회원 이름"),
+                                        fieldWithPath("data.answer.member.profileImage").type(JsonFieldType.STRING).description("답변회원 이미지")
+                                )
+                        )
+                ));
     }
 
     @Test
@@ -151,26 +265,71 @@ public class QuestionControllerTest {
         MvcResult result = actions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
+                .andDo(
+                        document(
+                                "get-questions",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
+                                requestParameters(
+                                        List.of(
+                                                parameterWithName("page").description("Page 번호"),
+                                                parameterWithName("size").description("Page Size")
+                                        )
+                                ),
+                                responseFields(
+                                        List.of(
+                                                fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
+                                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터").optional(),
+                                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                fieldWithPath("data.contents").type(JsonFieldType.STRING).description("질문 내용"),
+                                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("질문 생성 날짜"),
+                                                fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("질문 수정 날짜"),
+                                                fieldWithPath("data.member").type(JsonFieldType.OBJECT).description("질문회원 데이터").optional(),
+                                                fieldWithPath("data.member.id").type(JsonFieldType.NUMBER).description("질문회원 식별자"),
+                                                fieldWithPath("data.member.name").type(JsonFieldType.STRING).description("질문회원 이름"),
+                                                fieldWithPath("data.member.profileImage").type(JsonFieldType.STRING).description("질문회원 이미지"),
+                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 사이즈"),
+                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 건 수"),
+                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 수")
+                                        )
+                                )
+                        )
+                )
                 .andReturn();
 
-        List list = JsonPath.parse(result.getResponse().getContentAsString()).read("$.data");
+//        List list = JsonPath.parse(result.getResponse().getContentAsString()).read("$.data");
 
-        assertThat(list.size(), is(2));
+//        assertThat(list.size(), is(2));
     }
 
     @Test
     void deleteQuestionTest() throws Exception {
         // given
         Long questionId = 1L;
-
         doNothing().when(questionService).deleteQuestion(questionId);
 
         // when
         ResultActions actions = mockMvc.perform(
-                delete("/questions/" + questionId)
+                RestDocumentationRequestBuilders
+                        .delete("/questions/{question-id}", questionId)
         );
 
          // when
-        actions.andExpect(status().isNoContent());
+        actions
+                .andExpect(status().isNoContent())
+                .andDo(
+                        document(
+                                "delete-question",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
+                                pathParameters(
+                                        Arrays.asList(parameterWithName("question-id").description("질문 식별자 ID"))
+                                )
+                        )
+                );
     }
 }

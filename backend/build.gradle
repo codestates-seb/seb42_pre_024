@@ -9,6 +9,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id "org.asciidoctor.jvm.convert" version "3.3.2"	// .adoc 파일 확장자를 가지는 AsciiDoc 문서를 생성해주는 Asciidoctor 사용 플러그인 추가
 }
 
 group = 'com.codestates_pre024'
@@ -19,10 +20,15 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	asciidoctorExtensions				// AsciiDoctor에서 사용되는 의존 그룹을 지정
 }
 
 repositories {
 	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))	// API 문서 스니핏 생성 경로 지정
 }
 
 
@@ -63,11 +69,44 @@ dependencies {
 	//util
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+
+	// API 문서화
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 tasks.named('test') {
+	outputs.dir snippetsDir		// :test task 실행 시, API 문서 생성 스니핏 디렉토리 경로 설정
 	useJUnitPlatform()
 }
 
+// :test task 실행 시, Asciidoctor 기능 사용 위해 asciidoctorExtensions 설정
+tasks.named('asciidoctor') {
+	configurations "asciidoctorExtensions"
+	inputs.dir snippetsDir
+	dependsOn test
+}
+
+// :build task 실행 전에 실행
+// copy되는 index.html은 외부에 제공하기 위한 용도
+task copyDocument(type: Copy) {
+	dependsOn asciidoctor							// :asciidoctor task 실행 후 task가 실행되도록 의존성 설정
+	from file("${asciidoctor.outputDir}")			// "build/docs/asciidoc/"경로에 생성되는 index.html copy
+	into file("src/main/resources/static/docs")		// 해당 경로로 index.html 추가
+}
+
+// :build task 실행 전 :copyDocument task가 먼저 수행
+build {
+	dependsOn copyDocument
+}
+
+// 애플리케이션 실행 파일이 생성하는 :bootJar task 설정
+// copy되는 index.html은 애플리케이션 실행 파일인 jar파일 포함, 웹 브라우저에서 API 문서를 확인하기 위한 용도
+bootJar {
+	dependsOn copyDocument					// :bootJar task 실행 전에 :copyDocument task가 실행되도록 의존성 설정
+	from ("${asciidoctor.outputDir}") {		// Asciidoctor 실행으로 생성되는 index.html 파일을 jar 파일 안에 추가
+		into 'static/docs'
+	}
+}
 
 //add querydsl
 def querydslDir = "$buildDir/generated/querydsl"
