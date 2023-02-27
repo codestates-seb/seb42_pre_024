@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAsia } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,88 +18,105 @@ const NavContainer = styled.nav`
     margin-left: auto;
     list-style: none;
     > li {
-      font-size: small;
+      font-size: medium;
       color: var(--graydark);
+      display: flex;
     }
     #public {
       margin: 30px 0 5px 0;
+      font-size: small;
+      padding-left: 10px;
     }
   }
 `;
 
-const NavButton = styled.button`
+const NavButton = styled.a`
   width: 150px;
   height: 33px;
   background-color: var(--white);
-  font-size: medium;
-  color: var(--graydarker);
-  text-align: left;
-  padding: 0;
-  border: none;
-  :hover {
-    cursor: pointer;
+  text-decoration: none;
+  padding-left: 10px;
+  :visited {
     color: var(--black);
   }
-  > span {
+  > div {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  > div > div {
+    color: var(--graydarker);
+    text-align: left;
     margin-left: 5px;
+    :hover {
+      cursor: pointer;
+      color: var(--black);
+    }
   }
 `;
 
-const NavSelectedButton = styled.button`
+const NavSelectedButton = styled.a`
   width: 150px;
   height: 33px;
   background-color: var(--whitegray);
-  font-size: medium;
-  font-family: var(--main-font-bold);
-  text-align: left;
-  border: none;
   border-right: 3px solid var(--orange);
-  :hover {
-    cursor: pointer;
+  padding-left: 10px;
+  text-decoration: none;
+  :visited {
+    color: var(--black);
   }
-  > span {
+  > div {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  > div > div {
+    font-family: var(--main-font-bold);
+    color: var(--black);
+    text-align: left;
     margin-left: 5px;
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
 
 function Nav() {
-  const [isHomeClicked, setHomeClicked] = useState(true);
-  const [isQuestionsClicked, setQuestionsClicked] = useState(false);
-  const navigate = useNavigate();
-
-  const HomeHandler = () => {
-    setHomeClicked(true);
-    setQuestionsClicked(false);
-    navigate("/");
-  };
-
-  const QuestionsHandler = () => {
-    setHomeClicked(false);
-    setQuestionsClicked(true);
-    navigate("/1");
-  };
+  const curruntPage = useLocation().pathname;
 
   return (
     <NavContainer>
       <ul>
-        <li>
-          {isHomeClicked ? (
-            <NavSelectedButton onClick={HomeHandler}>Home</NavSelectedButton>
-          ) : (
-            <NavButton onClick={HomeHandler}>Home</NavButton>
-          )}
-        </li>
-        <li id="public">Public</li>
-        <li>
-          {isQuestionsClicked ? (
-            <NavSelectedButton onClick={QuestionsHandler}>
-              <FontAwesomeIcon icon={faEarthAsia} />
-              <span>Questions</span>
+        <li id="home">
+          {curruntPage === "/" ? (
+            <NavSelectedButton href="http://localhost:3000">
+              <div>
+                <div>Home</div>
+              </div>
             </NavSelectedButton>
           ) : (
-            <NavButton id="questions" onClick={QuestionsHandler}>
-              <FontAwesomeIcon icon={faEarthAsia} />
-              <span>Questions</span>
+            <NavButton href="http://localhost:3000">
+              <div>
+                <div>Home</div>
+              </div>
+            </NavButton>
+          )}
+        </li>
+        <li id="public">PUBLIC</li>
+        <li id="questions">
+          {curruntPage === "/1" ? (
+            <NavSelectedButton href="http://localhost:3000/1">
+              <div>
+                <FontAwesomeIcon icon={faEarthAsia} />
+                <div>Questions</div>
+              </div>
+            </NavSelectedButton>
+          ) : (
+            <NavButton href="http://localhost:3000/1">
+              <div>
+                <FontAwesomeIcon icon={faEarthAsia} />
+                <div>Questions</div>
+              </div>
             </NavButton>
           )}
         </li>
