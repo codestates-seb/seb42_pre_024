@@ -24,7 +24,7 @@ import java.net.URI;
 @Slf4j
 @Validated
 public class AnswerController {
-    private final static String ANSWER_DEFAULT_URL = "/questions";
+    private final static String ANSWER_DEFAULT_URL = "/answers";
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
@@ -39,7 +39,9 @@ public class AnswerController {
 
         URI uri = UriMaker.getUri(ANSWER_DEFAULT_URL, updateAnswer.getQuestion().getId());
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri).build();
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCESS", uri);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //answer 삭제
