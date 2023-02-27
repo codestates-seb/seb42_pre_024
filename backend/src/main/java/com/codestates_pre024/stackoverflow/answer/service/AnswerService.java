@@ -27,7 +27,6 @@ public class AnswerService {
         answer.addMember(memberService.getMember(memberId));
 
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
-
         Question findQuestion =
                 optionalQuestion.orElseThrow(() ->
                         new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
@@ -35,16 +34,14 @@ public class AnswerService {
         answer.addQuestion(findQuestion);
         answer.setCreatedAt(LocalDateTime.now());
 
-        //로그인 된 회원인지 확인
         return answerRepository.save(answer);
     }
 
     //answer 수정
     public Answer updateAnswer(Answer answer, Long memberId, Long id) {
-        Answer findAnswer = findVerifiedAnswer(id);
+        memberService.compareIdAndLoginId(memberId);
 
-        //로그인된 회원이 작성자와 같은 회원이지 확인 (if문) 다르면 exception code 날림
-        memberService.checkMemberExistById(memberId);
+        Answer findAnswer = findVerifiedAnswer(id);
 
         Optional.ofNullable(answer.getContents())
                 .ifPresent(findAnswer::setContents);
@@ -59,8 +56,9 @@ public class AnswerService {
     }
 
     //answer 삭제
-    public void deleteAnswer(Long id) {
-        //로그인된 회원이 작성자와 같은 회원이지 확인 (if문) 다르면 exception code 날림
+    public void deleteAnswer(Long id, Long memberId) {
+        memberService.compareIdAndLoginId(memberId);
+
         Answer findAnswer = findVerifiedAnswer(id);
 
         answerRepository.delete(findAnswer);
