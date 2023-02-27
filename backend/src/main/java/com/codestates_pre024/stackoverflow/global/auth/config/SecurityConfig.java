@@ -107,6 +107,7 @@ public class SecurityConfig {
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("*");
         configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Access-Control-Allow-Credentials");
 
 //        configuration.addAllowedOriginPattern("http://localhost:3000");
 //        configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
