@@ -101,10 +101,17 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOriginPattern("http://localhost:3000");
+
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
+        configuration.addExposedHeader("*");
         configuration.addExposedHeader("Authorization");
+
+//        configuration.addAllowedOriginPattern("http://localhost:3000");
+//        configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
+//        configuration.addExposedHeader("Authorization");
+
 
         configuration.setAllowCredentials(true);
 
