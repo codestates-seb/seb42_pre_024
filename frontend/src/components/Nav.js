@@ -104,7 +104,7 @@ function Nav() {
         </li>
         <li id="public">PUBLIC</li>
         <li id="questions">
-          {curruntPage === "/1" ? (
+          {curruntPage !== "/" ? (
             <NavSelectedButton href="http://localhost:3000/1">
               <div>
                 <FontAwesomeIcon icon={faEarthAsia} />
