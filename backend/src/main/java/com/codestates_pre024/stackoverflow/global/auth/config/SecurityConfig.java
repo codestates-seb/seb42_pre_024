@@ -25,6 +25,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -46,6 +47,10 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
 
+                .authorizeHttpRequests()
+                .requestMatchers(request -> CorsUtils.isPreFlightRequest(request)).permitAll()
+
+                .and()
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -100,6 +105,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*", "Authorization"));
         configuration.addExposedHeader("Authorization");
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); //application의 모든 endpoint에 적용
