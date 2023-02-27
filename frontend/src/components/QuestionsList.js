@@ -97,7 +97,7 @@ function QuestionsList() {
   };
 
   const click = () => {
-    navigate("./question");
+    navigate("../question");
   };
 
   const moveQustion = ({ id }) => {

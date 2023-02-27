@@ -39,13 +39,13 @@ public class QuestionController {
     // 질문 등록
     @PostMapping
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post postDto) {
-        questionService.createQuestion(mapper.questionPostDtoToQuestion(postDto), postDto.getMemberId());
+        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(postDto), postDto.getMemberId());
 
-//        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, question.getQuestionId());
+        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, question.getId());
 
         ApiResponse response = new ApiResponse(HttpStatus.CREATED, "CREATED");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).location(uri).body(response);
     }
 
     // {question-id}에 해당하는 질문 수정
@@ -60,8 +60,10 @@ public class QuestionController {
 
         ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED", uri);
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
+//        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).body(response);
     }
+
 
     // {question-id}에 해당하는 질문+답변 조회
     @GetMapping("/{question-id}")

@@ -86,6 +86,7 @@ function Pagination({ pageInfo, readPage, page }) {
           prev
         </MovePageButton>
       )}
+      {/* 전체 페이지가 6미만일때 */}
       {pageArray.length > 0 &&
         pageArray.length <= 6 &&
         pageArray.map((pageNum) => {
@@ -97,8 +98,9 @@ function Pagination({ pageInfo, readPage, page }) {
             </PageButton>
           );
         })}
-      {pageArray.length === 7 &&
-        (pageBtnClicked <= 5 || Number(page) <= 5) &&
+      {/* 전체 페이지가 7이거나 8일때 */}
+      {(pageArray.length === 7 || pageArray.length === 8) &&
+        Number(page) <= 4 &&
         pageArray.slice(0, 5).map((pageNum) => {
           return page === pageNum.toString() ? (
             <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
@@ -108,85 +110,8 @@ function Pagination({ pageInfo, readPage, page }) {
             </PageButton>
           );
         })}
-      {pageArray.length === 7 && (pageBtnClicked <= 5 || Number(page) <= 5) && (
-        <>
-          <div>...</div>
-          <PageButton key={7} onClick={() => pageHandler(7)}>
-            7
-          </PageButton>
-        </>
-      )}
-      {pageArray.length === 7 && (pageBtnClicked >= 6 || Number(page) >= 6) && (
-        <>
-          <PageButton key={1} onClick={() => pageHandler(1)}>
-            1
-          </PageButton>
-          <div>...</div>
-        </>
-      )}
-      {pageArray.length === 7 &&
-        (pageBtnClicked >= 6 || Number(page) >= 6) &&
-        pageArray.slice(2).map((pageNum) => {
-          return page === pageNum.toString() ? (
-            <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
-          ) : (
-            <PageButton key={pageNum} onClick={() => pageHandler(pageNum)}>
-              {pageNum}
-            </PageButton>
-          );
-        })}
-      {pageArray.length >= 8 &&
-        (pageBtnClicked <= 4 || Number(page) <= 4) &&
-        pageArray.slice(0, 5).map((pageNum) => {
-          return page === pageNum.toString() ? (
-            <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
-          ) : (
-            <PageButton key={pageNum} onClick={() => pageHandler(pageNum)}>
-              {pageNum}
-            </PageButton>
-          );
-        })}
-      {pageArray.length >= 8 && (pageBtnClicked <= 4 || Number(page) <= 4) && (
-        <>
-          <div>...</div>
-          <PageButton
-            key={pageArray.length}
-            onClick={() => pageHandler(pageArray.length)}
-          >
-            {pageArray.length}
-          </PageButton>
-        </>
-      )}
-      {pageArray.length >= 8 &&
-        (pageBtnClicked >= 5 || Number(page) >= 5) &&
-        (pageBtnClicked <= pageArray.length - 4 ||
-          Number(page) <= pageArray.length - 4) && (
-          <>
-            <PageButton key={1} onClick={() => pageHandler(1)}>
-              1
-            </PageButton>
-            <div>...</div>
-          </>
-        )}
-      {pageArray.length >= 8 &&
-        (pageBtnClicked >= 5 || Number(page) >= 5) &&
-        (pageBtnClicked <= pageArray.length - 4 ||
-          Number(page) <= pageArray.length - 4) &&
-        pageArray
-          .slice(pageBtnClicked - 3, pageBtnClicked + 2)
-          .map((pageNum) => {
-            return page === pageNum.toString() ? (
-              <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
-            ) : (
-              <PageButton key={pageNum} onClick={() => pageHandler(pageNum)}>
-                {pageNum}
-              </PageButton>
-            );
-          })}
-      {pageArray.length >= 8 &&
-        (pageBtnClicked >= 5 || Number(page) >= 5) &&
-        (pageBtnClicked <= pageArray.length - 4 ||
-          Number(page) <= pageArray.length - 4) && (
+      {(pageArray.length === 7 || pageArray.length === 8) &&
+        Number(page) <= 4 && (
           <>
             <div>...</div>
             <PageButton
@@ -197,11 +122,8 @@ function Pagination({ pageInfo, readPage, page }) {
             </PageButton>
           </>
         )}
-      {pageArray.length >= 8 &&
-        (pageBtnClicked >= pageArray.length - 3 ||
-          Number(page) >= pageArray.length - 3) &&
-        (pageBtnClicked <= pageArray.length ||
-          Number(page) <= pageArray.length) && (
+      {(pageArray.length === 7 || pageArray.length === 8) &&
+        Number(page) >= 5 && (
           <>
             <PageButton key={1} onClick={() => pageHandler(1)}>
               1
@@ -209,11 +131,88 @@ function Pagination({ pageInfo, readPage, page }) {
             <div>...</div>
           </>
         )}
-      {pageArray.length >= 8 &&
-        (pageBtnClicked >= pageArray.length - 3 ||
-          Number(page) >= pageArray.length - 3) &&
-        (pageBtnClicked <= pageArray.length ||
-          Number(page) <= pageArray.length) &&
+      {(pageArray.length === 7 || pageArray.length === 8) &&
+        Number(page) >= 5 &&
+        pageArray.slice(pageArray.length - 5).map((pageNum) => {
+          return page === pageNum.toString() ? (
+            <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
+          ) : (
+            <PageButton key={pageNum} onClick={() => pageHandler(pageNum)}>
+              {pageNum}
+            </PageButton>
+          );
+        })}
+      {/* 전체 페이지가 9이상일 때 */}
+      {pageArray.length >= 9 &&
+        Number(page) <= 4 &&
+        pageArray.slice(0, 5).map((pageNum) => {
+          return page === pageNum.toString() ? (
+            <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
+          ) : (
+            <PageButton key={pageNum} onClick={() => pageHandler(pageNum)}>
+              {pageNum}
+            </PageButton>
+          );
+        })}
+      {pageArray.length >= 9 && Number(page) <= 4 && (
+        <>
+          <div>...</div>
+          <PageButton
+            key={pageArray.length}
+            onClick={() => pageHandler(pageArray.length)}
+          >
+            {pageArray.length}
+          </PageButton>
+        </>
+      )}
+      {pageArray.length >= 9 &&
+        Number(page) >= 5 &&
+        Number(page) <= pageArray.length - 4 && (
+          <>
+            <PageButton key={1} onClick={() => pageHandler(1)}>
+              1
+            </PageButton>
+            <div>...</div>
+          </>
+        )}
+      {pageArray.length >= 9 &&
+        Number(page) >= 5 &&
+        Number(page) <= pageArray.length - 4 &&
+        pageArray.slice(Number(page) - 3, Number(page) + 2).map((pageNum) => {
+          return page === pageNum.toString() ? (
+            <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
+          ) : (
+            <PageButton key={pageNum} onClick={() => pageHandler(pageNum)}>
+              {pageNum}
+            </PageButton>
+          );
+        })}
+      {pageArray.length >= 9 &&
+        Number(page) >= 5 &&
+        Number(page) <= pageArray.length - 4 && (
+          <>
+            <div>...</div>
+            <PageButton
+              key={pageArray.length}
+              onClick={() => pageHandler(pageArray.length)}
+            >
+              {pageArray.length}
+            </PageButton>
+          </>
+        )}
+      {pageArray.length >= 9 &&
+        Number(page) >= pageArray.length - 3 &&
+        Number(page) <= pageArray.length && (
+          <>
+            <PageButton key={1} onClick={() => pageHandler(1)}>
+              1
+            </PageButton>
+            <div>...</div>
+          </>
+        )}
+      {pageArray.length >= 9 &&
+        Number(page) >= pageArray.length - 3 &&
+        Number(page) <= pageArray.length &&
         pageArray.slice(pageArray.length - 5).map((pageNum) => {
           return page === pageNum.toString() ? (
             <PageSelectedButton key={pageNum}>{pageNum}</PageSelectedButton>
