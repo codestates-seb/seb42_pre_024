@@ -140,12 +140,10 @@ function WriteQuestion({ list }) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //유저 고유 아이디
-  let { userId } = useSelector((state) => {
-    return state.userId.userAccess;
-  });
 
-  const QUESTION_URL = `http://ec2-3-39-253-31.ap-northeast-2.compute.amazonaws.com:8080/questions`;
+  const userId = localStorage.getItem("key");
+  console.log(userId);
+  //유저 고유 아이디
 
   let editQuestion = useSelector((state) => {
     return state.question.contents;

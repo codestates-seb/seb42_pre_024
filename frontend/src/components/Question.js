@@ -24,16 +24,20 @@ function Question() {
   //question(s)
   //로그인x=>답변불가 질문불가,본인질문x=>답변ㅇ 질문가능,본인질문=>질문수정 질문가능,본인이 답변=>질문수정x 답변가능
   //로컬스토리지 이용해서 수정,삭제버튼 나오게하고 수정하거나 삭제 action시 서버에 반영??
+  const { id } = useParams();
+
+  const userId = localStorage.getItem("key");
 
   const [list, setList] = useState();
-  let { id } = useSelector((state) => {
-    return state.paramsId;
-  });
-
+  const [update, setUpdate] = useState("");
+  // let { id } = useSelector((state) => {
+  //   return state.paramsId;
+  // });
+  // let { userId } = useSelector((state) => {
+  //   return state.userId.userAccess;
+  // });
   const readData = async () => {
-    const { data } = await axios.get(
-      `http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`
-    );
+    const { data } = await axios.get(`/questions/${id}`);
     setList([data.data]);
   };
 
@@ -41,13 +45,14 @@ function Question() {
     (async () => {
       await readData();
     })();
-  }, []);
+    setUpdate("");
+  }, [update]);
 
   return (
     <Container>
       <DisplayQ list={list} />
       <DisplayA list={list} />
-      <WriteAns id={id} />
+      <WriteAns id={id} setUpdate={setUpdate} userId={userId} />
     </Container>
   );
 }
