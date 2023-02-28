@@ -24,7 +24,7 @@ import java.net.URI;
 @Slf4j
 @Validated
 public class AnswerController {
-    private final static String ANSWER_DEFAULT_URL = "/questions";
+    private final static String ANSWER_DEFAULT_URL = "/answers";
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
@@ -37,9 +37,11 @@ public class AnswerController {
         Answer updateAnswer = answerService.updateAnswer(
                 mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId(), answerPatchDto.getAnswerId());
 
-        URI uri = UriMaker.getUri(ANSWER_DEFAULT_URL, updateAnswer.getQuestion().getId());
+        //response data 부분 어떻게 처리할 건지 프론트 분들과 논의 후 확정 예정
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS");
+//                mapper.answerToAnswerResponseDto(updateAnswer));
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri).build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //answer 삭제

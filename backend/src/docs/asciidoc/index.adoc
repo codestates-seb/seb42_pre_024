@@ -1,13 +1,13 @@
-= stackoverflowWithCoco
+= stackoverflow
 :sectnums:
 :toc: left
 :toclevels: 4
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
-Kim Chang Ha <ckdgk0366@gmail.com>
+코코와 아이들
 
-v1.0.0, 2023.02.27
+v1.0.1, 2023.02.28
 
 ***
 == QuestionController
@@ -95,4 +95,66 @@ include::{snippets}/delete-question/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/delete-question/http-response.adoc[]
+***
+
+
+***
+== Question Controller
+=== 답변 등록
+==== request
+.http-request
+include::{snippets}/post-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-answer/request-fields.adoc[]
+
+==== path parameters
+.path-parameters
+include::{snippets}/post-answer/path-parameters.adoc[]
+
+==== response
+.http-response
+include::{snippets}/post-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-answer/response-fields.adoc[]
+
+
+
+== AnswerController
+=== 답변 수정
+====request
+.http-request
+include::{snippets}/patch-answer/http-request.adoc[]
+
+.request-fields
+include::{snippets}/patch-answer/request-fields.adoc[]
+
+==== path parameters
+.path-parameters
+include::{snippets}/patch-answer/path-parameters.adoc[]
+
+====response
+.http-response
+include::{snippets}/patch-answer/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-answer/response-fields.adoc[]
+
+
+=== 답변 삭제
+==== request
+.http-request
+include::{snippets}/delete-answer/http-request.adoc[]
+
+==== path parameters
+.path-parameters
+include::{snippets}/delete-answer/path-parameters.adoc[]
+
+==== response
+.http-response
+include::{snippets}/delete-answer/http-response.adoc[]
+
+.response-body
+include::{snippets}/delete-answer/response-body.adoc[]
 ***

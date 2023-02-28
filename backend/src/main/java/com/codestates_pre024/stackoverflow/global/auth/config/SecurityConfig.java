@@ -25,9 +25,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -45,6 +47,10 @@ public class SecurityConfig {
         return  http
                 .headers().frameOptions().sameOrigin()
                 .and()
+
+//                .authorizeHttpRequests()
+//                .requestMatchers(request -> CorsUtils.isPreFlightRequest(request)).permitAll()
+//                .and()
 
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
@@ -94,10 +100,21 @@ public class SecurityConfig {
     @Bean //CORS 정책 설정
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); //인증 정보 있으면 이런식으로 사용
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
+
+
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Access-Control-Allow-Credentials");
+
+//        configuration.addAllowedOriginPattern("http://localhost:3000");
+//        configuration.setAllowedMethods(Arrays.asList("POST","GET","PATCH","DELETE","OPTIONS"));
+//        configuration.addExposedHeader("Authorization");
+
+
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); //application의 모든 endpoint에 적용
