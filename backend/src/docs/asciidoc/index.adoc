@@ -34,7 +34,7 @@ include::{snippets}/post-answer/response-fields.adoc[]
 
 == AnswerController
 === 답변 수정
-====request
+==== request
 .http-request
 include::{snippets}/patch-answer/http-request.adoc[]
 
@@ -45,7 +45,7 @@ include::{snippets}/patch-answer/request-fields.adoc[]
 .path-parameters
 include::{snippets}/patch-answer/path-parameters.adoc[]
 
-====response
+==== response
 .http-response
 include::{snippets}/patch-answer/http-response.adoc[]
 
@@ -65,6 +65,3 @@ include::{snippets}/delete-answer/path-parameters.adoc[]
 ==== response
 .http-response
 include::{snippets}/delete-answer/http-response.adoc[]
-
-.response-body
-include::{snippets}/delete-answer/response-body.adoc[]
