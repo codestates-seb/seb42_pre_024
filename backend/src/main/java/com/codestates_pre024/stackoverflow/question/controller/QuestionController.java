@@ -55,7 +55,7 @@ public class QuestionController {
         patchDto.setId(questionId);
 
 //        Question updateQuestion = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
-        questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
+        questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto), patchDto.getMemberId());
 
 //        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, updateQuestion.getId());
 
@@ -92,8 +92,9 @@ public class QuestionController {
 
     // {question-id}에 해당하는 질문 삭제
     @DeleteMapping("/{question-id}")
-    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Min(1) Long questionId) {
-        questionService.deleteQuestion(questionId);
+    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Min(1) Long questionId,
+                                         @RequestParam Long memberId) {
+        questionService.deleteQuestion(questionId, memberId);
 
 //        ApiResponse response = new ApiResponse(HttpStatus.NO_CONTENT, "DELETED");
 

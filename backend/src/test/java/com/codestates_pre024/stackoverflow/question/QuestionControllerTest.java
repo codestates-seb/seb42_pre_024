@@ -120,14 +120,14 @@ public class QuestionControllerTest {
     void patchQuestionTest() throws Exception {
         // given
         Long questionId = 1L;
-        QuestionDto.Patch patch = new QuestionDto.Patch(1L, "질문 제목 수정", "질문 내용 수정");
+        QuestionDto.Patch patch = new QuestionDto.Patch(1L, "질문 제목 수정", "질문 내용 수정", 1L);
         String content = gson.toJson(patch);
 
         QuestionDto.Response responseDto = new QuestionDto.Response(1L, "질문 제목", "질문 내용",
                 LocalDateTime.now(), LocalDateTime.now(), new WriterResponse(1L, "회원 이름", "회원 이미지"), null);
 
         given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(new Question());
-        given(questionService.updateQuestion(Mockito.any(Question.class))).willReturn(new Question());
+        given(questionService.updateQuestion(Mockito.any(Question.class), Mockito.anyLong())).willReturn(new Question());
         given(mapper.questionToQuestionResponseDto(
                 Mockito.any(Question.class), Mockito.any(MemberMapper.class), Mockito.any(AnswerMapper.class))).willReturn(responseDto);
 
@@ -155,7 +155,8 @@ public class QuestionControllerTest {
                                 List.of(
                                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("질문 식별자").ignored(),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목").optional(),
-                                        fieldWithPath("contents").type(JsonFieldType.STRING).description("질문 내용").optional()
+                                        fieldWithPath("contents").type(JsonFieldType.STRING).description("질문 내용").optional(),
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자")
                                 )
                         ),
                         responseFields(
@@ -316,12 +317,18 @@ public class QuestionControllerTest {
     void deleteQuestionTest() throws Exception {
         // given
         Long questionId = 1L;
-        doNothing().when(questionService).deleteQuestion(Mockito.anyLong());
+        Long memberId = 1L;
+
+        MultiValueMap<String, String> param = new LinkedMultiValueMap<>();
+        param.add("memberId", String.valueOf(memberId));
+
+        doNothing().when(questionService).deleteQuestion(questionId, memberId);
 
         // when
         ResultActions actions = mockMvc.perform(
                 RestDocumentationRequestBuilders
                         .delete("/questions/{question-id}", questionId)
+                        .param("memberId", String.valueOf(memberId))
         );
 
          // when

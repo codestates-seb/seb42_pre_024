@@ -38,6 +38,7 @@ public class QuestionDto {
         @Nullable
         @Size(min = 2, message = "내용은 2자 이상이어야 합니다.")
         private String contents;
+        private Long memberId;
     }
 
     @Getter
