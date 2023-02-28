@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import { deleteAccount, readMyProfile } from "../api/userAPI";
 
 const Wrap = styled.main`
   width: 72%;
@@ -92,35 +93,31 @@ const MyPageButton = styled.button`
 function MyPage() {
   const [myProfile, setMyProfile] = useState();
   const navigate = useNavigate();
-  const baseURL =
-    "http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080";
-
-  const readMyProfile = async () => {
-    const { data } = await axios.get(baseURL + "/members/2");
-    setMyProfile(data.data);
-  };
-
-  const deleteAccount = async () => {
-    try {
-      const res = await axios.delete(`${baseURL}/members/${myProfile.id}`);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const resignHandler = (e) => {
     e.preventDefault();
     let isSure = window.confirm("정말로 탈퇴하시겠습니까?");
     if (isSure) {
-      deleteAccount();
+      deleteAccount(myProfile.id);
       navigate("/");
+      window.location.reload();
     }
+  };
+
+  const userInfo = useSelector((state) => {
+    return state.userId;
+  });
+
+  const user = userInfo.userAccess.userId;
+
+  const getUserProfile = async () => {
+    const { data } = await readMyProfile(user);
+    setMyProfile(data.data);
   };
 
   useEffect(() => {
     (async () => {
-      await readMyProfile();
+      await getUserProfile();
     })();
   }, []);
 
@@ -152,9 +149,7 @@ function MyPage() {
                   myProfile.questions.map((question) => {
                     return (
                       <li key={`${question.id}`}>
-                        <Link
-                          to={`http://localhost:3000/questions/${question.id}`}
-                        >
+                        <Link to={`/questionlist/${question.id}`}>
                           {question.title}
                         </Link>
                       </li>
