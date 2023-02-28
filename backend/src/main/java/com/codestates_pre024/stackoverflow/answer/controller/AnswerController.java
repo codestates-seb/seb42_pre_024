@@ -38,8 +38,8 @@ public class AnswerController {
                 mapper.answerPatchDtoToAnswer(answerPatchDto), answerPatchDto.getMemberId(), answerPatchDto.getAnswerId());
 
         //response data 부분 어떻게 처리할 건지 프론트 분들과 논의 후 확정 예정
-        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS");
-//                mapper.answerToAnswerResponseDto(updateAnswer));
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS",
+                mapper.answerToAnswerResponseDto(updateAnswer));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

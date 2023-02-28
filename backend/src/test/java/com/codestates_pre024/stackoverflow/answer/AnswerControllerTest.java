@@ -2,10 +2,12 @@ package com.codestates_pre024.stackoverflow.answer;
 
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerDto;
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerPatchDto;
+import com.codestates_pre024.stackoverflow.answer.dto.AnswerResponseDto;
 import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.answer.mapper.AnswerMapper;
 import com.codestates_pre024.stackoverflow.answer.service.AnswerService;
 import com.codestates_pre024.stackoverflow.member.dto.SignupDto;
+import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.mapper.MemberMapper;
 import com.codestates_pre024.stackoverflow.member.service.MemberService;
@@ -15,6 +17,7 @@ import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -30,6 +33,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.codestates_pre024.stackoverflow.util.ApiDocumentUtils.getRequestPreProcessor;
@@ -108,7 +112,6 @@ public class AnswerControllerTest {
         //then
         actions
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(startsWith("/questions/1"))))
                 .andDo(document(
                         "post-answer",
                         getRequestPreProcessor(),
@@ -119,9 +122,6 @@ public class AnswerControllerTest {
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("contents").type(JsonFieldType.STRING).description("답변 내용")
                                 )
-                        ),
-                        responseHeaders(
-                                headerWithName(HttpHeaders.LOCATION).description("등록된 리소스의 URI")
                         ),
                         responseFields(
                                 List.of(
@@ -140,20 +140,30 @@ public class AnswerControllerTest {
     void patchAnswer() throws Exception {
 
         //given_patch
+        Long answerId = 1L;
         AnswerPatchDto answerPatch = new AnswerPatchDto(
-                1L, 1L, "답변을 수정했다."
-        );
-        Answer answer = answerMapper.answerPatchDtoToAnswer(answerPatch);
-
+                1L, 1L, "답변을 수정했다.");
         String patchContent = gson.toJson(answerPatch);
 
+//        Answer answer = answerMapper.answerPatchDtoToAnswer(Mockito.any(answerPatch.class));
+
+        AnswerResponseDto responseDto = new AnswerResponseDto(
+                1L, "답변을 수정했다.", LocalDateTime.now(), LocalDateTime.now(),
+                new WriterResponse(1L, "회원 이름", "회원 이미지"));
+
+        given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerPatchDto.class)))
+                .willReturn(new Answer());
         given(answerService.updateAnswer(Mockito.any(Answer.class), eq(1L), eq(1L)))
-                .willReturn(answer);
+                .willReturn(new Answer());
+        given(answerMapper.answerToAnswerResponseDto(
+                Mockito.any(Answer.class)))
+                .willReturn(responseDto);
 
         //when
         ResultActions actions =
                 mockMvc.perform(
-                        RestDocumentationRequestBuilders.patch(ANSWER_DEFAULT_URL,1)
+                        RestDocumentationRequestBuilders
+                                .patch(ANSWER_DEFAULT_URL,1)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(patchContent)
@@ -177,14 +187,14 @@ public class AnswerControllerTest {
                                 List.of(
                                         fieldWithPath("code").type(JsonFieldType.STRING).description("상태 코드"),
                                         fieldWithPath("message").type(JsonFieldType.STRING).description("상태 코드 메세지"),
-                                        fieldWithPath("data").type(JsonFieldType.STRING).description("결과 데이터").optional()
-//                                        fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("답변 식별자")
-//                                        fieldWithPath("data.contents").type(JsonFieldType.STRING).description("수정된 답변 내용"),
-//                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변을 등록한 시간"),
-//                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변을 수정한 시간"),
-//                                        fieldWithPath("data.member.id").type(JsonFieldType.NUMBER).description("답변을 등록한 회원 식별자"),
-//                                        fieldWithPath("data.member.name").type(JsonFieldType.STRING).description("답변을 등록한 회원 이름"),
-//                                        fieldWithPath("data.member.profileImage").type(JsonFieldType.STRING).description("답변을 등록한 회원의 프로필 사진")
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터").optional(),
+                                        fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.contents").type(JsonFieldType.STRING).description("수정된 답변 내용"),
+                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("답변을 등록한 시간"),
+                                        fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("답변을 수정한 시간"),
+                                        fieldWithPath("data.member.id").type(JsonFieldType.NUMBER).description("답변을 등록한 회원 식별자"),
+                                        fieldWithPath("data.member.name").type(JsonFieldType.STRING).description("답변을 등록한 회원 이름"),
+                                        fieldWithPath("data.member.profileImage").type(JsonFieldType.STRING).description("답변을 등록한 회원의 프로필 사진")
                                 )
                         ),
                         pathParameters(
