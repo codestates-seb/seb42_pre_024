@@ -152,18 +152,22 @@ function DisplayA({ list, readData, qId }) {
                         <Date>
                           <div className="createAt">
                             <div>
-                              Asked:{" "}
+                              Asked:
                               {new window.Date(el.createdAt).toLocaleString()}
                             </div>
-                            <div>
-                              Modified:{" "}
-                              {new window.Date(el.modifiedAt).toLocaleString()}
-                            </div>
+                            {el.modifiedAt && (
+                              <div>
+                                Modified:
+                                {new window.Date(
+                                  el.modifiedAt
+                                ).toLocaleString()}
+                              </div>
+                            )}
                           </div>
                         </Date>
                         <ModifyWrap>
                           <Edit onClick={() => handleEdit(el)}>Edit</Edit>
-                          <Delete>Delete </Delete>
+                          <Delete>Delete</Delete>
                           <Profile>
                             <img alt="logo" src={el.member.profileImage}></img>
                             <Link to={`/members/${el.member.id}`}>
