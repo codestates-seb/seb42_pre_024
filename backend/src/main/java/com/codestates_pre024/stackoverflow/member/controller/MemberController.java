@@ -10,9 +10,9 @@ import com.codestates_pre024.stackoverflow.member.service.MemberService;
 import com.codestates_pre024.stackoverflow.question.mapper.QuestionMapper;
 import com.codestates_pre024.stackoverflow.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +24,7 @@ import java.util.List;
 @RequestMapping("/members")
 //@Validated 얘때문에 안 됨 -- 트러블슈팅 예정 ^_^ (2023.02.20 강지은)
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
     private final static String MEMBER_DEFAULT_URL = "/members";
     private final MemberService memberService;
@@ -70,7 +71,7 @@ public class MemberController {
         URI uri = UriMaker.getUri(MEMBER_DEFAULT_URL,updateMember.getId());
         ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED", uri);
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("{member-id}")
