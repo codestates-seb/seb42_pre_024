@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { deleteAccount, readMyProfile } from "../api/userAPI";
 
@@ -93,12 +93,18 @@ const MyPageButton = styled.button`
 function MyPage() {
   const [myProfile, setMyProfile] = useState();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const editHandler = (e) => {
+    e.preventDefault();
+    alert("아직 사용할 수 없습니다.");
+  };
 
   const resignHandler = (e) => {
     e.preventDefault();
     let isSure = window.confirm("정말로 탈퇴하시겠습니까?");
     if (isSure) {
-      deleteAccount(myProfile.id);
+      deleteAccount(user.userId, user.accessToken);
       navigate("/");
       window.location.reload();
     }
@@ -108,16 +114,16 @@ function MyPage() {
     return state.userId;
   });
 
-  const user = userInfo.userAccess.userId;
+  const user = userInfo.userAccess;
 
-  const getUserProfile = async () => {
-    const { data } = await readMyProfile(user);
+  const userProfile = async () => {
+    const { data } = await readMyProfile(Number(id));
     setMyProfile(data.data);
   };
 
   useEffect(() => {
     (async () => {
-      await getUserProfile();
+      await userProfile();
     })();
   }, []);
 
@@ -134,7 +140,7 @@ function MyPage() {
               <div>{myProfile.aboutMe}</div>
             </div>
             <div className="buttonContainer">
-              <MyPageButton>Edit my profile</MyPageButton>
+              <MyPageButton onClick={editHandler}>Edit my profile</MyPageButton>
             </div>
           </ProfileContainer>
           <MyQuestionsContainer>
@@ -158,9 +164,11 @@ function MyPage() {
               </ul>
             </div>
           </MyQuestionsContainer>
-          <form onSubmit={resignHandler}>
-            <MyPageButton type="submit">탈퇴하기</MyPageButton>
-          </form>
+          {user && Number(id) === user.userId && (
+            <form onSubmit={resignHandler}>
+              <MyPageButton type="submit">탈퇴하기</MyPageButton>
+            </form>
+          )}
         </>
       )}
     </Wrap>
