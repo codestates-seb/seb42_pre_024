@@ -101,7 +101,6 @@ function QuestionsList() {
   };
 
   const moveQustion = ({ id }) => {
-    dispatch(paramsId(id));
     navigate(`/questionlist/${id}`);
   };
 
