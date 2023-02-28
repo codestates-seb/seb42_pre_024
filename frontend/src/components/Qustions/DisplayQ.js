@@ -1,10 +1,9 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveContents } from "../../store/questionSlice";
 import { doEdit } from "../../store/editSlice";
 import styled from "styled-components";
+import { useNavigate, Link } from "react-router-dom";
 
-import { Navigate, useNavigate } from "react-router-dom";
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -112,9 +111,14 @@ const Profile = styled.div`
     width: 50px;
     height: 50px;
   }
-  b {
+  a {
     margin-left: 5px;
     color: var(--bluedark);
+    font-family: var(--main-font-bold);
+    text-decoration: none;
+    :hover {
+      color: var(--blue);
+    }
   }
 `;
 
@@ -138,39 +142,37 @@ function DisplayQ({ list }) {
 
   return (
     <>
-      {/* {qustion && (본문 컴포넌트)} */}
-      {list &&
-        list.map((el) => {
-          return (
-            <div key={`${el.id}`}>
-              <TitleContainer>
-                <div className="titleCreate">
-                  <Title>{el.title}</Title>
-                  <div className="createAt">
-                    <span>
-                      Asked: {new Date(el.createdAt).toLocaleString()}
-                    </span>
-                    <span>
-                      Modified: {new Date(el.modifiedAt).toLocaleString()}{" "}
-                    </span>
-                  </div>
-                </div>
-                <AskBtn onClick={moveQuestion}>Ask Quetion</AskBtn>
-              </TitleContainer>
-              <QuestionContainer>
-                <p>{el.contents}</p>
-                <ModifyWrap>
-                  <Edit onClick={() => handleEdit(el)}>Edit</Edit>
-                  <Delete>Delete</Delete>
-                  <Profile>
-                    <img alt="logo" src={el.member.profileImage}></img>
-                    <b>{el.member.name}</b>
-                  </Profile>
-                </ModifyWrap>
-              </QuestionContainer>
+      {list && (
+        <div key={`${list[0].id}`}>
+          <TitleContainer>
+            <div className="titleCreate">
+              <Title>{list[0].title}</Title>
+              <div className="createAt">
+                <span>
+                  Asked: {new Date(list[0].createdAt).toLocaleString()}
+                </span>
+                <span>
+                  Modified: {new Date(list[0].modifiedAt).toLocaleString()}
+                </span>
+              </div>
             </div>
-          );
-        })}
+            <AskBtn onClick={moveQuestion}>Ask Quetion</AskBtn>
+          </TitleContainer>
+          <QuestionContainer>
+            <p>{list[0].contents}</p>
+            <ModifyWrap>
+              <Edit onClick={() => handleEdit(list[0])}>Edit</Edit>
+              <Delete>Delete</Delete>
+              <Profile>
+                <img alt="logo" src={list[0].member.profileImage}></img>
+                <Link to={`/members/${list[0].member.id}`}>
+                  {list[0].member.name}
+                </Link>
+              </Profile>
+            </ModifyWrap>
+          </QuestionContainer>
+        </div>
+      )}
     </>
   );
 }
