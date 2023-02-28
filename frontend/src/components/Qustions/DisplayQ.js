@@ -1,15 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { saveContents } from "../../store/questionSlice";
 import { doEdit } from "../../store/editSlice";
-import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
-  /* left: 80px; */
-  /* width: 80%; */
   min-height: 70px auto;
   border-bottom: 1px solid var(--graylight);
   margin-top: 70px;
@@ -32,7 +30,6 @@ const Title = styled.h1`
   flex-wrap: wrap;
   font-size: 30px;
   flex-wrap: wrap-reverse;
-  /* margin-bottom: 80px; */
 `;
 
 const AskBtn = styled.button`
@@ -49,8 +46,6 @@ const AskBtn = styled.button`
 
 const QuestionContainer = styled.div`
   position: relative;
-  /* left: 70px; */
-  /* background-color: violet; */
   width: 100%;
   max-height: 500px auto;
   margin-bottom: 30px;
@@ -82,9 +77,8 @@ const Edit = styled.button`
     cursor: pointer;
   }
 `;
+
 const Delete = styled.button`
-  /* position: relative;
-  left: 60px; */
   height: 40px;
   border: none;
   background-color: var(--white);
@@ -94,6 +88,7 @@ const Delete = styled.button`
     cursor: pointer;
   }
 `;
+
 const Profile = styled.div`
   position: absolute;
   right: 0;
@@ -127,7 +122,6 @@ function DisplayQ({ list }) {
   const navigate = useNavigate();
 
   const handleEdit = ({ id, title, contents }) => {
-    // dispatch(saveTitle(title));
     const newContents = {
       title,
       contents,
@@ -136,6 +130,7 @@ function DisplayQ({ list }) {
     dispatch(doEdit(true));
     navigate(`/question/${id}`);
   };
+
   const moveQuestion = () => {
     navigate(`/question`);
   };
@@ -151,9 +146,11 @@ function DisplayQ({ list }) {
                 <span>
                   Asked: {new Date(list[0].createdAt).toLocaleString()}
                 </span>
-                <span>
-                  Modified: {new Date(list[0].modifiedAt).toLocaleString()}
-                </span>
+                {list[0].modifiedAt && (
+                  <span>
+                    Modified: {new Date(list[0].modifiedAt).toLocaleString()}
+                  </span>
+                )}
               </div>
             </div>
             <AskBtn onClick={moveQuestion}>Ask Quetion</AskBtn>
