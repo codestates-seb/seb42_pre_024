@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const login = async (data) => {
-  //수정 필요
   try {
     const res = await axios({
       method: "post",
@@ -32,7 +31,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: "post",
       data,
-      url: "/login",
+      url: "/members",
     });
     return res;
   } catch (e) {
@@ -40,11 +39,23 @@ export const signUp = async (data) => {
   }
 };
 
-export const deleteAccount = async (memberId) => {
+export const deleteAccount = async (userId) => {
   try {
     const res = await axios({
       method: "delete",
-      url: `$members/${memberId}`,
+      url: `/members/${userId}`,
+    });
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const readMyProfile = async (userId) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: `/members/${userId}`,
     });
     return res;
   } catch (e) {

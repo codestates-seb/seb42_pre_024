@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import logo from "../image/logo-stackoverflow.png";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../api/userAPI";
+import { logout, readMyProfile } from "../api/userAPI";
+import { useSelector } from "react-redux";
 
+import logo from "../image/logo-stackoverflow.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
@@ -103,28 +104,49 @@ const MypageButton = styled.button`
   margin: 0;
   border: none;
   margin-right: 10px;
+  border-radius: var(--bd-rd);
   img {
-    width: 30px;
-    height: 30px;
-    border-radius: var(--bd-rd);
+    width: 100%;
+    height: 100%;
+  }
+  :hover {
+    cursor: pointer;
+    background-color: var(--graylight);
   }
 `;
 
 function Header() {
   const navigate = useNavigate();
+  let profile = null;
+  const userInfo = useSelector((state) => {
+    return state.userId;
+  });
+  const user = userInfo.userAccess;
+  const getProfile = async () => {
+    if (user !== null) {
+      const userNum = user.userId;
+      const res = await readMyProfile(userNum);
+      profile = res.data.data.profileImage;
+    }
+  };
+  getProfile();
+
+  const myPageHandler = () => {
+    navigate(`/members/${user.userId}`);
+  };
 
   const loginHandler = () => {
     navigate("/login");
   };
 
-  const signupHandler = () => {
-    navigate("/signup");
-  };
-
   const logoutHandler = () => {
     logout();
-    // navigate("/");
-    // window.location.reload();
+    navigate("/");
+    window.location.reload();
+  };
+
+  const signupHandler = () => {
+    navigate("/signup");
   };
 
   return (
@@ -143,14 +165,20 @@ function Header() {
       <HeaderNav>
         <ol>
           <li>
-            <LogButton onClick={loginHandler}>Log in</LogButton>
-            {/* <MypageButton>
-              <img alt="profile_image" src={profile}></img>
-            </MypageButton> */}
+            {user ? (
+              <MypageButton onClick={myPageHandler}>
+                <img alt="profile_image" src={profile}></img>
+              </MypageButton>
+            ) : (
+              <LogButton onClick={loginHandler}>Log in</LogButton>
+            )}
           </li>
           <li>
-            <SignUpButton onClick={signupHandler}>Sign up</SignUpButton>
-            <LogButton onClick={logoutHandler}>Logout</LogButton>
+            {user ? (
+              <LogButton onClick={logoutHandler}>Logout</LogButton>
+            ) : (
+              <SignUpButton onClick={signupHandler}>Sign up</SignUpButton>
+            )}
           </li>
         </ol>
       </HeaderNav>
