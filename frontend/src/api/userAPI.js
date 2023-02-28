@@ -39,11 +39,13 @@ export const signUp = async (data) => {
   }
 };
 
-export const deleteAccount = async (userId) => {
+export const deleteAccount = async (userId, accessToken) => {
   try {
+    const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "delete",
       url: `/members/${userId}`,
+      headers: { Authorization: `${token}` },
     });
     return res;
   } catch (e) {
