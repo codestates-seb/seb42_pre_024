@@ -23,11 +23,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -66,6 +71,18 @@ public class SecurityConfig {
                 .and()
 
                 .apply(new CustomFilterConfigurer())
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)        // 세션 무효화
+                .deleteCookies("Refresh")   // "Refresh" 쿠키 삭제
+                .logoutSuccessHandler(new LogoutSuccessHandler() {
+                    @Override
+                    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        response.getWriter().append("Logged out successfully");     // 로그아웃 성공 메시지 출력
+                        response.setStatus(HttpServletResponse.SC_OK);              // HTTP 응답 코드 설정
+                    }
+                })
                 .and()
 
                 .authorizeHttpRequests(authorize -> authorize
