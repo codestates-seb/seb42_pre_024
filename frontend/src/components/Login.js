@@ -3,8 +3,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../store/userSlice";
+import { userInfo } from "../store/userIdSlice";
 import { login } from "../api/userAPI";
+import jwt_decode from "jwt-decode";
 
 const Wrap = styled.div`
   position: fixed;
@@ -114,7 +115,14 @@ function Login() {
     //   // cookie.set("token", token);
     //   navigate("/");
     // }
-    console.log(res);
+    const token = res.headers.authorization.slice(7);
+    var usersId = jwt_decode(token).id;
+    const userInfos = {
+      userId: usersId,
+      token: token,
+    };
+    dispatch(userInfo(userInfos));
+    navigate("/");
   };
 
   return (

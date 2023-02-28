@@ -7,7 +7,7 @@ export const login = async (data) => {
       method: "post",
       data,
       headers: { Authorization: null },
-      url: "http://localhost:4000/members",
+      url: "/login",
     });
     return res;
   } catch (e) {
@@ -20,7 +20,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: "post",
       data,
-      url: "http://localhost:4000/members",
+      url: "/login",
     });
     return res;
   } catch (e) {
