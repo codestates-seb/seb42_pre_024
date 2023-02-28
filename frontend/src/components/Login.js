@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../store/userSlice";
+import { userInfo } from "../store/userIdSlice";
 import { login } from "../api/userAPI";
+import jwt_decode from "jwt-decode";
 
 const Wrap = styled.div`
   position: fixed;
@@ -23,10 +23,10 @@ const SignupWrap = styled.div`
   > a {
     margin-left: 10px;
     text-decoration-line: none;
-    color: #3172c6;
+    color: var(--bluedark);
     :hover {
       cursor: pointer;
-      color: #4393f7;
+      color: var(--blue);
     }
   }
 `;
@@ -40,7 +40,7 @@ const LoginContainer = styled.div`
   width: 412px;
   background-color: var(--white);
   border-radius: 2%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--form);
 `;
 
 const LoginForm = styled.form`
@@ -61,25 +61,25 @@ const LoginLabel = styled.label`
 const LoginInput = styled.input`
   height: 30px;
   margin-bottom: 20px;
-  border: 1px solid #c4c8cc;
+  border: 1px solid var(--gray);
   border-radius: var(--bd-rd);
   :focus {
     outline: none;
-    border: 1px solid #6ba2d9;
-    box-shadow: 0 0 0 5px #e0eaf6;
+    border: 1px solid var(--grayblue);
+    box-shadow: 0 0 0 5px var(--graywhite);
   }
 `;
 
 const LoginButton = styled.button`
   height: 40px;
-  background-color: #4393f7;
+  background-color: var(--blue);
   color: var(--white);
   border: solid;
-  border-color: #83a6c4;
+  border-color: var(--grayblue);
   border-radius: var(--bd-rd);
   cursor: pointer;
   :hover {
-    background-color: #3172c6;
+    background-color: var(--bluedark);
   }
 `;
 
@@ -92,7 +92,6 @@ const ErrorMsg = styled.p`
 `;
 
 function Login() {
-  const [isAuthorized, setIsAuthorized] = useState(true);
   const dispatch = useDispatch();
   const {
     register,
@@ -103,18 +102,14 @@ function Login() {
 
   const onSubmit = async (data) => {
     const res = await login(data);
-    // if (res?.status !== 200) {
-    //   alert("로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.");
-    //   return setIsAuthorized(false);
-    // } else {
-    //   const { userId } = res.data;
-    //   localStorage.setItem("userId", JSON.stringify(userId));
-    //   const token = res.headers?.authorization.split(" ")[1];
-    //   dispatch(loginUser({ token, userId }));
-    //   // cookie.set("token", token);
-    //   navigate("/");
-    // }
-    console.log(res);
+    if (res?.status !== 200) {
+      alert("로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인해주세요.");
+    } else {
+      const accessToken = res.headers.authorization.slice(7);
+      var userId = jwt_decode(accessToken).id;
+      dispatch(userInfo({ userId, accessToken }));
+      navigate("/");
+    }
   };
 
   return (
