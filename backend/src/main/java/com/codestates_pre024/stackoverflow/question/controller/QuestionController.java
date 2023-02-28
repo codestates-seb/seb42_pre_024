@@ -54,14 +54,15 @@ public class QuestionController {
                                         @Valid @RequestBody QuestionDto.Patch patchDto) {
         patchDto.setId(questionId);
 
-        Question updateQuestion = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
+//        Question updateQuestion = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
+        questionService.updateQuestion(mapper.questionPatchDtoToQuestion(patchDto));
 
-        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, updateQuestion.getId());
+//        URI uri = UriMaker.getUri(QUESTION_DEFAULT_URL, updateQuestion.getId());
 
-        ApiResponse response = new ApiResponse(HttpStatus.OK, "UPDATED", uri);
+        ApiResponse response = new ApiResponse(HttpStatus.OK, "SUCCESS");
 
 //        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(String.valueOf(uri)).body(response);
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
@@ -94,9 +95,9 @@ public class QuestionController {
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Min(1) Long questionId) {
         questionService.deleteQuestion(questionId);
 
-        ApiResponse response = new ApiResponse(HttpStatus.NO_CONTENT, "DELETED");
+//        ApiResponse response = new ApiResponse(HttpStatus.NO_CONTENT, "DELETED");
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //답변 등록
