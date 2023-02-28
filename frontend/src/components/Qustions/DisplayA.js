@@ -1,19 +1,23 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import WriteAns from "./WriteAns";
-//2023.02.23 테스트
+
 const Wrap = styled.div``;
+
 const AnsTitle = styled.h2`
   width: 100%;
   margin-left: 10px;
 `;
+
 const AnsContainer = styled.div`
   position: relative;
   width: 100%;
   align-items: center;
   justify-content: center;
 `;
+
 const Answer = styled.div`
   border: solid var(--graymiddle);
   border-radius: var(--bd-rd);
@@ -93,11 +97,17 @@ const Profile = styled.div`
     width: 50px;
     height: 50px;
   }
-  b {
+  a {
     margin-left: 5px;
     color: var(--bluedark);
+    font-family: var(--main-font-bold);
+    text-decoration: none;
+    :hover {
+      color: var(--blue);
+    }
   }
 `;
+
 function DisplayA({ list, readData, qId }) {
   const [editYes, setEditYes] = useState(-1); //answer의 id
   const [edit, setEdit] = useState("");
@@ -130,11 +140,9 @@ function DisplayA({ list, readData, qId }) {
         {list &&
           list.map(
             (el) =>
-              el.answers &&
-              el.answers.map((el) =>
-                !el ? (
-                  ""
-                ) : (
+              el.answers.length !== 0 &&
+              el.answers.map((el) => {
+                return (
                   <Wrap key={`${el.id}`}>
                     {editYes === el.id ? (
                       <WriteAns edit={edit} editYes={editYes} />
@@ -158,14 +166,16 @@ function DisplayA({ list, readData, qId }) {
                           <Delete>Delete </Delete>
                           <Profile>
                             <img alt="logo" src={el.member.profileImage}></img>
-                            <b>{el.member.name}</b>
+                            <Link to={`/members/${el.member.id}`}>
+                              {el.member.name}
+                            </Link>
                           </Profile>
                         </ModifyWrap>
                       </Answer>
                     )}
                   </Wrap>
-                )
-              )
+                );
+              })
           )}
       </AnsContainer>
     </>
