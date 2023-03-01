@@ -48,9 +48,10 @@ const QuestionContainer = styled.div`
     width: 800px;
     h3 {
       flex-wrap: nowrap;
+      color: var(--bluedark);
       :hover {
-        color: #3172c6;
         cursor: pointer;
+        color: var(--blue);
       }
     }
   }
@@ -58,6 +59,7 @@ const QuestionContainer = styled.div`
     display: flex;
     justify-content: right;
     margin-bottom: 20px;
+    align-items: end;
     img {
       width: 30px;
       height: 30px;
@@ -73,7 +75,6 @@ const QuestionContainer = styled.div`
     }
     > div {
       color: var(--graydark);
-      font-size: small;
     }
   }
 `;
