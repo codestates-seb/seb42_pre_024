@@ -55,21 +55,29 @@ const MyQuestionsContainer = styled.div`
   > div {
     border: 1px solid var(--graylight);
     border-radius: var(--bd-rd);
-    height: 300px;
-    padding: 30px;
+    height: 100%;
+    padding: 30px 50px;
     > ul {
       list-style: none;
       padding-left: 0px;
       margin: 0;
       > li {
         margin-bottom: 10px;
+        display: flex;
+        align-items: center;
         > a {
           text-decoration-line: none;
           color: var(--bluedark);
+          width: 70%;
           :hover {
             cursor: pointer;
             color: var(--blue);
           }
+        }
+        > p {
+          color: var(--graydark);
+          width: 30%;
+          text-align: right;
         }
       }
     }
@@ -106,7 +114,9 @@ function MyPage() {
     e.preventDefault();
     let isSure = window.confirm("정말로 탈퇴하시겠습니까?");
     if (isSure) {
-      deleteAccount(Number(id), accessToken);
+      deleteAccount(Number(userId), accessToken);
+      localStorage.removeItem("Id");
+      localStorage.removeItem("Token");
       navigate("/");
       window.location.reload();
     }
@@ -136,7 +146,11 @@ function MyPage() {
               <div>{myProfile.aboutMe}</div>
             </div>
             <div className="buttonContainer">
-              <MyPageButton onClick={editHandler}>Edit my profile</MyPageButton>
+              {userId && Number(id) === Number(userId) && (
+                <MyPageButton onClick={editHandler}>
+                  Edit my profile
+                </MyPageButton>
+              )}
             </div>
           </ProfileContainer>
           <MyQuestionsContainer>
@@ -154,6 +168,11 @@ function MyPage() {
                         <Link to={`/questionlist/${question.id}`}>
                           {question.title}
                         </Link>
+                        <p>
+                          {`Asked: ${new Date(
+                            question.createdAt
+                          ).toLocaleString("ko-kr")}`}
+                        </p>
                       </li>
                     );
                   })}
