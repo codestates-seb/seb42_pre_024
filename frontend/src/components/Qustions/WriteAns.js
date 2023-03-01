@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loading from "../Loading";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Title = styled.h2`
   width: 100%;
@@ -58,11 +59,13 @@ const SubBtn = styled.button`
 function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  let { accessToken } = useSelector((state) => {
-    return state.userId.userAccess;
-  });
+  let userAccess = useSelector((state) => state.userId.userAccess);
+
   const userId = localStorage.getItem("key");
+  const accessToken = userAccess?.accessToken;
+  console.log(accessToken);
 
   useEffect(() => {
     if (!edit) {
@@ -75,18 +78,24 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   };
 
   const postAns = async () => {
-    try {
-      axios.post(`/questions/${id}/answers`, {
-        memberId: userId,
-        contents: input,
-      });
-      setLoading(false);
-      console.log("성공");
-    } catch (error) {
-      console.log(error);
+    if (!accessToken) {
+      alert("로그인 후 이용해 주세요");
+      setInput("");
+      navigate("../login");
+    } else {
+      try {
+        axios.post(`/questions/${id}/answers`, {
+          memberId: userId,
+          contents: input,
+        });
+        setLoading(false);
+        console.log("성공");
+      } catch (error) {
+        console.log(error);
+      }
+      setInput("");
+      setUpdate("yes");
     }
-    setInput("");
-    setUpdate("yes");
   };
 
   const editAns = async () => {
