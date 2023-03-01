@@ -43,9 +43,8 @@ public class AnswerController {
 
     //answer 삭제
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long id,
-                                       @Positive @RequestParam Long memberId) {
-        answerService.deleteAnswer(id, memberId);
+    public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long id) {
+        answerService.deleteAnswer(id);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
