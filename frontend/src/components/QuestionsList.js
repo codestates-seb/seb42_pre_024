@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { readData } from "../api/questionAPI";
 import Pagination from "./Pagination";
 
@@ -103,14 +102,11 @@ function QuestionsList() {
     setPageInfo(data.pageInfo);
   };
 
-  const userInfo = useSelector((state) => {
-    return state.userId;
-  });
-  const user = userInfo.userAccess;
+  const userId = localStorage.getItem("Id");
 
   const click = (e) => {
     e.preventDefault();
-    if (user === null) {
+    if (userId === null) {
       let loginAlert = window.confirm(
         "게시물을 등록하기 위해서는 로그인이 필요합니다."
       );
