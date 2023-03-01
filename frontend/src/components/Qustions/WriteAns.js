@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loading from "../Loading";
-import { readQustionData } from "../../api/readQuesstion";
+import { useSelector } from "react-redux";
 
 const Title = styled.h2`
   width: 100%;
@@ -55,15 +55,15 @@ const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-function WriteAns({ edit, id, editYes, setUpdate, userId }) {
+function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  //editYes는 멤버 아이디 전달
-  //id 는 params id
-  //답변 수정시 /{question-id}/answers/{answer-id}
-  //답변 수정시 patch내용에 memberid가 필요함
-  //답변 등록시 /questions/id/answers
-  console.log(userId);
+
+  let { accessToken } = useSelector((state) => {
+    return state.userId.userAccess;
+  });
+  const userId = localStorage.getItem("key");
+
   useEffect(() => {
     if (!edit) {
       setInput("");
@@ -71,7 +71,7 @@ function WriteAns({ edit, id, editYes, setUpdate, userId }) {
   }, [edit]);
 
   const handleCancel = () => {
-    window.location.reload();
+    setEditYes(-1);
   };
 
   const postAns = async () => {
@@ -90,17 +90,21 @@ function WriteAns({ edit, id, editYes, setUpdate, userId }) {
   };
 
   const editAns = async () => {
-    setLoading(true);
     try {
-      axios.patch(`/answers/${editYes}`, {
-        memberId: userId, // 멤버아이디 수정
-        contents: input,
-      });
-      setLoading(false);
+      const token = `Bearer ${accessToken}`.toString("base64");
+      axios.patch(
+        `/answers/${editYes}`,
+        {
+          memberId: userId, // 멤버아이디 수정
+          contents: input,
+        },
+        { headers: { Authorization: `${token}` } }
+      );
+      setEditYes(-1);
     } catch (error) {
       console.log(error);
     }
-    setUpdate("yes");
+    setEditUpdate("yes");
   };
 
   return (

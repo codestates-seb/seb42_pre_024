@@ -108,7 +108,7 @@ const Profile = styled.div`
   }
 `;
 
-function DisplayA({ list, readData, qId }) {
+function DisplayA({ list, setEditUpdate }) {
   const [editYes, setEditYes] = useState(-1); //answer의 id
   const [edit, setEdit] = useState("");
 
@@ -145,7 +145,12 @@ function DisplayA({ list, readData, qId }) {
                 return (
                   <Wrap key={`${el.id}`}>
                     {editYes === el.id ? (
-                      <WriteAns edit={edit} editYes={editYes} />
+                      <WriteAns
+                        edit={edit}
+                        editYes={editYes}
+                        setEditYes={setEditYes}
+                        setEditUpdate={setEditUpdate}
+                      />
                     ) : (
                       <Answer>
                         <p>{el.contents}</p>
