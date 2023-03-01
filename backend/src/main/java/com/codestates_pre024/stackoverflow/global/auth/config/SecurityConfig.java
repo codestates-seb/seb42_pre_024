@@ -20,18 +20,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @RequiredArgsConstructor
@@ -67,26 +65,39 @@ public class SecurityConfig {
 
                 .apply(new CustomFilterConfigurer())
                 .and()
+                .logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)        // 세션 무효화
+                .deleteCookies("Refresh")   // "Refresh" 쿠키 삭제
+                .logoutSuccessHandler(new LogoutSuccessHandler() {
+                    @Override
+                    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        response.getWriter().append("Logged out successfully");     // 로그아웃 성공 메시지 출력
+                        response.setStatus(HttpServletResponse.SC_OK);              // HTTP 응답 코드 설정
+                    }
+                })
+                .and()
 
                 .authorizeHttpRequests(authorize -> authorize
-//                                .antMatchers(HttpMethod.POST,"/members").permitAll()
-//                                .antMatchers(HttpMethod.PATCH,"/members/**").hasRole("USER")
-//                                .antMatchers(HttpMethod.GET,"/members").denyAll()
-//                                .antMatchers(HttpMethod.GET,"/members/**").permitAll()
-//                                .antMatchers(HttpMethod.DELETE,"/members/**").hasRole("USER")
-//
-//                                .antMatchers(HttpMethod.POST,"/questions").hasRole("USER")
-//                                .antMatchers(HttpMethod.PATCH,"/questions/**").hasRole("USER")
-//                                .antMatchers(HttpMethod.GET,"/questions").permitAll()
-//                                .antMatchers(HttpMethod.GET,"/questions/{id}").permitAll()
-//                                .antMatchers(HttpMethod.DELETE,"/questions/{id}").hasRole("USER")
-//
-//                                .antMatchers(HttpMethod.POST,"/questions/{id}/answers").hasRole("USER")
-//                                .antMatchers(HttpMethod.PATCH,"/answers/**").hasRole("USER")
-//                                .antMatchers(HttpMethod.GET,"/questions/{id}/answers").denyAll()
-//                                .antMatchers(HttpMethod.GET,"/questions/{id}/answers/{answerId}").denyAll()
-//                                .antMatchers(HttpMethod.DELETE,"/answers/**").hasRole("USER")
+                                .antMatchers(HttpMethod.POST,"/members").permitAll()
+                                .antMatchers(HttpMethod.PATCH,"/members/**").hasRole("USER")
+                                .antMatchers(HttpMethod.GET,"/members").denyAll()
+                                .antMatchers(HttpMethod.GET,"/members/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE,"/members/**").hasRole("USER")
 
+                                .antMatchers(HttpMethod.POST,"/questions").hasRole("USER")
+                                .antMatchers(HttpMethod.PATCH,"/questions/**").hasRole("USER")
+                                .antMatchers(HttpMethod.GET,"/questions").permitAll()
+                                .antMatchers(HttpMethod.GET,"/questions/{id}").permitAll()
+                                .antMatchers(HttpMethod.DELETE,"/questions/{id}").hasRole("USER")
+
+                                .antMatchers(HttpMethod.POST,"/questions/{id}/answers").hasRole("USER")
+                                .antMatchers(HttpMethod.PATCH,"/answers/**").hasRole("USER")
+                                .antMatchers(HttpMethod.GET,"/questions/{id}/answers").denyAll()
+                                .antMatchers(HttpMethod.GET,"/questions/{id}/answers/{answerId}").denyAll()
+                                .antMatchers(HttpMethod.DELETE,"/answers/**").hasRole("USER")
+
+                                .antMatchers(HttpMethod.POST,"/logout").hasRole("USER")
                                 .anyRequest().permitAll()
                 )
                 .build();

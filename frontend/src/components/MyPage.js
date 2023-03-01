@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { deleteAccount, readMyProfile } from "../api/userAPI";
 
 const Wrap = styled.main`
   width: 72%;
@@ -92,35 +93,37 @@ const MyPageButton = styled.button`
 function MyPage() {
   const [myProfile, setMyProfile] = useState();
   const navigate = useNavigate();
-  const baseURL =
-    "http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080";
+  const { id } = useParams();
 
-  const readMyProfile = async () => {
-    const { data } = await axios.get(baseURL + "/members/2");
-    setMyProfile(data.data);
-  };
-
-  const deleteAccount = async () => {
-    try {
-      const res = await axios.delete(`${baseURL}/members/${myProfile.id}`);
-      return res;
-    } catch (e) {
-      console.log(e);
-    }
+  const editHandler = (e) => {
+    e.preventDefault();
+    alert("아직 사용할 수 없습니다.");
   };
 
   const resignHandler = (e) => {
     e.preventDefault();
     let isSure = window.confirm("정말로 탈퇴하시겠습니까?");
     if (isSure) {
-      deleteAccount();
+      deleteAccount(user.userId, user.accessToken);
       navigate("/");
+      window.location.reload();
     }
+  };
+
+  const userInfo = useSelector((state) => {
+    return state.userId;
+  });
+
+  const user = userInfo.userAccess;
+
+  const userProfile = async () => {
+    const { data } = await readMyProfile(Number(id));
+    setMyProfile(data.data);
   };
 
   useEffect(() => {
     (async () => {
-      await readMyProfile();
+      await userProfile();
     })();
   }, []);
 
@@ -137,7 +140,7 @@ function MyPage() {
               <div>{myProfile.aboutMe}</div>
             </div>
             <div className="buttonContainer">
-              <MyPageButton>Edit my profile</MyPageButton>
+              <MyPageButton onClick={editHandler}>Edit my profile</MyPageButton>
             </div>
           </ProfileContainer>
           <MyQuestionsContainer>
@@ -152,9 +155,7 @@ function MyPage() {
                   myProfile.questions.map((question) => {
                     return (
                       <li key={`${question.id}`}>
-                        <Link
-                          to={`http://localhost:3000/questions/${question.id}`}
-                        >
+                        <Link to={`/questionlist/${question.id}`}>
                           {question.title}
                         </Link>
                       </li>
@@ -163,9 +164,11 @@ function MyPage() {
               </ul>
             </div>
           </MyQuestionsContainer>
-          <form onSubmit={resignHandler}>
-            <MyPageButton type="submit">탈퇴하기</MyPageButton>
-          </form>
+          {user && Number(id) === user.userId && (
+            <form onSubmit={resignHandler}>
+              <MyPageButton type="submit">탈퇴하기</MyPageButton>
+            </form>
+          )}
         </>
       )}
     </Wrap>

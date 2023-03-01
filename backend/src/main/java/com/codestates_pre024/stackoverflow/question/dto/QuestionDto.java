@@ -2,7 +2,6 @@ package com.codestates_pre024.stackoverflow.question.dto;
 
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerResponseDto;
 import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
-import com.codestates_pre024.stackoverflow.member.entity.Member;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
@@ -38,6 +37,7 @@ public class QuestionDto {
         @Nullable
         @Size(min = 2, message = "내용은 2자 이상이어야 합니다.")
         private String contents;
+        private Long memberId;
     }
 
     @Getter

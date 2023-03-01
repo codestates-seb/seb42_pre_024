@@ -1,11 +1,7 @@
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { paramsId } from "../store/paramsId.Slice";
-
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { readData } from "../api/questionAPI";
 import Pagination from "./Pagination";
 
@@ -46,27 +42,40 @@ const QuestionContainer = styled.div`
     text-align: center;
     color: var(--graydark);
   }
-  #viewCounts {
+  #contentNum {
     font-weight: bold;
   }
   .contentContainer {
     width: 800px;
     h3 {
       flex-wrap: nowrap;
-    }
-    :hover {
-      color: #3172c6;
-      cursor: pointer;
+      color: var(--bluedark);
+      :hover {
+        cursor: pointer;
+        color: var(--blue);
+      }
     }
   }
   .writerContainer {
     display: flex;
     justify-content: right;
     margin-bottom: 20px;
+    align-items: end;
     img {
       width: 30px;
       height: 30px;
       margin-right: 5px;
+    }
+    > a {
+      color: var(--bluedark);
+      text-decoration: none;
+      margin-right: 5px;
+      :hover {
+        color: var(--blue);
+      }
+    }
+    > div {
+      color: var(--graydark);
     }
   }
 `;
@@ -85,8 +94,6 @@ const WriteButton = styled.button`
 function QuestionsList() {
   const [list, setList] = useState("");
   const [pageInfo, setPageInfo] = useState();
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { page } = useParams();
 
@@ -96,12 +103,26 @@ function QuestionsList() {
     setPageInfo(data.pageInfo);
   };
 
-  const click = () => {
-    navigate("../question");
+  const userInfo = useSelector((state) => {
+    return state.userId;
+  });
+  const user = userInfo.userAccess;
+
+  const click = (e) => {
+    e.preventDefault();
+    if (user === null) {
+      let loginAlert = window.confirm(
+        "게시물을 등록하기 위해서는 로그인이 필요합니다."
+      );
+      if (loginAlert) {
+        navigate("../login");
+      }
+    } else {
+      navigate("../question");
+    }
   };
 
   const moveQustion = ({ id }) => {
-    dispatch(paramsId(id));
     navigate(`/questionlist/${id}`);
   };
 
@@ -120,19 +141,21 @@ function QuestionsList() {
       <div className="questionsContainer">
         <ListContainer>
           {list &&
-            list.map((el) => (
+            list.map((el, idx) => (
               <QuestionContainer key={`${el.id}`}>
                 <div>
-                  <div>View</div>
-                  <div id="viewCounts">1</div>
+                  <div>No.</div>
+                  <div id="contentNum">{idx + 1}</div>
                 </div>
                 <div className="contentContainer">
                   <h3 onClick={() => moveQustion(el)}>{el.title}</h3>
                   <div className="writerContainer">
-                    <img alt=" profile_image" src={el.profileImage}></img>
-                    <div>{el.id}</div>
+                    <img alt="profile_image" src={el.member.profileImage}></img>
+                    <Link to={`/members/${el.member.id}`}>
+                      {el.member.name}
+                    </Link>
                     <div className="date">
-                      {new Date(el.createdAt).toLocaleString()}
+                      {new Date(el.createdAt).toLocaleString("ko-KR")}
                     </div>
                   </div>
                 </div>

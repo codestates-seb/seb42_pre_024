@@ -19,35 +19,44 @@ const Container = styled.div`
 `;
 
 function Question() {
-  //props {match} ,
-  //get요청시 match.params.id , setQustion
-  //question(s)
-  //로그인x=>답변불가 질문불가,본인질문x=>답변ㅇ 질문가능,본인질문=>질문수정 질문가능,본인이 답변=>질문수정x 답변가능
-  //로컬스토리지 이용해서 수정,삭제버튼 나오게하고 수정하거나 삭제 action시 서버에 반영??
+  const { id } = useParams();
+
+  const userId = localStorage.getItem("key");
 
   const [list, setList] = useState();
-  let { id } = useSelector((state) => {
-    return state.paramsId;
-  });
+  const [update, setUpdate] = useState("");
+  const [editUpdate, setEditUpdate] = useState("");
+
+  let userAccess = useSelector((state) => state.userId.userAccess);
+  const accessToken = userAccess?.accessToken;
 
   const readData = async () => {
-    const { data } = await axios.get(
-      `http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`
-    );
+    const { data } = await axios.get(`/questions/${id}`);
     setList([data.data]);
   };
+  //질문등록한 사람 => memberId
+  //답변등록한 사람 => answers.memberId
+  // console.log(list[0].member.id);
+  // console.log(list[0].answers[0].member.id);
 
   useEffect(() => {
     (async () => {
       await readData();
     })();
-  }, []);
+    setUpdate("");
+    setEditUpdate("");
+  }, [update, editUpdate]);
 
   return (
     <Container>
-      <DisplayQ list={list} />
-      <DisplayA list={list} />
-      <WriteAns id={id} />
+      <DisplayQ list={list} accessToken={accessToken} userId={userId} />
+      <DisplayA
+        list={list}
+        setEditUpdate={setEditUpdate}
+        accessToken={accessToken}
+        userId={userId}
+      />
+      <WriteAns id={id} setUpdate={setUpdate} userId={userId} />
     </Container>
   );
 }

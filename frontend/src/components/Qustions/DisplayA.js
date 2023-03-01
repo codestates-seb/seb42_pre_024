@@ -1,19 +1,23 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import WriteAns from "./WriteAns";
-//2023.02.23 테스트
+
 const Wrap = styled.div``;
+
 const AnsTitle = styled.h2`
   width: 100%;
   margin-left: 10px;
 `;
+
 const AnsContainer = styled.div`
   position: relative;
   width: 100%;
   align-items: center;
   justify-content: center;
 `;
+
 const Answer = styled.div`
   border: solid var(--graymiddle);
   border-radius: var(--bd-rd);
@@ -48,6 +52,10 @@ const ModifyWrap = styled.div`
   position: relative;
   align-items: center;
   padding-bottom: 40px;
+  .editNo {
+    background-color: aqua;
+    height: 40px;
+  }
 `;
 
 const Edit = styled.button`
@@ -93,35 +101,33 @@ const Profile = styled.div`
     width: 50px;
     height: 50px;
   }
-  b {
+  a {
     margin-left: 5px;
     color: var(--bluedark);
+    font-family: var(--main-font-bold);
+    text-decoration: none;
+    :hover {
+      color: var(--blue);
+    }
   }
 `;
-function DisplayA({ list, readData, qId }) {
+
+function DisplayA({ list, setEditUpdate, accessToken, userId }) {
   const [editYes, setEditYes] = useState(-1); //answer의 id
   const [edit, setEdit] = useState("");
 
   //리덕스 불러와서 아이디 일치 여부
-
-  // useEffect(()=>{
-  //   setEditYes(false)
-  // ,[handleEdit])
-
   const handleEdit = async ({ id, contents }) => {
     setEditYes(id);
-
-    // await axios.patch(`http://localhost:4000/data/${id}`, {
-    //   contents: contents,
-    // });
     setEdit(contents);
   };
-  // const handleDelete = async ({ id }) => {
-  //   //메인페이지(id) => questionlist로 delete
-  //   console.log(id);
-  //   await axios.delete(`http://localhost:4000/data/${qId}/answers/${id}`);
-  //   readData();
-  //};
+  const handleDelete = async ({ id }) => {
+    const token = `Bearer ${accessToken}`.toString("base64");
+    await axios.delete(`/answers/${id}`, {
+      headers: { Authorization: `${token}` },
+    });
+    setEditUpdate(-2);
+  };
 
   return (
     <>
@@ -130,42 +136,60 @@ function DisplayA({ list, readData, qId }) {
         {list &&
           list.map(
             (el) =>
-              el.answers &&
-              el.answers.map((el) =>
-                !el ? (
-                  ""
-                ) : (
+              el.answers.length !== 0 &&
+              el.answers.map((el) => {
+                return (
                   <Wrap key={`${el.id}`}>
                     {editYes === el.id ? (
-                      <WriteAns edit={edit} editYes={editYes} />
+                      <WriteAns
+                        edit={edit}
+                        editYes={editYes}
+                        setEditYes={setEditYes}
+                        setEditUpdate={setEditUpdate}
+                      />
                     ) : (
                       <Answer>
                         <p>{el.contents}</p>
                         <Date>
                           <div className="createAt">
                             <div>
-                              Asked:{" "}
+                              Asked:
                               {new window.Date(el.createdAt).toLocaleString()}
                             </div>
-                            <div>
-                              Modified:{" "}
-                              {new window.Date(el.modifiedAt).toLocaleString()}
-                            </div>
+                            {el.modifiedAt && (
+                              <div>
+                                Modified:
+                                {new window.Date(
+                                  el.modifiedAt
+                                ).toLocaleString()}
+                              </div>
+                            )}
                           </div>
                         </Date>
                         <ModifyWrap>
-                          <Edit onClick={() => handleEdit(el)}>Edit</Edit>
-                          <Delete>Delete </Delete>
+                          {userId == el.member.id ? (
+                            <>
+                              <Edit onClick={() => handleEdit(el)}>Edit</Edit>
+                              <Delete onClick={() => handleDelete(el)}>
+                                Delete
+                              </Delete>
+                            </>
+                          ) : (
+                            <div className="editNo"></div>
+                          )}
+
                           <Profile>
                             <img alt="logo" src={el.member.profileImage}></img>
-                            <b>{el.member.name}</b>
+                            <Link to={`/members/${el.member.id}`}>
+                              {el.member.name}
+                            </Link>
                           </Profile>
                         </ModifyWrap>
                       </Answer>
                     )}
                   </Wrap>
-                )
-              )
+                );
+              })
           )}
       </AnsContainer>
     </>

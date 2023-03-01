@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Loading from "../Loading";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Title = styled.h2`
   width: 100%;
@@ -53,51 +56,68 @@ const SubBtn = styled.button`
   cursor: pointer;
 `;
 
-function WriteAns({ edit, id, editYes }) {
+function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const [input, setInput] = useState("");
-  //editYes는 멤버 아이디 전달
-  //id 는 params id
-  //답변 수정시 /{question-id}/answers/{answer-id}
-  //답변 수정시 patch내용에 memberid가 필요함
-  //답변 등록시 /questions/id/answers
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  console.log(editYes);
+  let userAccess = useSelector((state) => state.userId.userAccess);
+  const accessToken = userAccess?.accessToken;
+
+  const userId = localStorage.getItem("key");
+
   useEffect(() => {
     if (!edit) {
       setInput("");
     } else setInput(edit);
   }, [edit]);
 
-  // const readData = async () => {
-  //    await axios.get(
-  //     `http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     await readData();
-  //   })();
-  // }, []);
-
   const handleCancel = () => {
-    window.location.replace("./questionlist");
+    setEditYes(-1);
   };
+
   const postAns = async () => {
-    // axios.post(
-    //   `http://ec2-3-36-122-3.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}/answers`,
-    //   {
-    //     memberId: 1,
-    //     contents: input,
-    //   }
-    // );
-    // readData();
-    //포스트를 하고 다시 데이터를 get해야  바뀌는데 포스트 하는 컴포넌트와 get하는 컴포넌트가 다름
-    //방안 1: 아예 새로고침 => params의 id값을 잃어버림 ()
-    //props로 list값 내려주고 여기서 get하기 => 코드 개지저분 ㅋㅋㅋㅋ...
+    if (!accessToken) {
+      alert("로그인 후 이용해 주세요");
+      setInput("");
+      navigate("../login");
+    } else {
+      try {
+        axios.post(`/questions/${id}/answers`, {
+          memberId: userId,
+          contents: input,
+        });
+        setLoading(false);
+        console.log("성공");
+      } catch (error) {
+        console.log(error);
+      }
+      setInput("");
+      setUpdate("yes");
+    }
   };
+
+  const editAns = async () => {
+    try {
+      const token = `Bearer ${accessToken}`.toString("base64");
+      axios.patch(
+        `/answers/${editYes}`,
+        {
+          memberId: userId, // 멤버아이디 수정
+          contents: input,
+        },
+        { headers: { Authorization: `${token}` } }
+      );
+      setEditYes(-1);
+    } catch (error) {
+      console.log(error);
+    }
+    setEditUpdate("yes");
+  };
+
   return (
     <>
+      {loading ? <Loading /> : null}
       <Title>Your Answer</Title>
       <Container>
         {edit ? (
@@ -109,7 +129,7 @@ function WriteAns({ edit, id, editYes }) {
       <Btndiv>
         {edit ? (
           <>
-            <SubBtn>Add</SubBtn>
+            <SubBtn onClick={editAns}>Add</SubBtn>
             <CancelBtn onClick={handleCancel}>Cancel</CancelBtn>
           </>
         ) : (

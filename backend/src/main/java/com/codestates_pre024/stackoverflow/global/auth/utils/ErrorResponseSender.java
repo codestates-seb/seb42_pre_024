@@ -11,17 +11,22 @@ import java.io.IOException;
 public class ErrorResponseSender {
     public static void sendResponse(HttpServletResponse response, HttpStatus status) throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
-
         ErrorResponse errorResponse = ErrorResponse.of(status);
+        sendResponse(response,status, errorResponse);
+    }
+
+    public static void sendResponse(HttpServletResponse response, HttpStatus status, String message) throws IOException {
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), message);
+        sendResponse(response,status, errorResponse);
+    }
+
+    private static void sendResponse(HttpServletResponse response, HttpStatus status, ErrorResponse errorResponse) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
         String errorJson = mapper.writeValueAsString(errorResponse);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE); //APPLICATION_JSON's STRING type
         response.setStatus(status.value());
 
-        //getWriter() : 문자 텍스트를 클라이언트에 보낼 수 있는 PrintWriter 개체
-        //write() : Writes a string. (param - String s)
         response.getWriter().write(errorJson);
-
     }
 }

@@ -1,16 +1,15 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { saveContents } from "../../store/questionSlice";
 import { doEdit } from "../../store/editSlice";
-import styled from "styled-components";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-import { Navigate, useNavigate } from "react-router-dom";
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
-  /* left: 80px; */
-  /* width: 80%; */
   min-height: 70px auto;
   border-bottom: 1px solid var(--graylight);
   margin-top: 70px;
@@ -33,7 +32,6 @@ const Title = styled.h1`
   flex-wrap: wrap;
   font-size: 30px;
   flex-wrap: wrap-reverse;
-  /* margin-bottom: 80px; */
 `;
 
 const AskBtn = styled.button`
@@ -50,8 +48,6 @@ const AskBtn = styled.button`
 
 const QuestionContainer = styled.div`
   position: relative;
-  /* left: 70px; */
-  /* background-color: violet; */
   width: 100%;
   max-height: 500px auto;
   margin-bottom: 30px;
@@ -83,9 +79,8 @@ const Edit = styled.button`
     cursor: pointer;
   }
 `;
+
 const Delete = styled.button`
-  /* position: relative;
-  left: 60px; */
   height: 40px;
   border: none;
   background-color: var(--white);
@@ -95,6 +90,7 @@ const Delete = styled.button`
     cursor: pointer;
   }
 `;
+
 const Profile = styled.div`
   position: absolute;
   right: 0;
@@ -112,18 +108,23 @@ const Profile = styled.div`
     width: 50px;
     height: 50px;
   }
-  b {
+  a {
     margin-left: 5px;
     color: var(--bluedark);
+    font-family: var(--main-font-bold);
+    text-decoration: none;
+    :hover {
+      color: var(--blue);
+    }
   }
 `;
 
-function DisplayQ({ list }) {
+function DisplayQ({ list, accessToken, userId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleEdit = ({ id, title, contents }) => {
-    // dispatch(saveTitle(title));
     const newContents = {
       title,
       contents,
@@ -132,45 +133,61 @@ function DisplayQ({ list }) {
     dispatch(doEdit(true));
     navigate(`/question/${id}`);
   };
+
   const moveQuestion = () => {
     navigate(`/question`);
   };
 
+  const handleDelete = async () => {
+    const token = `Bearer ${accessToken}`.toString("base64");
+    await axios.delete(`/questions/${id}`, {
+      headers: { Authorization: `${token}` },
+    });
+    navigate("../");
+  };
+
   return (
     <>
-      {/* {qustion && (본문 컴포넌트)} */}
-      {list &&
-        list.map((el) => {
-          return (
-            <div key={`${el.id}`}>
-              <TitleContainer>
-                <div className="titleCreate">
-                  <Title>{el.title}</Title>
-                  <div className="createAt">
-                    <span>
-                      Asked: {new Date(el.createdAt).toLocaleString()}
-                    </span>
-                    <span>
-                      Modified: {new Date(el.modifiedAt).toLocaleString()}{" "}
-                    </span>
-                  </div>
-                </div>
-                <AskBtn onClick={moveQuestion}>Ask Quetion</AskBtn>
-              </TitleContainer>
-              <QuestionContainer>
-                <p>{el.contents}</p>
-                <ModifyWrap>
-                  <Edit onClick={() => handleEdit(el)}>Edit</Edit>
-                  <Delete>Delete</Delete>
-                  <Profile>
-                    <img alt="logo" src={el.member.profileImage}></img>
-                    <b>{el.member.name}</b>
-                  </Profile>
-                </ModifyWrap>
-              </QuestionContainer>
+      {list && (
+        <div key={`${list[0].id}`}>
+          <TitleContainer>
+            <div className="titleCreate">
+              <Title>{list[0].title}</Title>
+              <div className="createAt">
+                <span>
+                  Asked: {new Date(list[0].createdAt).toLocaleString()}
+                </span>
+                {list[0].modifiedAt && (
+                  <span>
+                    Modified: {new Date(list[0].modifiedAt).toLocaleString()}
+                  </span>
+                )}
+              </div>
             </div>
-          );
-        })}
+            <AskBtn onClick={moveQuestion}>Ask Quetion</AskBtn>
+          </TitleContainer>
+          <QuestionContainer>
+            <p>{list[0].contents}</p>
+            <ModifyWrap>
+              {userId == list[0].member.id ? (
+                <>
+                  <Edit onClick={() => handleEdit(list[0])}>Edit</Edit>
+                  <Delete onClick={handleDelete}>Delete</Delete>
+                </>
+              ) : (
+                ""
+              )}
+
+              <Profile>
+                <img alt="logo" src={list[0].member.profileImage}></img>
+                <Link to={`/members/${list[0].member.id}`}>
+                  {list[0].member.name}
+                </Link>
+              </Profile>
+            </ModifyWrap>
+          </QuestionContainer>
+        </div>
+      )}
     </>
   );
 }

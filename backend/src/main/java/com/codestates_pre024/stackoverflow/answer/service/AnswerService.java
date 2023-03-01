@@ -24,6 +24,8 @@ public class AnswerService {
     //answer 둥록
     public Answer createAnswer(Answer answer, Long memberId, Long questionId) {
 
+        memberService.checkMemberExistById(memberId);
+
         answer.addMember(memberService.getMember(memberId));
 
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);

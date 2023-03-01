@@ -1,16 +1,15 @@
 import { createGlobalStyle } from "styled-components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/variable.css";
 import Header from "./components/Header";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import WriteQuestion from "./components/WriteQuestion";
 import QuestionsList from "./components/QuestionsList";
+import Question from "./components/Question";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import MyPage from "./components/MyPage";
-import Question from "./components/Question";
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
@@ -36,7 +35,7 @@ function App() {
           <Route path="/questionlist/:id" element={<Question />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/members" element={<MyPage />} />
+          <Route path="/members/:id" element={<MyPage />} />
         </Routes>
       </BrowserRouter>
     </>

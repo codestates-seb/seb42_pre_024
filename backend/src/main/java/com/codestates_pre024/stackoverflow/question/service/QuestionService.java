@@ -35,8 +35,9 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Question updateQuestion(Question question) {
+    public Question updateQuestion(Question question, Long memberId) {
         Question findQuestion = findVerifiedQuestion(question.getId());
+        memberService.compareIdAndLoginId(memberId);
 
         Optional.ofNullable(question.getTitle())
                 .ifPresent(title -> findQuestion.setTitle(title));
@@ -60,13 +61,15 @@ public class QuestionService {
                 Sort.by("id").descending()));
     }
 
-    public void deleteQuestion(long questionId) {
+    public void deleteQuestion(Long questionId, Long memberId) {
+        memberService.compareIdAndLoginId(memberId);
+
         Question findQuestion = findVerifiedQuestion(questionId);
 
         questionRepository.delete(findQuestion);
     }
 
-//     질문에 해당하는 멤버가 존재하는지 확인
+//     멤버가 존재하는지 확인
     private Member verifyMember(Long memberId) {
         Member member = memberService.checkMemberExistById(memberId);
 

@@ -1,5 +1,6 @@
 package com.codestates_pre024.stackoverflow.global.auth.filter;
 
+import com.codestates_pre024.stackoverflow.global.auth.dto.PrincipalDto;
 import com.codestates_pre024.stackoverflow.global.auth.jwt.JwtTokenizer;
 import com.codestates_pre024.stackoverflow.global.auth.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.Claims;
@@ -45,6 +46,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         } catch (SignatureException e) {
             request.setAttribute("exception", e);
         } catch (ExpiredJwtException e) {
+            //access token 만료시 여기 들어옴
             request.setAttribute("exception", e);
         } catch (Exception e) {
             request.setAttribute("exception", e);
@@ -67,6 +69,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String encodedKey = jwtTokenizer.encodeBase64SecretKey(key);
 
         //JWT에서 Claims를 파싱할 수 있다 == 내부적으로 서명(Signature) 검증에 성공했다
+        //encodedKey를 바탕으로 서명(signature)을 다시 계산하고 비교하는데,
+        //이 서명이 일치하면 이후에 Claim을 추출할 수 있게 됨 (서명이 된 신뢰할 수 있는 정보)
         Jws<Claims> claimsJws = jwtTokenizer.getClaimsFromJws(jws,encodedKey);
         Map<String, Object> claims = claimsJws.getBody();
 
@@ -75,11 +79,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     //Authentication 객체를 SecurityContext에 저장하기 위한 private 메서드
     private void setAuthenticationToContext(Map<String, Object> claims) {
-        String username = (String) claims.get("username"); // claims : username, id,  roles 존재.
+
+        String email = (String) claims.get("username");
+        Integer id = (Integer) claims.get("id");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>) claims.get("roles"));
 
+        PrincipalDto principal = new PrincipalDto(id,email);
         //Parameter :  principal, credential, collection<GrantedAuthority>
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities );
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, authorities );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

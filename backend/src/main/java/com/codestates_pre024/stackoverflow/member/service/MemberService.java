@@ -1,11 +1,13 @@
 package com.codestates_pre024.stackoverflow.member.service;
 
+import com.codestates_pre024.stackoverflow.global.auth.dto.PrincipalDto;
 import com.codestates_pre024.stackoverflow.global.auth.utils.CustomAuthorityUtils;
 import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
 import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,15 +80,6 @@ public class MemberService {
                 .orElseThrow( () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    public Member checkMemberExistByEmail(String email) {
-        Member findEmailMember = null;
-        findEmailMember = memberRepository.findByEmail(email);
-        if (findEmailMember == null)
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        return findEmailMember;
-    }
-
-
     private void verifyExistEmail(String email) {
         Member findEmailMember = null;
         findEmailMember = memberRepository.findByEmail(email);
@@ -99,7 +92,13 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.NOT_RESOURCE_OWNER);
     }
     public Long getLoginUserId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //email
-        return checkMemberExistByEmail((String) principal).getId();
+        Long id = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof PrincipalDto) {
+            PrincipalDto principal = (PrincipalDto) authentication.getPrincipal();
+            id = principal.getId();
+        }
+
+        return id;
     }
 }

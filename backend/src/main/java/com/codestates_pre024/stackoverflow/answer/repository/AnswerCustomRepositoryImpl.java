@@ -2,7 +2,6 @@ package com.codestates_pre024.stackoverflow.answer.repository;
 
 import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.answer.entity.QAnswer;
-import com.codestates_pre024.stackoverflow.question.entity.QQuestion;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
