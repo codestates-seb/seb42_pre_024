@@ -1,6 +1,8 @@
 package com.codestates_pre024.stackoverflow.global.auth.handler;
 
 import com.codestates_pre024.stackoverflow.global.auth.utils.ErrorResponseSender;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -22,7 +24,12 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
         Exception exception = (Exception) request.getAttribute("exception"); //JwtVerificationFilter에서 설정한 속성 이름
-        ErrorResponseSender.sendResponse(response, HttpStatus.UNAUTHORIZED);
+
+        //Access 토큰 만료시 메세지 커스텀
+        if (exception instanceof ExpiredJwtException || exception instanceof SignatureException)
+            ErrorResponseSender.sendResponse(response, HttpStatus.UNAUTHORIZED, "JWT Expired");
+        else
+            ErrorResponseSender.sendResponse(response, HttpStatus.UNAUTHORIZED);
 
         //log
         String errorMessage = "";

@@ -46,6 +46,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         } catch (SignatureException e) {
             request.setAttribute("exception", e);
         } catch (ExpiredJwtException e) {
+            //access token 만료시 여기 들어옴
             request.setAttribute("exception", e);
         } catch (Exception e) {
             request.setAttribute("exception", e);
