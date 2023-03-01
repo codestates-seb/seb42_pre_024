@@ -1,9 +1,6 @@
 package com.codestates_pre024.stackoverflow.global.auth.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.security.Principal;
 
@@ -23,7 +20,5 @@ public class PrincipalDto implements Principal {
     public String getName() {
         return email;
     }
-
-
 }
 

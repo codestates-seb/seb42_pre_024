@@ -1,6 +1,5 @@
 package com.codestates_pre024.stackoverflow.global.utils;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

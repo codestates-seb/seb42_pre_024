@@ -1,8 +1,6 @@
 package com.codestates_pre024.stackoverflow.global.auth.userdetails;
 
 import com.codestates_pre024.stackoverflow.global.auth.utils.CustomAuthorityUtils;
-import com.codestates_pre024.stackoverflow.exception.BusinessLogicException;
-import com.codestates_pre024.stackoverflow.exception.ExceptionCode;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
