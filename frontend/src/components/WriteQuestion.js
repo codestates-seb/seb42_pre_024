@@ -142,7 +142,11 @@ function WriteQuestion({ list }) {
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem("key");
-  console.log(userId);
+
+  let { accessToken } = useSelector((state) => {
+    return state.userId.userAccess;
+  });
+
   //유저 고유 아이디
 
   let editQuestion = useSelector((state) => {
@@ -154,7 +158,7 @@ function WriteQuestion({ list }) {
   let id = useSelector((state) => {
     return state.paramsId.id;
   });
-  console.log(userId);
+
   useEffect(() => {
     if (edit === true) {
       setQueTitle(editQuestion.title);
@@ -180,11 +184,16 @@ function WriteQuestion({ list }) {
       alert("제목과 내용을 입력해주세요");
     } else if (edit !== true) {
       try {
-        await axios.post("/questions", {
-          title: queTitle,
-          contents: queContent,
-          memberId: userId, //멤버아이디 저장해서 받아오기
-        });
+        const token = `Bearer ${accessToken}`.toString("base64");
+        await axios.post(
+          "/questions",
+          {
+            title: queTitle,
+            contents: queContent,
+            memberId: userId, //멤버아이디 저장해서 받아오기
+          },
+          { headers: { Authorization: `${token}` } }
+        );
         navigate("/");
       } catch (error) {
         console.log(error);
@@ -195,10 +204,15 @@ function WriteQuestion({ list }) {
     if (edit === true) {
       //질문수정
       try {
-        await axios.patch(`/questions/${id}`, {
-          title: queTitle,
-          contents: queContent,
-        });
+        const token = `Bearer ${accessToken}`.toString("base64");
+        await axios.patch(
+          `/questions/${id}`,
+          {
+            title: queTitle,
+            contents: queContent,
+          },
+          { headers: { Authorization: `${token}` } }
+        );
 
         dispatch(saveContents(""));
         dispatch(doEdit(false));
