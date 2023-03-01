@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { saveContents } from "../../store/questionSlice";
 import { doEdit } from "../../store/editSlice";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -117,9 +119,10 @@ const Profile = styled.div`
   }
 `;
 
-function DisplayQ({ list }) {
+function DisplayQ({ list, accessToken, userId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleEdit = ({ id, title, contents }) => {
     const newContents = {
@@ -133,6 +136,14 @@ function DisplayQ({ list }) {
 
   const moveQuestion = () => {
     navigate(`/question`);
+  };
+
+  const handleDelete = async () => {
+    const token = `Bearer ${accessToken}`.toString("base64");
+    await axios.delete(`/questions/${id}`, {
+      headers: { Authorization: `${token}` },
+    });
+    navigate("../");
   };
 
   return (
@@ -158,8 +169,15 @@ function DisplayQ({ list }) {
           <QuestionContainer>
             <p>{list[0].contents}</p>
             <ModifyWrap>
-              <Edit onClick={() => handleEdit(list[0])}>Edit</Edit>
-              <Delete>Delete</Delete>
+              {userId == list[0].member.id ? (
+                <>
+                  <Edit onClick={() => handleEdit(list[0])}>Edit</Edit>
+                  <Delete onClick={handleDelete}>Delete</Delete>
+                </>
+              ) : (
+                ""
+              )}
+
               <Profile>
                 <img alt="logo" src={list[0].member.profileImage}></img>
                 <Link to={`/members/${list[0].member.id}`}>

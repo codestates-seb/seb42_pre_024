@@ -62,10 +62,9 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const navigate = useNavigate();
 
   let userAccess = useSelector((state) => state.userId.userAccess);
+  const accessToken = userAccess?.accessToken;
 
   const userId = localStorage.getItem("key");
-  const accessToken = userAccess?.accessToken;
-  console.log(accessToken);
 
   useEffect(() => {
     if (!edit) {

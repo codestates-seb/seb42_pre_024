@@ -27,10 +27,17 @@ function Question() {
   const [update, setUpdate] = useState("");
   const [editUpdate, setEditUpdate] = useState("");
 
+  let userAccess = useSelector((state) => state.userId.userAccess);
+  const accessToken = userAccess?.accessToken;
+
   const readData = async () => {
     const { data } = await axios.get(`/questions/${id}`);
     setList([data.data]);
   };
+  //질문등록한 사람 => memberId
+  //답변등록한 사람 => answers.memberId
+  // console.log(list[0].member.id);
+  // console.log(list[0].answers[0].member.id);
 
   useEffect(() => {
     (async () => {
@@ -42,8 +49,13 @@ function Question() {
 
   return (
     <Container>
-      <DisplayQ list={list} />
-      <DisplayA list={list} setEditUpdate={setEditUpdate} />
+      <DisplayQ list={list} accessToken={accessToken} userId={userId} />
+      <DisplayA
+        list={list}
+        setEditUpdate={setEditUpdate}
+        accessToken={accessToken}
+        userId={userId}
+      />
       <WriteAns id={id} setUpdate={setUpdate} userId={userId} />
     </Container>
   );

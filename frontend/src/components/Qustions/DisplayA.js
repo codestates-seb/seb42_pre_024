@@ -52,6 +52,10 @@ const ModifyWrap = styled.div`
   position: relative;
   align-items: center;
   padding-bottom: 40px;
+  .editNo {
+    background-color: aqua;
+    height: 40px;
+  }
 `;
 
 const Edit = styled.button`
@@ -108,30 +112,22 @@ const Profile = styled.div`
   }
 `;
 
-function DisplayA({ list, setEditUpdate }) {
+function DisplayA({ list, setEditUpdate, accessToken, userId }) {
   const [editYes, setEditYes] = useState(-1); //answer의 id
   const [edit, setEdit] = useState("");
 
   //리덕스 불러와서 아이디 일치 여부
-
-  // useEffect(()=>{
-  //   setEditYes(false)
-  // ,[handleEdit])
-
   const handleEdit = async ({ id, contents }) => {
     setEditYes(id);
-
-    // await axios.patch(`http://localhost:4000/data/${id}`, {
-    //   contents: contents,
-    // });
     setEdit(contents);
   };
-  // const handleDelete = async ({ id }) => {
-  //   //메인페이지(id) => questionlist로 delete
-  //   console.log(id);
-  //   await axios.delete(`http://localhost:4000/data/${qId}/answers/${id}`);
-  //   readData();
-  //};
+  const handleDelete = async ({ id }) => {
+    const token = `Bearer ${accessToken}`.toString("base64");
+    await axios.delete(`/answers/${id}`, {
+      headers: { Authorization: `${token}` },
+    });
+    setEditUpdate(-2);
+  };
 
   return (
     <>
@@ -171,8 +167,17 @@ function DisplayA({ list, setEditUpdate }) {
                           </div>
                         </Date>
                         <ModifyWrap>
-                          <Edit onClick={() => handleEdit(el)}>Edit</Edit>
-                          <Delete>Delete</Delete>
+                          {userId == el.member.id ? (
+                            <>
+                              <Edit onClick={() => handleEdit(el)}>Edit</Edit>
+                              <Delete onClick={() => handleDelete(el)}>
+                                Delete
+                              </Delete>
+                            </>
+                          ) : (
+                            <div className="editNo"></div>
+                          )}
+
                           <Profile>
                             <img alt="logo" src={el.member.profileImage}></img>
                             <Link to={`/members/${el.member.id}`}>

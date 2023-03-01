@@ -143,9 +143,8 @@ function WriteQuestion({ list }) {
 
   const userId = localStorage.getItem("key");
 
-  let { accessToken } = useSelector((state) => {
-    return state.userId.userAccess;
-  });
+  let userAccess = useSelector((state) => state.userId.userAccess);
+  const accessToken = userAccess?.accessToken;
 
   //유저 고유 아이디
 
@@ -182,7 +181,7 @@ function WriteQuestion({ list }) {
       alert("내용을 입력해주세요");
     } else if (!queTitle && !queContent) {
       alert("제목과 내용을 입력해주세요");
-    } else if (edit !== true) {
+    } else if (accessToken && edit !== true) {
       try {
         const token = `Bearer ${accessToken}`.toString("base64");
         await axios.post(
@@ -210,6 +209,7 @@ function WriteQuestion({ list }) {
           {
             title: queTitle,
             contents: queContent,
+            memberId: userId,
           },
           { headers: { Authorization: `${token}` } }
         );
