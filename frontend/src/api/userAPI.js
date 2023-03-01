@@ -14,11 +14,13 @@ export const login = async (data) => {
   }
 };
 
-export const logout = async () => {
+export const logout = async (accessToken) => {
   try {
+    const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "post",
       url: "/logout",
+      headers: { Authorization: `${token}` },
     });
     return res;
   } catch (e) {

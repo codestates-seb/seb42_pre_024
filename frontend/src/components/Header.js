@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { logout, readMyProfile } from "../api/userAPI";
-import { useSelector } from "react-redux";
 
 import logo from "../image/logo-stackoverflow.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -118,21 +117,19 @@ const MypageButton = styled.button`
 function Header() {
   const navigate = useNavigate();
   let profile = null;
-  const userInfo = useSelector((state) => {
-    return state.userId;
-  });
-  const user = userInfo.userAccess;
+  const userId = localStorage.getItem("Id");
+  const accessToken = localStorage.getItem("Token");
+
   const getProfile = async () => {
-    if (user !== null) {
-      const userNum = user.userId;
-      const res = await readMyProfile(userNum);
+    if (userId !== null) {
+      const res = await readMyProfile(userId);
       profile = res.data.data.profileImage;
     }
   };
   getProfile();
 
   const myPageHandler = () => {
-    navigate(`/members/${user.userId}`);
+    navigate(`/members/${userId}`);
   };
 
   const loginHandler = () => {
@@ -140,7 +137,9 @@ function Header() {
   };
 
   const logoutHandler = () => {
-    logout();
+    logout(accessToken);
+    localStorage.removeItem("Id");
+    localStorage.removeItem("Token");
     navigate("/");
     window.location.reload();
   };
@@ -165,7 +164,7 @@ function Header() {
       <HeaderNav>
         <ol>
           <li>
-            {user ? (
+            {userId ? (
               <MypageButton onClick={myPageHandler}>
                 <img alt="profile_image" src={profile}></img>
               </MypageButton>
@@ -174,7 +173,7 @@ function Header() {
             )}
           </li>
           <li>
-            {user ? (
+            {userId ? (
               <LogButton onClick={logoutHandler}>Logout</LogButton>
             ) : (
               <SignUpButton onClick={signupHandler}>Sign up</SignUpButton>

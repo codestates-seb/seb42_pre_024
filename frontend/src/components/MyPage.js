@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { deleteAccount, readMyProfile } from "../api/userAPI";
 
 const Wrap = styled.main`
@@ -95,6 +94,9 @@ function MyPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const userId = localStorage.getItem("Id");
+  const accessToken = localStorage.getItem("Token");
+
   const editHandler = (e) => {
     e.preventDefault();
     alert("아직 사용할 수 없습니다.");
@@ -104,17 +106,11 @@ function MyPage() {
     e.preventDefault();
     let isSure = window.confirm("정말로 탈퇴하시겠습니까?");
     if (isSure) {
-      deleteAccount(user.userId, user.accessToken);
+      deleteAccount(Number(id), accessToken);
       navigate("/");
       window.location.reload();
     }
   };
-
-  const userInfo = useSelector((state) => {
-    return state.userId;
-  });
-
-  const user = userInfo.userAccess;
 
   const userProfile = async () => {
     const { data } = await readMyProfile(Number(id));
@@ -164,7 +160,7 @@ function MyPage() {
               </ul>
             </div>
           </MyQuestionsContainer>
-          {user && Number(id) === user.userId && (
+          {userId && Number(id) === Number(userId) && (
             <form onSubmit={resignHandler}>
               <MyPageButton type="submit">탈퇴하기</MyPageButton>
             </form>

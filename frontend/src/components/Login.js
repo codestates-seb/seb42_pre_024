@@ -107,7 +107,8 @@ function Login() {
     } else {
       const accessToken = res.headers.authorization.slice(7);
       var userId = jwt_decode(accessToken).id;
-      localStorage.setItem("key", userId);
+      localStorage.setItem("Id", userId);
+      localStorage.setItem("Token", accessToken);
       dispatch(userInfo({ userId, accessToken }));
       navigate("/");
     }
