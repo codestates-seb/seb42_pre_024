@@ -61,8 +61,8 @@ public class QuestionService {
                 Sort.by("id").descending()));
     }
 
-    public void deleteQuestion(Long questionId, Long memberId) {
-        memberService.compareIdAndLoginId(memberId);
+    public void deleteQuestion(Long questionId) {
+//        memberService.compareIdAndLoginId(memberId);
 
         Question findQuestion = findVerifiedQuestion(questionId);
 

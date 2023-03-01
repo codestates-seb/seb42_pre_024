@@ -92,9 +92,8 @@ public class QuestionController {
 
     // {question-id}에 해당하는 질문 삭제
     @DeleteMapping("/{question-id}")
-    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Min(1) Long questionId,
-                                         @RequestParam Long memberId) {
-        questionService.deleteQuestion(questionId, memberId);
+    public ResponseEntity deleteQuestion(@PathVariable("question-id") @Min(1) Long questionId) {
+        questionService.deleteQuestion(questionId);
 
 //        ApiResponse response = new ApiResponse(HttpStatus.NO_CONTENT, "DELETED");
 
