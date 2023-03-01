@@ -1,12 +1,10 @@
 package com.codestates_pre024.stackoverflow.answer.controller;
 
-import com.codestates_pre024.stackoverflow.answer.dto.AnswerDto;
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerPatchDto;
 import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.answer.mapper.AnswerMapper;
 import com.codestates_pre024.stackoverflow.answer.service.AnswerService;
 import com.codestates_pre024.stackoverflow.global.utils.ApiResponse;
-import com.codestates_pre024.stackoverflow.global.utils.UriMaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.net.URI;
 
 @RestController
 @RequestMapping(path = "/answers")

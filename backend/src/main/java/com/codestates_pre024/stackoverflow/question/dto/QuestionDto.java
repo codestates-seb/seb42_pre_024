@@ -2,7 +2,6 @@ package com.codestates_pre024.stackoverflow.question.dto;
 
 import com.codestates_pre024.stackoverflow.answer.dto.AnswerResponseDto;
 import com.codestates_pre024.stackoverflow.member.dto.WriterResponse;
-import com.codestates_pre024.stackoverflow.member.entity.Member;
 import lombok.*;
 import org.springframework.lang.Nullable;
 

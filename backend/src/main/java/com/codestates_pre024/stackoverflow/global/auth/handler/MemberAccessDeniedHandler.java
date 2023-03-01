@@ -1,6 +1,5 @@
 package com.codestates_pre024.stackoverflow.global.auth.handler;
 
-import com.codestates_pre024.stackoverflow.advice.ErrorResponse;
 import com.codestates_pre024.stackoverflow.global.auth.utils.ErrorResponseSender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

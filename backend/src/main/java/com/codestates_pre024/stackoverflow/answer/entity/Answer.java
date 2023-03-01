@@ -1,6 +1,5 @@
 package com.codestates_pre024.stackoverflow.answer.entity;
 
-import com.codestates_pre024.stackoverflow.global.utils.CustomDateTimeFormatter;
 import com.codestates_pre024.stackoverflow.member.entity.Member;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import lombok.*;

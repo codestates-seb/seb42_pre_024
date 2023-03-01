@@ -1,6 +1,5 @@
 package com.codestates_pre024.stackoverflow.member.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
