@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { paramsId } from "../store/paramsId.Slice";
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { readData } from "../api/questionAPI";
 
@@ -44,27 +44,40 @@ const QuestionContainer = styled.div`
     text-align: center;
     color: var(--graydark);
   }
-  #viewCounts {
+  #contentNum {
     font-weight: bold;
   }
   .contentContainer {
     width: 800px;
     h3 {
       flex-wrap: nowrap;
-    }
-    :hover {
-      color: #3172c6;
-      cursor: pointer;
+      color: var(--bluedark);
+      :hover {
+        cursor: pointer;
+        color: var(--blue);
+      }
     }
   }
   .writerContainer {
     display: flex;
     justify-content: right;
     margin-bottom: 20px;
+    align-items: end;
     img {
       width: 30px;
       height: 30px;
       margin-right: 5px;
+    }
+    > a {
+      color: var(--bluedark);
+      text-decoration: none;
+      margin-right: 5px;
+      :hover {
+        color: var(--blue);
+      }
+    }
+    > div {
+      color: var(--graydark);
     }
   }
 `;
@@ -115,19 +128,21 @@ function Home() {
       <div className="questionsContainer">
         <ListContainer>
           {list &&
-            list.map((el) => (
+            list.map((el, idx) => (
               <QuestionContainer key={`${el.id}`}>
                 <div>
-                  <div>View</div>
-                  <div id="viewCounts">1</div>
+                  <div>No.</div>
+                  <div id="contentNum">{idx + 1}</div>
                 </div>
                 <div className="contentContainer">
                   <h3 onClick={() => moveQustion(el)}>{el.title}</h3>
                   <div className="writerContainer">
-                    <img alt=" profile_image" src={el.profileImage}></img>
-                    <div>{el.id}</div>
+                    <img alt="profile_image" src={el.member.profileImage}></img>
+                    <Link to={`/members/${el.member.id}`}>
+                      {el.member.name}
+                    </Link>
                     <div className="date">
-                      {new Date(el.createdAt).toLocaleString()}
+                      {new Date(el.createdAt).toLocaleString("ko-KR")}
                     </div>
                   </div>
                 </div>
