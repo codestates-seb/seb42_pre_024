@@ -134,8 +134,18 @@ function DisplayQ({ list, accessToken, userId }) {
     navigate(`/question/${id}`);
   };
 
-  const moveQuestion = () => {
-    navigate(`/question`);
+  const moveQuestion = (e) => {
+    e.preventDefault();
+    if (userId === null) {
+      let loginAlert = window.confirm(
+        "게시물을 등록하기 위해서는 로그인이 필요합니다."
+      );
+      if (loginAlert) {
+        navigate("../login");
+      }
+    } else {
+      navigate("/question");
+    }
   };
 
   const handleDelete = async () => {
