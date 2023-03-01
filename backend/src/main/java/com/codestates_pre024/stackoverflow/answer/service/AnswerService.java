@@ -58,10 +58,11 @@ public class AnswerService {
     }
 
     //answer 삭제
-    public void deleteAnswer(Long id, Long memberId) {
-        memberService.compareIdAndLoginId(memberId);
-
+    public void deleteAnswer(Long id) {
         Answer findAnswer = findVerifiedAnswer(id);
+
+        Long memberId = findAnswer.getMember().getId();
+        memberService.compareIdAndLoginId(memberId);
 
         answerRepository.delete(findAnswer);
     }
