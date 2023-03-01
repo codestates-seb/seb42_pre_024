@@ -182,42 +182,50 @@ function WriteQuestion({ list }) {
     } else if (!queTitle && !queContent) {
       alert("제목과 내용을 입력해주세요");
     } else if (accessToken && edit !== true) {
-      try {
-        const token = `Bearer ${accessToken}`.toString("base64");
-        await axios.post(
-          "/questions",
-          {
-            title: queTitle,
-            contents: queContent,
-            memberId: userId, //멤버아이디 저장해서 받아오기
-          },
-          { headers: { Authorization: `${token}` } }
-        );
-        navigate("/");
-      } catch (error) {
-        console.log(error);
+      if (queTitle.length < 2 || queContent.length < 2) {
+        alert("질문과 답변은 2글자 이상이어야합니다");
+      } else {
+        try {
+          const token = `Bearer ${accessToken}`.toString("base64");
+          await axios.post(
+            "/questions",
+            {
+              title: queTitle,
+              contents: queContent,
+              memberId: userId, //멤버아이디 저장해서 받아오기
+            },
+            { headers: { Authorization: `${token}` } }
+          );
+          navigate("/");
+        } catch (error) {
+          console.log(error);
+        }
+        setQueTitle("");
+        setQueContent("");
       }
-      setQueTitle("");
-      setQueContent("");
     }
     if (edit === true) {
       //질문수정
-      try {
-        const token = `Bearer ${accessToken}`.toString("base64");
-        await axios.patch(
-          `/questions/${id}`,
-          {
-            title: queTitle,
-            contents: queContent,
-            memberId: userId,
-          },
-          { headers: { Authorization: `${token}` } }
-        );
-        dispatch(saveContents(""));
-        dispatch(doEdit(false));
-        navigate(`/`); // 홈으로 돌아가게하지말고 바로 질문페이지로 이동하기
-      } catch (error) {
-        console.log(error);
+      if (queTitle.length < 2 || queContent.length < 2) {
+        alert("질문과 답변은 2글자 이상이어야합니다");
+      } else {
+        try {
+          const token = `Bearer ${accessToken}`.toString("base64");
+          await axios.patch(
+            `/questions/${id}`,
+            {
+              title: queTitle,
+              contents: queContent,
+              memberId: userId,
+            },
+            { headers: { Authorization: `${token}` } }
+          );
+          dispatch(saveContents(""));
+          dispatch(doEdit(false));
+          navigate(`/`); // 홈으로 돌아가게하지말고 바로 질문페이지로 이동하기
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
