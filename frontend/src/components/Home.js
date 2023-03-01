@@ -1,10 +1,7 @@
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { paramsId } from "../store/paramsId.Slice";
-
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import { readData } from "../api/questionAPI";
 
 const Wrap = styled.main`
@@ -95,8 +92,6 @@ const WriteButton = styled.button`
 
 function Home() {
   const [list, setList] = useState("");
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const readPage = async (el) => {
@@ -104,12 +99,26 @@ function Home() {
     setList(data.data);
   };
 
-  const click = () => {
-    navigate("./question");
+  const userInfo = useSelector((state) => {
+    return state.userId;
+  });
+  const user = userInfo.userAccess;
+
+  const click = (e) => {
+    e.preventDefault();
+    if (user === null) {
+      let loginAlert = window.confirm(
+        "게시물을 등록하기 위해서는 로그인이 필요합니다."
+      );
+      if (loginAlert) {
+        navigate("./login");
+      }
+    } else {
+      navigate("./question");
+    }
   };
 
   const moveQustion = ({ id }) => {
-    dispatch(paramsId(id));
     navigate(`/questionlist/${id}`);
   };
 
