@@ -57,7 +57,6 @@ const SubBtn = styled.button`
 
 function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // let userAccess = useSelector((state) => state.userId.userAccess);
@@ -81,13 +80,19 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
       alert("로그인 후 이용해 주세요");
       setInput("");
       navigate("../login");
+    } else if (!input.length) {
+      alert("답변을 입력해 주세요!");
     } else {
       try {
-        axios.post(`/questions/${id}/answers`, {
-          memberId: userId,
-          contents: input,
-        });
-        setLoading(false);
+        const token = `Bearer ${accessToken}`.toString("base64");
+        axios.post(
+          `/questions/${id}/answers`,
+          {
+            memberId: userId,
+            contents: input,
+          },
+          { headers: { Authorization: `${token}` } }
+        );
         console.log("성공");
       } catch (error) {
         console.log(error);
@@ -98,21 +103,25 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   };
 
   const editAns = async () => {
-    try {
-      const token = `Bearer ${accessToken}`.toString("base64");
-      axios.patch(
-        `/answers/${editYes}`,
-        {
-          memberId: userId, // 멤버아이디 수정
-          contents: input,
-        },
-        { headers: { Authorization: `${token}` } }
-      );
-      setEditYes(-1);
-    } catch (error) {
-      console.log(error);
+    if (!input.length) {
+      alert("답변을 입력해 주세요!");
+    } else {
+      try {
+        const token = `Bearer ${accessToken}`.toString("base64");
+        axios.patch(
+          `/answers/${editYes}`,
+          {
+            memberId: userId, // 멤버아이디 수정
+            contents: input,
+          },
+          { headers: { Authorization: `${token}` } }
+        );
+        setEditYes(-1);
+      } catch (error) {
+        console.log(error);
+      }
+      setEditUpdate("yes");
     }
-    setEditUpdate("yes");
   };
 
   return (
