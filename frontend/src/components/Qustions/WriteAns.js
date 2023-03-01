@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Loading from "../Loading";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -61,10 +60,11 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  let userAccess = useSelector((state) => state.userId.userAccess);
-  const accessToken = userAccess?.accessToken;
+  // let userAccess = useSelector((state) => state.userId.userAccess);
+  // const accessToken = userAccess?.accessToken;
 
-  const userId = localStorage.getItem("key");
+  const userId = localStorage.getItem("Id");
+  const accessToken = localStorage.getItem("Token");
 
   useEffect(() => {
     if (!edit) {
@@ -117,7 +117,6 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
 
   return (
     <>
-      {loading ? <Loading /> : null}
       <Title>Your Answer</Title>
       <Container>
         {edit ? (

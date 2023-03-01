@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
 import DisplayQ from "./Qustions/DisplayQ";
 import DisplayA from "./Qustions/DisplayA";
 import WriteAns from "./Qustions/WriteAns";
@@ -21,23 +20,19 @@ const Container = styled.div`
 function Question() {
   const { id } = useParams();
 
-  const userId = localStorage.getItem("key");
-
   const [list, setList] = useState();
   const [update, setUpdate] = useState("");
   const [editUpdate, setEditUpdate] = useState("");
 
-  let userAccess = useSelector((state) => state.userId.userAccess);
-  const accessToken = userAccess?.accessToken;
+  // let userAccess = useSelector((state) => state.userId.userAccess);
+  // const accessToken = userAccess?.accessToken;
+  const accessToken = localStorage.getItem("Token");
+  const userId = localStorage.getItem("Id");
 
   const readData = async () => {
     const { data } = await axios.get(`/questions/${id}`);
     setList([data.data]);
   };
-  //질문등록한 사람 => memberId
-  //답변등록한 사람 => answers.memberId
-  // console.log(list[0].member.id);
-  // console.log(list[0].answers[0].member.id);
 
   useEffect(() => {
     (async () => {

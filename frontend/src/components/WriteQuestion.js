@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { doEdit } from "../store/editSlice";
 import { saveContents } from "../store/questionSlice";
-
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Wrap = styled.form`
@@ -141,10 +140,13 @@ function WriteQuestion({ list }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userId = localStorage.getItem("key");
+  const userId = localStorage.getItem("Id");
+  const accessToken = localStorage.getItem("Token");
 
-  let userAccess = useSelector((state) => state.userId.userAccess);
-  const accessToken = userAccess?.accessToken;
+  const { id } = useParams();
+
+  // let userAccess = useSelector((state) => state.userId.userAccess);
+  // const accessToken = userAccess?.accessToken;
 
   //유저 고유 아이디
 
@@ -154,9 +156,7 @@ function WriteQuestion({ list }) {
   let edit = useSelector((state) => {
     return state.edit.edit;
   });
-  let id = useSelector((state) => {
-    return state.paramsId.id;
-  });
+  console.log(id);
 
   useEffect(() => {
     if (edit === true) {
@@ -213,7 +213,6 @@ function WriteQuestion({ list }) {
           },
           { headers: { Authorization: `${token}` } }
         );
-
         dispatch(saveContents(""));
         dispatch(doEdit(false));
         navigate(`/`); // 홈으로 돌아가게하지말고 바로 질문페이지로 이동하기
@@ -229,8 +228,6 @@ function WriteQuestion({ list }) {
   };
   return (
     <>
-      {/* {redirect={/}} */}
-
       <Wrap>
         <TopTitle>
           <div className="toptitle">
