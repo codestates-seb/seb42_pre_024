@@ -126,6 +126,11 @@ function DisplayA({ list, setEditUpdate, accessToken, userId }) {
     await axios.delete(`/answers/${id}`, {
       headers: { Authorization: `${token}` },
     });
+    // await axios({
+    //   method: "delete",
+    //   url: `/answers/${id}`,
+    //   headers: { Authorization: `${token}` },
+    // });
     setEditUpdate(-2);
   };
 
