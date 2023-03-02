@@ -153,9 +153,12 @@ function DisplayQ({ list, accessToken, userId }) {
 
   const handleDelete = async () => {
     const token = `Bearer ${accessToken}`.toString("base64");
-    await axios.delete(`${process.env.REACT_APP_API_URL}/questions/${id}`, {
-      headers: { Authorization: `${token}` },
-    });
+    await axios.delete(
+      `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`,
+      {
+        headers: { Authorization: `${token}` },
+      }
+    );
     navigate("../");
   };
 
