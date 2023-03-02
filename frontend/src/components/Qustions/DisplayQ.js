@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { saveContents } from "../../store/questionSlice";
 import { doEdit } from "../../store/editSlice";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import profile from "../../image/profileImg.png";
 
 const TitleContainer = styled.div`
   display: flex;
@@ -189,7 +190,7 @@ function DisplayQ({ list, accessToken, userId }) {
               )}
 
               <Profile>
-                <img alt="logo" src={list[0].member.profileImage}></img>
+                <img alt="logo" src={profile}></img>
                 <Link to={`/members/${list[0].member.id}`}>
                   {list[0].member.name}
                 </Link>

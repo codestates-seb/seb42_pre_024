@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Title = styled.h2`
@@ -59,9 +58,6 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
 
-  // let userAccess = useSelector((state) => state.userId.userAccess);
-  // const accessToken = userAccess?.accessToken;
-
   const userId = localStorage.getItem("Id");
   const accessToken = localStorage.getItem("Token");
 
@@ -111,7 +107,7 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
         axios.patch(
           `/answers/${editYes}`,
           {
-            memberId: userId, // 멤버아이디 수정
+            memberId: userId,
             contents: input,
           },
           { headers: { Authorization: `${token}` } }
