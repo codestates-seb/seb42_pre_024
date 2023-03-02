@@ -250,7 +250,7 @@ function SignUp() {
           </SignUpContainer>
           <LoginWrap>
             <span>Already have an account?</span>
-            <Link to="http://localhost:3000/login">Login</Link>
+            <Link to="/login">Login</Link>
           </LoginWrap>
         </div>
       </Container>
