@@ -44,6 +44,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:80"
+  }
 }
