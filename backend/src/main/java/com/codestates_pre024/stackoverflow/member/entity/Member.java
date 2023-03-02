@@ -1,5 +1,6 @@
 package com.codestates_pre024.stackoverflow.member.entity;
 
+import com.codestates_pre024.stackoverflow.answer.entity.Answer;
 import com.codestates_pre024.stackoverflow.global.utils.CustomDateTimeFormatter;
 import com.codestates_pre024.stackoverflow.question.entity.Question;
 import lombok.Builder;
@@ -49,6 +50,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Answer> answers = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER) //권한은 즉시 필요함. (인증정보이므로)
     private List<String> roles = new ArrayList<>();
