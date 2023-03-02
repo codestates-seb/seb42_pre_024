@@ -6,6 +6,8 @@ import { saveContents } from "../store/questionSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const Wrap = styled.form`
   width: 72%;
   height: 100%;
