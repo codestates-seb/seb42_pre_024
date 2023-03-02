@@ -1,3 +1,6 @@
+server:
+  port: 80
+
 spring:
   h2:
     console:
@@ -26,3 +29,6 @@ jwt:
   key: ${JWT_KEY}
   access-token-expiration-minutes: ${JWT_ACCESS_EXPIRATION_MIN}
   refresh-token-expiration-minutes: ${JWT_REFRESH_EXPIRATION_MIN}
+
+app:
+  base-url: ${S3_BUCKET_URL}
