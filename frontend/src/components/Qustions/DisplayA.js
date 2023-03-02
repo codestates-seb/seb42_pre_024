@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import WriteAns from "./WriteAns";
 import profile from "../../image/profileImg.png";
 
+axios.defaults.withCredentials = true;
+
 const Wrap = styled.div``;
 
 const AnsTitle = styled.h2`
@@ -123,7 +125,7 @@ function DisplayA({ list, setEditUpdate, accessToken, userId }) {
   };
   const handleDelete = async ({ id }) => {
     const token = `Bearer ${accessToken}`.toString("base64");
-    await axios.delete(`/answers/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/answers/${id}`, {
       headers: { Authorization: `${token}` },
     });
     setEditUpdate(-2);
