@@ -62,7 +62,6 @@ public class QuestionService {
     }
 
     public void deleteQuestion(Long questionId) {
-//        memberService.compareIdAndLoginId(memberId);
 
         Question findQuestion = findVerifiedQuestion(questionId);
 
