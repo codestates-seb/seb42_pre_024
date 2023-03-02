@@ -73,7 +73,6 @@ public class QuestionDto {
     public static class myPageResponse {
         private Long id;
         private String title;
-//        answerNum? 자신이 작성한 answer List size 함수?
         private LocalDateTime createdAt;
     }
 }
