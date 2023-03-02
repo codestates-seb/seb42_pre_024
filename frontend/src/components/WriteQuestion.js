@@ -132,7 +132,6 @@ const CancelBtn = styled.button`
 `;
 
 function WriteQuestion({ list }) {
-  //title,body,redirec
   const [btn, setBtn] = useState(false);
   const [queTitle, setQueTitle] = useState("");
   const [queContent, setQueContent] = useState("");
@@ -145,18 +144,12 @@ function WriteQuestion({ list }) {
 
   const { id } = useParams();
 
-  // let userAccess = useSelector((state) => state.userId.userAccess);
-  // const accessToken = userAccess?.accessToken;
-
-  //유저 고유 아이디
-
   let editQuestion = useSelector((state) => {
     return state.question.contents;
   });
   let edit = useSelector((state) => {
     return state.edit.edit;
   });
-  console.log(id);
 
   useEffect(() => {
     if (edit === true) {
@@ -173,7 +166,6 @@ function WriteQuestion({ list }) {
   };
 
   const sendQuestion = async (e) => {
-    //setRedirect
     e.preventDefault();
     if (!queTitle && queContent) {
       alert("제목을 입력해주세요");
@@ -192,7 +184,7 @@ function WriteQuestion({ list }) {
             {
               title: queTitle,
               contents: queContent,
-              memberId: userId, //멤버아이디 저장해서 받아오기
+              memberId: userId,
             },
             { headers: { Authorization: `${token}` } }
           );
@@ -205,7 +197,6 @@ function WriteQuestion({ list }) {
       }
     }
     if (edit === true) {
-      //질문수정
       if (queTitle.length < 2 || queContent.length < 2) {
         alert("질문과 답변은 2글자 이상이어야합니다");
       } else {
@@ -222,7 +213,7 @@ function WriteQuestion({ list }) {
           );
           dispatch(saveContents(""));
           dispatch(doEdit(false));
-          navigate(`/`); // 홈으로 돌아가게하지말고 바로 질문페이지로 이동하기
+          navigate(`/`);
         } catch (error) {
           console.log(error);
         }

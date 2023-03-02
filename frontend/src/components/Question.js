@@ -24,8 +24,6 @@ function Question() {
   const [update, setUpdate] = useState("");
   const [editUpdate, setEditUpdate] = useState("");
 
-  // let userAccess = useSelector((state) => state.userId.userAccess);
-  // const accessToken = userAccess?.accessToken;
   const accessToken = localStorage.getItem("Token");
   const userId = localStorage.getItem("Id");
 
