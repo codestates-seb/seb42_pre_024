@@ -7,7 +7,7 @@ export const login = async (data) => {
       method: "post",
       data,
       headers: { Authorization: null },
-      url: `${process.env.REACT_APP_API_URL}/login`,
+      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/login`,
     });
     return res;
   } catch (e) {
@@ -20,7 +20,7 @@ export const logout = async (accessToken) => {
     const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_API_URL}/logout`,
+      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/logout`,
       headers: { Authorization: `${token}` },
     });
     return res;
@@ -34,7 +34,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: "post",
       data,
-      url: `${process.env.REACT_APP_API_URL}/members`,
+      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/members`,
     });
     return res;
   } catch (e) {
@@ -47,7 +47,7 @@ export const deleteAccount = async (userId, accessToken) => {
     const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "delete",
-      url: `${process.env.REACT_APP_API_URL}/members/${userId}`,
+      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/members/${userId}`,
       headers: { Authorization: `${token}` },
     });
     return res;
@@ -60,7 +60,7 @@ export const readMyProfile = async (userId) => {
   try {
     const res = await axios({
       method: "get",
-      url: `${process.env.REACT_APP_API_URL}/members/${userId}`,
+      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/members/${userId}`,
     });
     return res;
   } catch (e) {
