@@ -164,7 +164,7 @@ function Login() {
       </LoginContainer>
       <SignupWrap>
         <span>Don't have an account?</span>
-        <Link to="http://localhost:3000/signup">Sign up</Link>
+        <Link to="/signup">Sign up</Link>
       </SignupWrap>
     </Wrap>
   );

@@ -142,7 +142,7 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo>
-        <a href="/">
+        <a href="http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com">
           <img alt="logo" src={logo} />
         </a>
       </Logo>
