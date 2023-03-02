@@ -180,7 +180,7 @@ function WriteQuestion({ list }) {
         try {
           const token = `Bearer ${accessToken}`.toString("base64");
           await axios.post(
-            "/questions",
+            `${process.env.REACT_APP_API_URL}/questions`,
             {
               title: queTitle,
               contents: queContent,
@@ -203,7 +203,7 @@ function WriteQuestion({ list }) {
         try {
           const token = `Bearer ${accessToken}`.toString("base64");
           await axios.patch(
-            `/questions/${id}`,
+            `${process.env.REACT_APP_API_URL}/questions/${id}`,
             {
               title: queTitle,
               contents: queContent,
