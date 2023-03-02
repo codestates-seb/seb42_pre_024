@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteAccount, readMyProfile } from "../api/userAPI";
+import profile from "../image/profileImg.png";
 
 const Wrap = styled.main`
   width: 72%;
@@ -139,7 +140,7 @@ function MyPage() {
         <>
           <ProfileContainer>
             <div className="imgContainer">
-              <img alt="profile_image" src={myProfile.profileImage}></img>
+              <img alt="profile_image" src={profile}></img>
             </div>
             <div className="userInfoContainer">
               <h1>{myProfile.name}</h1>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { readData } from "../api/questionAPI";
+import profile from "../image/profileImg.png";
 
 const Wrap = styled.main`
   width: 72%;
@@ -142,7 +143,7 @@ function Home() {
                 <div className="contentContainer">
                   <h3 onClick={() => moveQustion(el)}>{el.title}</h3>
                   <div className="writerContainer">
-                    <img alt="profile_image" src={el.member.profileImage}></img>
+                    <img alt="profile_image" src={profile}></img>
                     <Link to={`/members/${el.member.id}`}>
                       {el.member.name}
                     </Link>

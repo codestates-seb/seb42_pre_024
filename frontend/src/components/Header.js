@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { logout, readMyProfile } from "../api/userAPI";
-
+import { logout } from "../api/userAPI";
+import profile from "../image/profileImg.png";
 import logo from "../image/logo-stackoverflow.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -116,17 +116,8 @@ const MypageButton = styled.button`
 
 function Header() {
   const navigate = useNavigate();
-  let profile = null;
   const userId = localStorage.getItem("Id");
   const accessToken = localStorage.getItem("Token");
-
-  const getProfile = async () => {
-    if (userId !== null) {
-      const res = await readMyProfile(userId);
-      profile = res.data.data.profileImage;
-    }
-  };
-  getProfile();
 
   const myPageHandler = () => {
     navigate(`/members/${userId}`);

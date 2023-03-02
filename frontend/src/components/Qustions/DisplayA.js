@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import WriteAns from "./WriteAns";
+import profile from "../../image/profileImg.png";
 
 const Wrap = styled.div``;
 
@@ -113,10 +114,9 @@ const Profile = styled.div`
 `;
 
 function DisplayA({ list, setEditUpdate, accessToken, userId }) {
-  const [editYes, setEditYes] = useState(-1); //answer의 id
+  const [editYes, setEditYes] = useState(-1);
   const [edit, setEdit] = useState("");
 
-  //리덕스 불러와서 아이디 일치 여부
   const handleEdit = async ({ id, contents }) => {
     setEditYes(id);
     setEdit(contents);
@@ -126,11 +126,6 @@ function DisplayA({ list, setEditUpdate, accessToken, userId }) {
     await axios.delete(`/answers/${id}`, {
       headers: { Authorization: `${token}` },
     });
-    // await axios({
-    //   method: "delete",
-    //   url: `/answers/${id}`,
-    //   headers: { Authorization: `${token}` },
-    // });
     setEditUpdate(-2);
   };
 
@@ -184,7 +179,7 @@ function DisplayA({ list, setEditUpdate, accessToken, userId }) {
                           )}
 
                           <Profile>
-                            <img alt="logo" src={el.member.profileImage}></img>
+                            <img alt="logo" src={profile}></img>
                             <Link to={`/members/${el.member.id}`}>
                               {el.member.name}
                             </Link>
