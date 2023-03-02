@@ -6,6 +6,8 @@ import DisplayA from "./Qustions/DisplayA";
 import WriteAns from "./Qustions/WriteAns";
 import { useParams } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 const Container = styled.div`
   position: relative;
   left: 280px;
@@ -28,7 +30,9 @@ function Question() {
   const userId = localStorage.getItem("Id");
 
   const readData = async () => {
-    const { data } = await axios.get(`/questions/${id}`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/questions/${id}`
+    );
     setList([data.data]);
   };
 

@@ -7,6 +7,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import profile from "../../image/profileImg.png";
 
+axios.defaults.withCredentials = true;
+
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -151,7 +153,7 @@ function DisplayQ({ list, accessToken, userId }) {
 
   const handleDelete = async () => {
     const token = `Bearer ${accessToken}`.toString("base64");
-    await axios.delete(`/questions/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/questions/${id}`, {
       headers: { Authorization: `${token}` },
     });
     navigate("../");

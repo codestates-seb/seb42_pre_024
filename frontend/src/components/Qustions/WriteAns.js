@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 const Title = styled.h2`
   width: 100%;
   margin-left: 10px;
@@ -82,7 +84,7 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
       try {
         const token = `Bearer ${accessToken}`.toString("base64");
         axios.post(
-          `/questions/${id}/answers`,
+          `${process.env.REACT_APP_API_URL}/questions/${id}/answers`,
           {
             memberId: userId,
             contents: input,
@@ -105,7 +107,7 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
       try {
         const token = `Bearer ${accessToken}`.toString("base64");
         axios.patch(
-          `/answers/${editYes}`,
+          `${process.env.REACT_APP_API_URL}/answers/${editYes}`,
           {
             memberId: userId,
             contents: input,

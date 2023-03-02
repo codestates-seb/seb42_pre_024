@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export const login = async (data) => {
   try {
@@ -6,7 +7,7 @@ export const login = async (data) => {
       method: "post",
       data,
       headers: { Authorization: null },
-      url: "/login",
+      url: `${process.env.REACT_APP_API_URL}/login`,
     });
     return res;
   } catch (e) {
@@ -19,7 +20,7 @@ export const logout = async (accessToken) => {
     const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "post",
-      url: "/logout",
+      url: `${process.env.REACT_APP_API_URL}/logout`,
       headers: { Authorization: `${token}` },
     });
     return res;
@@ -33,7 +34,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: "post",
       data,
-      url: "/members",
+      url: `${process.env.REACT_APP_API_URL}/members`,
     });
     return res;
   } catch (e) {
@@ -46,7 +47,7 @@ export const deleteAccount = async (userId, accessToken) => {
     const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "delete",
-      url: `/members/${userId}`,
+      url: `${process.env.REACT_APP_API_URL}/members/${userId}`,
       headers: { Authorization: `${token}` },
     });
     return res;
@@ -59,7 +60,7 @@ export const readMyProfile = async (userId) => {
   try {
     const res = await axios({
       method: "get",
-      url: `/members/${userId}`,
+      url: `${process.env.REACT_APP_API_URL}/members/${userId}`,
     });
     return res;
   } catch (e) {
