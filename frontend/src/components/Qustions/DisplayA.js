@@ -125,9 +125,12 @@ function DisplayA({ list, setEditUpdate, accessToken, userId }) {
   };
   const handleDelete = async ({ id }) => {
     const token = `Bearer ${accessToken}`.toString("base64");
-    await axios.delete(`${process.env.REACT_APP_API_URL}/answers/${id}`, {
-      headers: { Authorization: `${token}` },
-    });
+    await axios.delete(
+      `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/answers/${id}`,
+      {
+        headers: { Authorization: `${token}` },
+      }
+    );
     setEditUpdate(-2);
   };
 

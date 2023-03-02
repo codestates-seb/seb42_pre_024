@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 export const readData = async (pageNum) => {
   try {
     const res = await axios.get(
-      `${process.env.REACT_APP_API_URL}/questions?page=${pageNum}&size=10`
+      `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/questions?page=${pageNum}&size=10`
     );
     return res;
   } catch (e) {

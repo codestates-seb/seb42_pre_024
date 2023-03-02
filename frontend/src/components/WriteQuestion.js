@@ -182,7 +182,7 @@ function WriteQuestion({ list }) {
         try {
           const token = `Bearer ${accessToken}`.toString("base64");
           await axios.post(
-            `${process.env.REACT_APP_API_URL}/questions`,
+            `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/questions`,
             {
               title: queTitle,
               contents: queContent,
@@ -205,7 +205,7 @@ function WriteQuestion({ list }) {
         try {
           const token = `Bearer ${accessToken}`.toString("base64");
           await axios.patch(
-            `${process.env.REACT_APP_API_URL}/questions/${id}`,
+            `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`,
             {
               title: queTitle,
               contents: queContent,
