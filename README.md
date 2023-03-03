@@ -19,7 +19,7 @@ FE : 김영임, 이은지
 
 <br>
 
-## ✨ 서비스 소개
+# 📣 서비스 소개
 Stack Overflow Clone Coding 
 
  ➡️ http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com/
@@ -33,7 +33,7 @@ Stack Overflow Clone Coding
     - QueryDSL, Rest API, JWT, Spring Security
     
 - **Front-End**
-    - React.js, HTML, CSS,
+    - React.js, HTML, CSS
     - RestAPI, JWT, Redux
 
 <br><br>
@@ -76,8 +76,25 @@ Stack Overflow Clone Coding
 
 <br><br>
 
-## ✅ API 문서
-http://localhost:63342/seb42_pre_024_0223/stackoverflow.main/static/docs/index.html?_ijt=pr624a9jgljvk94ctslokt6sfd&_ij_reload=RELOAD_ON_SAVE
+
+
+# 🎨 Demo Image
+![KakaoTalk_Photo_2023-03-02-22-16-52 001](https://user-images.githubusercontent.com/48430781/222602059-1d01a739-7b9f-4eb3-84ac-723bd0dc4083.jpeg)
+
+
+
+![KakaoTalk_Photo_2023-03-02-22-16-53 002](https://user-images.githubusercontent.com/48430781/222602157-23b3f479-b981-4540-b5c2-b9606bd4308a.jpeg)
+
+
+![image](https://user-images.githubusercontent.com/48430781/222602361-2e3393dc-8a77-4765-a319-22c197d9148e.png)
+
+![image](https://user-images.githubusercontent.com/48430781/222602407-b84118ff-c550-44e2-b503-3c34682a036b.png)
+
+
+
+
+
+
 
 
 <br><br>
