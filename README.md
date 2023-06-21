@@ -14,7 +14,8 @@ FE : 김영임, 이은지
 
 <br>
 
-![image](https://user-images.githubusercontent.com/48430781/222381240-5d7d9914-68b0-4b52-a614-8cf463ee94c6.png)
+<img src="https://user-images.githubusercontent.com/48430781/222381240-5d7d9914-68b0-4b52-a614-8cf463ee94c6.png" width="500">
+
 
 
 <br>
@@ -22,7 +23,7 @@ FE : 김영임, 이은지
 # 📣 서비스 소개
 Stack Overflow Clone Coding 
 
- ➡️ http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com/
+ ➡️ [http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com/](http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com/)
 
 <br><br>
 
