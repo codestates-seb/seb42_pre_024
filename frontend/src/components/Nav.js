@@ -89,13 +89,13 @@ function Nav() {
       <ul>
         <li id="home">
           {curruntPage === "/" ? (
-            <NavSelectedButton href="http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com">
+            <NavSelectedButton href="http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com">
               <div>
                 <div>Home</div>
               </div>
             </NavSelectedButton>
           ) : (
-            <NavButton href="http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com">
+            <NavButton href="http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com">
               <div>
                 <div>Home</div>
               </div>
@@ -105,14 +105,14 @@ function Nav() {
         <li id="public">PUBLIC</li>
         <li id="questions">
           {curruntPage !== "/" ? (
-            <NavSelectedButton href="http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com/1">
+            <NavSelectedButton href="http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com/1">
               <div>
                 <FontAwesomeIcon icon={faEarthAsia} />
                 <div>Questions</div>
               </div>
             </NavSelectedButton>
           ) : (
-            <NavButton href="http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com/1">
+            <NavButton href="http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com/1">
               <div>
                 <FontAwesomeIcon icon={faEarthAsia} />
                 <div>Questions</div>

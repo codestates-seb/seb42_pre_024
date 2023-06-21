@@ -7,7 +7,7 @@ export const login = async (data) => {
       method: "post",
       data,
       headers: { Authorization: null },
-      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/login`,
+      url: `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/login`,
     });
     return res;
   } catch (e) {
@@ -20,7 +20,7 @@ export const logout = async (accessToken) => {
     const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "post",
-      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/logout`,
+      url: `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/logout`,
       headers: { Authorization: `${token}` },
     });
     return res;
@@ -34,7 +34,7 @@ export const signUp = async (data) => {
     const res = await axios({
       method: "post",
       data,
-      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/members`,
+      url: `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/members`,
     });
     return res;
   } catch (e) {
@@ -47,7 +47,7 @@ export const deleteAccount = async (userId, accessToken) => {
     const token = `Bearer ${accessToken}`.toString("base64");
     const res = await axios({
       method: "delete",
-      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/members/${userId}`,
+      url: `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/members/${userId}`,
       headers: { Authorization: `${token}` },
     });
     return res;
@@ -60,7 +60,7 @@ export const readMyProfile = async (userId) => {
   try {
     const res = await axios({
       method: "get",
-      url: `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/members/${userId}`,
+      url: `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/members/${userId}`,
     });
     return res;
   } catch (e) {
