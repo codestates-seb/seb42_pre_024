@@ -31,7 +31,7 @@ function Question() {
 
   const readData = async () => {
     const { data } = await axios.get(
-      `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`
+      `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}`
     );
     setList([data.data]);
   };

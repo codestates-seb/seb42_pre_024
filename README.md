@@ -22,7 +22,7 @@ FE : 김영임, 이은지
 # 📣 서비스 소개
 Stack Overflow Clone Coding 
 
- ➡️ http://coco-24-bucket.s3-website.ap-northeast-2.amazonaws.com/
+ ➡️ http://stackoverflow-coco-bucket.s3-website.ap-northeast-2.amazonaws.com/
 
 <br><br>
 

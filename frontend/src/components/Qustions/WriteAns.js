@@ -84,7 +84,7 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
       try {
         const token = `Bearer ${accessToken}`.toString("base64");
         axios.post(
-          `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}/answers`,
+          `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/questions/${id}/answers`,
           {
             memberId: userId,
             contents: input,
@@ -107,7 +107,7 @@ function WriteAns({ edit, id, editYes, setUpdate, setEditYes, setEditUpdate }) {
       try {
         const token = `Bearer ${accessToken}`.toString("base64");
         axios.patch(
-          `http://ec2-3-35-149-213.ap-northeast-2.compute.amazonaws.com:8080/answers/${editYes}`,
+          `http://ec2-54-180-114-122.ap-northeast-2.compute.amazonaws.com:8080/answers/${editYes}`,
           {
             memberId: userId,
             contents: input,
